@@ -1,23 +1,32 @@
 package fr.latelierchantdefleur.outilgestion.entites;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="materiau")
 public class Materiau extends Element{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_materiau")
 	private Integer idMateriau;
+	@Column(name="nom", nullable=false)
 	private String nom;
-	private Double prixAchat;
 	
-	public Materiau() {}
+	public Materiau() {super();}
 
-	public Materiau(String nom, Double prixAchat) {
+	public Materiau(String nom) {
+		super();
 		this.nom = nom;
-		this.prixAchat = prixAchat;
 	}
 
 	public Integer getIdMateriau() {
@@ -36,17 +45,9 @@ public class Materiau extends Element{
 		this.nom = nom;
 	}
 
-	public Double getPrixAchat() {
-		return prixAchat;
-	}
-
-	public void setPrixAchat(Double prixAchat) {
-		this.prixAchat = prixAchat;
-	}
-
 	@Override
 	public String toString() {
-		return "Materiau [idMateriau=" + idMateriau + ", nom=" + nom + ", prixAchat=" + prixAchat + "]";
+		return "Materiau [idMateriau=" + idMateriau + ", nom=" + nom + "]";
 	}
 	
 	

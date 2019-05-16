@@ -1,28 +1,40 @@
 package fr.latelierchantdefleur.outilgestion.entites;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="fleur")
 public class Fleur extends Element{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id_fleur")
 	private Integer idFleur;
+	@Column(name="nom", nullable=false)
 	private String nom;
+	@Column(name="mon_latin", nullable = true)
 	private String nomLatin;
+	@Column (name="couleur", nullable = true)
 	private String couleur;
-	private Double prixAchat;
+	
 	private Saison saison;
 	
-	public Fleur() {}
+	public Fleur() {super();}
 
-	public Fleur(String nom, String nomLatin, String couleur, Double prixAchat, Saison saison) {
+	public Fleur(String nom, String nomLatin, String couleur, Saison saison) {
+		super();
 		this.nom = nom;
 		this.nomLatin = nomLatin;
 		this.couleur = couleur;
-		this.prixAchat = prixAchat;
 		this.saison = saison;
 	}
 
@@ -58,14 +70,6 @@ public class Fleur extends Element{
 		this.couleur = couleur;
 	}
 
-	public Double getPrixAchat() {
-		return prixAchat;
-	}
-
-	public void setPrixAchat(Double prixAchat) {
-		this.prixAchat = prixAchat;
-	}
-
 	public Saison getSaison() {
 		return saison;
 	}
@@ -77,7 +81,7 @@ public class Fleur extends Element{
 	@Override
 	public String toString() {
 		return "Fleur [idFleur=" + idFleur + ", nom=" + nom + ", nomLatin=" + nomLatin + ", couleur=" + couleur
-				+ ", prixAchat=" + prixAchat + ", saison=" + saison + "]";
+				+ ", saison=" + saison + "]";
 	}
 	
 	

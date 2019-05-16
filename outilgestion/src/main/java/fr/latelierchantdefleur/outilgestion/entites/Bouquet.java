@@ -2,31 +2,49 @@ package fr.latelierchantdefleur.outilgestion.entites;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="bouquet")
 public class Bouquet extends Element{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_bouquet")
 	private Integer idBouquet;
+	
 	private Saison saison;
+	@Column(name="prix_unitaire", nullable = false)
 	private Double prixUnitaire;
+	@Column(name="couleur", nullable = true)
 	private String couleur;
+	@Column(name="taille", nullable=true)
 	private String taille;
+	@Column(name="chemin_image", nullable=false)
 	private String cheminImage;
+	
 	private List<Materiau> materiaux;
+	
 	private List<Fleur> fleursComp;
+	@Column(name="composition_florale", nullable=false)
 	private boolean compoFlorale;
 	
-	public Bouquet() {}
+	public Bouquet() {super();}
 
 
 
 	public Bouquet(Saison saison, Double prixUnitaire, String couleur, String taille, String cheminImage,
 			List<Materiau> materiaux, List<Fleur> fleursComp, boolean compoFlorale) {
+		super();
 		this.saison = saison;
 		this.prixUnitaire = prixUnitaire;
 		this.couleur = couleur;
