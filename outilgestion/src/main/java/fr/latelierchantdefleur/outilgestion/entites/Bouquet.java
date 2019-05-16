@@ -5,29 +5,39 @@ import java.util.List;
 import javax.persistence.Entity;
 
 @Entity
-public class Bouquet {
+public class Bouquet extends Element{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idBouquet;
 	private Saison saison;
 	private Double prixUnitaire;
 	private String couleur;
 	private String taille;
+	private String cheminImage;
 	private List<Materiau> materiaux;
 	private List<Fleur> fleursComp;
 	private boolean compoFlorale;
 	
 	public Bouquet() {}
 
-	public Bouquet(Saison saison, Double prixUnitaire, String couleur, String taille, List<Materiau> materiaux,
-			List<Fleur> fleursComp, boolean compoFlorale) {
+
+
+	public Bouquet(Saison saison, Double prixUnitaire, String couleur, String taille, String cheminImage,
+			List<Materiau> materiaux, List<Fleur> fleursComp, boolean compoFlorale) {
 		this.saison = saison;
 		this.prixUnitaire = prixUnitaire;
 		this.couleur = couleur;
 		this.taille = taille;
+		this.setCheminImage(cheminImage);
 		this.materiaux = materiaux;
 		this.fleursComp = fleursComp;
 		this.compoFlorale = compoFlorale;
 	}
+
+
 
 	public Integer getIdBouquet() {
 		return idBouquet;
@@ -98,6 +108,18 @@ public class Bouquet {
 		return "Bouquet [idBouquet=" + idBouquet + ", saison=" + saison + ", prixUnitaire=" + prixUnitaire
 				+ ", couleur=" + couleur + ", taille=" + taille + ", materiaux=" + materiaux + ", fleursComp="
 				+ fleursComp + ", compoFlorale=" + compoFlorale + "]";
+	}
+
+
+
+	public String getCheminImage() {
+		return cheminImage;
+	}
+
+
+
+	public void setCheminImage(String cheminImage) {
+		this.cheminImage = cheminImage;
 	}
 	
 	

@@ -7,15 +7,16 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.5.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	
+		<relativePath/> <!-- lookup parent from repository -->	
 	</parent>
+	
 	<groupId>fr.latelierchantdefleur</groupId>
 	<artifactId>outilgestion</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>outilgestion</name>
 	<description>site web dynamique</description>
-
+	<packaging>war</packaging>
+	
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -78,4 +79,5 @@
 		</plugins>
 	</build>
 
+	
 </project>

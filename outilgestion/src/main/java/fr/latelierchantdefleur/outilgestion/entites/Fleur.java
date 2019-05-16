@@ -3,8 +3,12 @@ package fr.latelierchantdefleur.outilgestion.entites;
 import javax.persistence.Entity;
 
 @Entity
-public class Fleur {
+public class Fleur extends Element{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idFleur;
 	private String nom;
 	private String nomLatin;

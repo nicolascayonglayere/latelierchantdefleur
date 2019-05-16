@@ -3,8 +3,12 @@ package fr.latelierchantdefleur.outilgestion.entites;
 import javax.persistence.Entity;
 
 @Entity
-public class Materiau {
+public class Materiau extends Element{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idMateriau;
 	private String nom;
 	private Double prixAchat;
