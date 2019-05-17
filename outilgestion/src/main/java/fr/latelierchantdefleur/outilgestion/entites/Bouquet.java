@@ -40,6 +40,17 @@ public class Bouquet extends Element{
 	
 	public Bouquet() {super();}
 
+	public Bouquet(Saison saison, Double prixUnitaire, String couleur, String taille, String cheminImage,
+			boolean compoFlorale) {
+		super();
+		this.saison = saison;
+		this.prixUnitaire = prixUnitaire;
+		this.couleur = couleur;
+		this.taille = taille;
+		this.cheminImage = cheminImage;
+		this.compoFlorale = compoFlorale;
+	}
+
 
 
 	public Bouquet(Saison saison, Double prixUnitaire, String couleur, String taille, String cheminImage,

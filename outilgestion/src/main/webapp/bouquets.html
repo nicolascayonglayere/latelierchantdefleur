@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Insert title here</title>
+	</head>
+
+	<body>
+		<h1>Mes bouquets</h1>
+		<div>
+			<div th:each ="bouquet:${mesBouquets}">
+				<div th:utext="${bouquet.id}"></div>
+				<div th:utext="${bouquet.saison}"></div>
+				<div th:utext="${bouquet.prixUnitaire}"></div>
+				<div th:utext="${bouquet.couleur}"></div>
+				<div th:utext="${bouquet.taille}"></div>
+				<div th:utext="${bouquet.compoFlorale}"></div>
+				<div th:utext="${bouquet.cheminImage}"></div>				
+			</div> 
+		</div>
+		
+		<h2>Ajouter un bouquet</h2>
+		<div>
+			<form th:action="@{/ajouterBouquet}" th:object="${bouquetFormulaire}" method="POST">
+		        <div>Saison
+		        	<input type="text" th:field="*{saison}" /></div>    
+		        <br/>
+		        <div>Prix unitaire
+		        	<input type="text" th:field="*{prixUnitaire}" /></div>
+		        <div>Couleur
+		        	<input type="text" th:field="*{couleur}" /></div>     
+		        <br/>
+		        <div>Taille
+		        	<input type="text" th:field="*{taille}" /></div>     
+		        <br/>
+		        <div>Chemin image
+		        	<input type="text" th:field="*{cheminImage}" /></div>     
+		        <br/>		        
+		        <input type="submit" value="Create" />
+	      	</form>		
+		</div>
+		
+	</body>
+</html>
