@@ -2,11 +2,20 @@ package fr.latelierchantdefleur.outilgestion.entites;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="commentaire")
 public class Commentaire {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_commentaire")
 	private Integer idCommentaire;
 	private String commentaire;
 	private Utilisateur auteur;

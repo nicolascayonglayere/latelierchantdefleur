@@ -15,10 +15,10 @@ public class Materiau extends Element{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_materiau")
-	private Integer idMateriau;
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Column(name = "id_materiau")
+	//private Integer idMateriau;
 	@Column(name="nom", nullable=false)
 	private String nom;
 	
@@ -29,13 +29,13 @@ public class Materiau extends Element{
 		this.nom = nom;
 	}
 
-	public Integer getIdMateriau() {
-		return idMateriau;
-	}
-
-	public void setIdMateriau(Integer idMateriau) {
-		this.idMateriau = idMateriau;
-	}
+	//public Integer getIdMateriau() {
+	//	return idMateriau;
+	//}
+    //
+	//public void setIdMateriau(Integer idMateriau) {
+	//	this.idMateriau = idMateriau;
+	//}
 
 	public String getNom() {
 		return nom;
@@ -47,7 +47,7 @@ public class Materiau extends Element{
 
 	@Override
 	public String toString() {
-		return "Materiau [idMateriau=" + idMateriau + ", nom=" + nom + "]";
+		return "Materiau [nom=" + nom + "]";
 	}
 	
 	

@@ -2,11 +2,18 @@ package fr.latelierchantdefleur.outilgestion.entites;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Utilisateur {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_utilisateur")
 	private Integer idUtilisateur;
 	private String prenom;
 	private String nom;

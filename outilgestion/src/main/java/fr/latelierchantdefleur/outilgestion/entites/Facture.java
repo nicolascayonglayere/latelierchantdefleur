@@ -2,11 +2,17 @@ package fr.latelierchantdefleur.outilgestion.entites;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Facture {
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_facture")
 	private Integer idFacture;
 	private Date dateFacture;
 	private Date datePaiement;

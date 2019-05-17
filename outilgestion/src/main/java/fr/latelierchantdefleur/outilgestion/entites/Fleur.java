@@ -15,10 +15,10 @@ public class Fleur extends Element{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id_fleur")
-	private Integer idFleur;
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Column(name="id_fleur")
+	//private Integer idFleur;
 	@Column(name="nom", nullable=false)
 	private String nom;
 	@Column(name="mon_latin", nullable = true)
@@ -38,13 +38,13 @@ public class Fleur extends Element{
 		this.saison = saison;
 	}
 
-	public Integer getIdFleur() {
-		return idFleur;
-	}
-
-	public void setIdFleur(Integer idFleur) {
-		this.idFleur = idFleur;
-	}
+	//public Integer getIdFleur() {
+	//	return idFleur;
+	//}
+    //
+	//public void setIdFleur(Integer idFleur) {
+	//	this.idFleur = idFleur;
+	//}
 
 	public String getNom() {
 		return nom;
@@ -80,7 +80,7 @@ public class Fleur extends Element{
 
 	@Override
 	public String toString() {
-		return "Fleur [idFleur=" + idFleur + ", nom=" + nom + ", nomLatin=" + nomLatin + ", couleur=" + couleur
+		return "Fleur [nom=" + nom + ", nomLatin=" + nomLatin + ", couleur=" + couleur
 				+ ", saison=" + saison + "]";
 	}
 	

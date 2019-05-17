@@ -17,10 +17,10 @@ public class Bouquet extends Element{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_bouquet")
-	private Integer idBouquet;
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Column(name = "id_bouquet")
+	//private Integer idBouquet;
 	
 	private Saison saison;
 	@Column(name="prix_unitaire", nullable = false)
@@ -68,13 +68,13 @@ public class Bouquet extends Element{
 
 
 
-	public Integer getIdBouquet() {
-		return idBouquet;
-	}
-
-	public void setIdBouquet(Integer idBouquet) {
-		this.idBouquet = idBouquet;
-	}
+	//public Integer getIdBouquet() {
+	//	return idBouquet;
+	//}
+    //
+	//public void setIdBouquet(Integer idBouquet) {
+	//	this.idBouquet = idBouquet;
+	//}
 
 	public Saison getSaison() {
 		return saison;
@@ -134,7 +134,7 @@ public class Bouquet extends Element{
 
 	@Override
 	public String toString() {
-		return "Bouquet [idBouquet=" + idBouquet + ", saison=" + saison + ", prixUnitaire=" + prixUnitaire
+		return "Bouquet [saison=" + saison + ", prixUnitaire=" + prixUnitaire
 				+ ", couleur=" + couleur + ", taille=" + taille + ", materiaux=" + materiaux + ", fleursComp="
 				+ fleursComp + ", compoFlorale=" + compoFlorale + "]";
 	}
