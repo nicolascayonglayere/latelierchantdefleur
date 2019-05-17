@@ -16,9 +16,10 @@ public class CoordonneesUtilisateur {
 	private String email;
 	private String adresse;
 	private String ville;
-	private Integer codePostal;	
-	
-	public CoordonneesUtilisateur() {}
+	private Integer codePostal;
+
+	public CoordonneesUtilisateur() {
+	}
 
 	public CoordonneesUtilisateur(String numPortable, String email, String adresse, String ville, Integer codePostal) {
 		this.numPortable = numPortable;
@@ -29,7 +30,7 @@ public class CoordonneesUtilisateur {
 	}
 
 	public Integer getIdCoordonneesUtilisateur() {
-		return idCoordonneesUtilisateur;
+		return this.idCoordonneesUtilisateur;
 	}
 
 	public void setIdCoordonneesUtilisateur(Integer idCoordonneesUtilisateur) {
@@ -37,7 +38,7 @@ public class CoordonneesUtilisateur {
 	}
 
 	public String getNumPortable() {
-		return numPortable;
+		return this.numPortable;
 	}
 
 	public void setNumPortable(String numPortable) {
@@ -45,7 +46,7 @@ public class CoordonneesUtilisateur {
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
@@ -53,7 +54,7 @@ public class CoordonneesUtilisateur {
 	}
 
 	public String getAdresse() {
-		return adresse;
+		return this.adresse;
 	}
 
 	public void setAdresse(String adresse) {
@@ -61,7 +62,7 @@ public class CoordonneesUtilisateur {
 	}
 
 	public String getVille() {
-		return ville;
+		return this.ville;
 	}
 
 	public void setVille(String ville) {
@@ -69,7 +70,7 @@ public class CoordonneesUtilisateur {
 	}
 
 	public Integer getCodePostal() {
-		return codePostal;
+		return this.codePostal;
 	}
 
 	public void setCodePostal(Integer codePostal) {
@@ -78,12 +79,9 @@ public class CoordonneesUtilisateur {
 
 	@Override
 	public String toString() {
-		return "CoordonneesUtilisateur [idCoordonneesUtilisateur=" + idCoordonneesUtilisateur + ", numPortable="
-				+ numPortable + ", email=" + email + ", adresse=" + adresse + ", ville=" + ville + ", codePostal="
-				+ codePostal + "]";
+		return "CoordonneesUtilisateur [idCoordonneesUtilisateur=" + this.idCoordonneesUtilisateur + ", numPortable="
+				+ this.numPortable + ", email=" + this.email + ", adresse=" + this.adresse + ", ville=" + this.ville
+				+ ", codePostal=" + this.codePostal + "]";
 	}
-	
-	
-	
-	
+
 }

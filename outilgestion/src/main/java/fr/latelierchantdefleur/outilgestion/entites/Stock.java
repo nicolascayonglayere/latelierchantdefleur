@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Stock implements Serializable{
+public class Stock implements Serializable {
 
 	/**
 	 * 
@@ -25,8 +25,9 @@ public class Stock implements Serializable{
 	private Integer quantite;
 	private Double prixAchat;
 	private Integer dureeConservation;
-	
-	public Stock() {}
+
+	public Stock() {
+	}
 
 	public Stock(Date dateEntree, Date dateSortie, Integer quantite, Double prixAchat, Integer dureeConservation) {
 		this.dateEntree = dateEntree;
@@ -37,7 +38,7 @@ public class Stock implements Serializable{
 	}
 
 	public Integer getIdStock() {
-		return idStock;
+		return this.idStock;
 	}
 
 	public void setIdStock(Integer idStock) {
@@ -45,7 +46,7 @@ public class Stock implements Serializable{
 	}
 
 	public Date getDateEntree() {
-		return dateEntree;
+		return this.dateEntree;
 	}
 
 	public void setDateEntree(Date dateEntree) {
@@ -53,7 +54,7 @@ public class Stock implements Serializable{
 	}
 
 	public Date getDateSortie() {
-		return dateSortie;
+		return this.dateSortie;
 	}
 
 	public void setDateSortie(Date dateSortie) {
@@ -61,7 +62,7 @@ public class Stock implements Serializable{
 	}
 
 	public Integer getQuantite() {
-		return quantite;
+		return this.quantite;
 	}
 
 	public void setQuantite(Integer quantite) {
@@ -69,7 +70,7 @@ public class Stock implements Serializable{
 	}
 
 	public Double getPrixAchat() {
-		return prixAchat;
+		return this.prixAchat;
 	}
 
 	public void setPrixAchat(Double prixAchat) {
@@ -77,7 +78,7 @@ public class Stock implements Serializable{
 	}
 
 	public Integer getDureeConservation() {
-		return dureeConservation;
+		return this.dureeConservation;
 	}
 
 	public void setDureeConservation(Integer dureeConservation) {
@@ -90,8 +91,9 @@ public class Stock implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Stock [idStock=" + idStock + ", dateEntree=" + dateEntree + ", dateSortie=" + dateSortie + ", quantite="
-				+ quantite + ", prixAchat=" + prixAchat + ", dureeConservation=" + dureeConservation + "]";
+		return "Stock [idStock=" + this.idStock + ", dateEntree=" + this.dateEntree + ", dateSortie=" + this.dateSortie
+				+ ", quantite=" + this.quantite + ", prixAchat=" + this.prixAchat + ", dureeConservation="
+				+ this.dureeConservation + "]";
 	}
-	
+
 }

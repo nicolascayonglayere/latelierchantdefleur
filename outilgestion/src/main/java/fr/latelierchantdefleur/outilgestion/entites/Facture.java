@@ -20,8 +20,9 @@ public class Facture {
 	private Commande commande;
 	private boolean acquitee;
 	private TypePaiement typePaiement;
-	
-	public Facture() {}
+
+	public Facture() {
+	}
 
 	public Facture(Date dateFacture, Date datePaiement, Double montant, Commande commande, boolean acquitee,
 			TypePaiement typePaiement) {
@@ -34,7 +35,7 @@ public class Facture {
 	}
 
 	public Integer getIdFacture() {
-		return idFacture;
+		return this.idFacture;
 	}
 
 	public void setIdFacture(Integer idFacture) {
@@ -42,7 +43,7 @@ public class Facture {
 	}
 
 	public Date getDateFacture() {
-		return dateFacture;
+		return this.dateFacture;
 	}
 
 	public void setDateFacture(Date dateFacture) {
@@ -50,7 +51,7 @@ public class Facture {
 	}
 
 	public Date getDatePaiement() {
-		return datePaiement;
+		return this.datePaiement;
 	}
 
 	public void setDatePaiement(Date datePaiement) {
@@ -58,7 +59,7 @@ public class Facture {
 	}
 
 	public Double getMontant() {
-		return montant;
+		return this.montant;
 	}
 
 	public void setMontant(Double montant) {
@@ -66,7 +67,7 @@ public class Facture {
 	}
 
 	public Commande getCommande() {
-		return commande;
+		return this.commande;
 	}
 
 	public void setCommande(Commande commande) {
@@ -74,7 +75,7 @@ public class Facture {
 	}
 
 	public boolean isAcquitee() {
-		return acquitee;
+		return this.acquitee;
 	}
 
 	public void setAcquitee(boolean acquitee) {
@@ -82,7 +83,7 @@ public class Facture {
 	}
 
 	public TypePaiement getTypePaiement() {
-		return typePaiement;
+		return this.typePaiement;
 	}
 
 	public void setTypePaiement(TypePaiement typePaiement) {
@@ -91,11 +92,9 @@ public class Facture {
 
 	@Override
 	public String toString() {
-		return "Facture [idFacture=" + idFacture + ", dateFacture=" + dateFacture + ", datePaiement=" + datePaiement
-				+ ", montant=" + montant + ", commande=" + commande + ", acquitee=" + acquitee + ", typePaiement="
-				+ typePaiement + "]";
+		return "Facture [idFacture=" + this.idFacture + ", dateFacture=" + this.dateFacture + ", datePaiement="
+				+ this.datePaiement + ", montant=" + this.montant + ", commande=" + this.commande + ", acquitee="
+				+ this.acquitee + ", typePaiement=" + this.typePaiement + "]";
 	}
-	
-	
-	
+
 }
