@@ -2,43 +2,53 @@ package fr.latelierchantdefleur.outilgestion.entites;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="bouquet")
-public class Bouquet extends Element{
+@Table(name = "bouquet", schema = "chantdefleur")
+public class Bouquet extends Element {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@Column(name = "id_bouquet")
-	//private Integer idBouquet;
-	
+	// @Id
+	// @GeneratedValue(strategy = GenerationType.IDENTITY)
+	// @Column(name = "id_bouquet")
+	// private Integer idBouquet;
+	@Enumerated(EnumType.STRING)
 	private Saison saison;
-	@Column(name="prix_unitaire", nullable = false)
+	@Column(name = "prix_unitaire", nullable = false)
 	private Double prixUnitaire;
-	@Column(name="couleur", nullable = true)
+	@Column(name = "couleur", nullable = true)
 	private String couleur;
-	@Column(name="taille", nullable=true)
+	@Column(name = "taille", nullable = true)
 	private String taille;
-	@Column(name="chemin_image", nullable=false)
+	@Column(name = "chemin_image", nullable = false)
 	private String cheminImage;
-	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE,
+			CascadeType.REFRESH })
+	@JoinTable(name = "chantdefleur.bouquet_liste_materiau", joinColumns = @JoinColumn(name = "id_bouquet"), inverseJoinColumns = @JoinColumn(name = "id_materiau"))
 	private List<Materiau> materiaux;
-	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE,
+			CascadeType.REFRESH })
+	@JoinTable(name = "chantdefleur.bouquet_liste_fleur", joinColumns = @JoinColumn(name = "id_bouquet"), inverseJoinColumns = @JoinColumn(name = "id_fleur"))
 	private List<Fleur> fleursComp;
-	@Column(name="composition_florale", nullable=false)
+	@Column(name = "composition_florale", nullable = false)
 	private boolean compoFlorale;
-	
-	public Bouquet() {super();}
+
+	public Bouquet() {
+		super();
+	}
 
 	public Bouquet(Saison saison, Double prixUnitaire, String couleur, String taille, String cheminImage,
 			boolean compoFlorale) {
@@ -50,8 +60,6 @@ public class Bouquet extends Element{
 		this.cheminImage = cheminImage;
 		this.compoFlorale = compoFlorale;
 	}
-
-
 
 	public Bouquet(Saison saison, Double prixUnitaire, String couleur, String taille, String cheminImage,
 			List<Materiau> materiaux, List<Fleur> fleursComp, boolean compoFlorale) {
@@ -66,18 +74,16 @@ public class Bouquet extends Element{
 		this.compoFlorale = compoFlorale;
 	}
 
-
-
-	//public Integer getIdBouquet() {
-	//	return idBouquet;
-	//}
-    //
-	//public void setIdBouquet(Integer idBouquet) {
-	//	this.idBouquet = idBouquet;
-	//}
+	// public Integer getIdBouquet() {
+	// return idBouquet;
+	// }
+	//
+	// public void setIdBouquet(Integer idBouquet) {
+	// this.idBouquet = idBouquet;
+	// }
 
 	public Saison getSaison() {
-		return saison;
+		return this.saison;
 	}
 
 	public void setSaison(Saison saison) {
@@ -85,7 +91,7 @@ public class Bouquet extends Element{
 	}
 
 	public Double getPrixUnitaire() {
-		return prixUnitaire;
+		return this.prixUnitaire;
 	}
 
 	public void setPrixUnitaire(Double prixUnitaire) {
@@ -93,7 +99,7 @@ public class Bouquet extends Element{
 	}
 
 	public String getCouleur() {
-		return couleur;
+		return this.couleur;
 	}
 
 	public void setCouleur(String couleur) {
@@ -101,7 +107,7 @@ public class Bouquet extends Element{
 	}
 
 	public String getTaille() {
-		return taille;
+		return this.taille;
 	}
 
 	public void setTaille(String taille) {
@@ -109,7 +115,7 @@ public class Bouquet extends Element{
 	}
 
 	public List<Materiau> getMateriaux() {
-		return materiaux;
+		return this.materiaux;
 	}
 
 	public void setMateriaux(List<Materiau> materiaux) {
@@ -117,7 +123,7 @@ public class Bouquet extends Element{
 	}
 
 	public List<Fleur> getFleursComp() {
-		return fleursComp;
+		return this.fleursComp;
 	}
 
 	public void setFleursComp(List<Fleur> fleursComp) {
@@ -125,7 +131,7 @@ public class Bouquet extends Element{
 	}
 
 	public boolean isCompoFlorale() {
-		return compoFlorale;
+		return this.compoFlorale;
 	}
 
 	public void setCompoFlorale(boolean compoFlorale) {
@@ -134,22 +140,17 @@ public class Bouquet extends Element{
 
 	@Override
 	public String toString() {
-		return "Bouquet [saison=" + saison + ", prixUnitaire=" + prixUnitaire
-				+ ", couleur=" + couleur + ", taille=" + taille + ", materiaux=" + materiaux + ", fleursComp="
-				+ fleursComp + ", compoFlorale=" + compoFlorale + "]";
+		return "Bouquet [saison=" + this.saison + ", prixUnitaire=" + this.prixUnitaire + ", couleur=" + this.couleur
+				+ ", taille=" + this.taille + ", materiaux=" + this.materiaux + ", fleursComp=" + this.fleursComp
+				+ ", compoFlorale=" + this.compoFlorale + "]";
 	}
-
-
 
 	public String getCheminImage() {
-		return cheminImage;
+		return this.cheminImage;
 	}
-
-
 
 	public void setCheminImage(String cheminImage) {
 		this.cheminImage = cheminImage;
 	}
-	
-	
+
 }

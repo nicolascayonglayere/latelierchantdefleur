@@ -1,18 +1,20 @@
 package fr.latelierchantdefleur.outilgestion.manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import fr.latelierchantdefleur.outilgestion.manager.contract.IBouquetManager;
+import fr.latelierchantdefleur.outilgestion.manager.contract.IElementManager;
 import fr.latelierchantdefleur.outilgestion.manager.contract.IFleurManager;
 import fr.latelierchantdefleur.outilgestion.manager.contract.IMateriauManager;
 
-@Service
+@Component
 public class ManagerFactoryImpl implements IManagerFactory {
-	
+
 	private IBouquetManager bouquetManager;
 	private IFleurManager fleurManager;
 	private IMateriauManager materiauManager;
+	private IElementManager elementManager;
 
 	@Override
 	public IBouquetManager getBouquetManager() {
@@ -44,6 +46,17 @@ public class ManagerFactoryImpl implements IManagerFactory {
 	@Override
 	public void setMateriauManager(IMateriauManager materiauManager) {
 		this.materiauManager = materiauManager;
+	}
+
+	@Override
+	public IElementManager getElementManager() {
+		return this.elementManager;
+	}
+
+	@Autowired
+	@Override
+	public void setElementManager(IElementManager elementManager) {
+		this.elementManager = elementManager;
 	}
 
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Insert title here</title>
+	</head>
+	<body>
+		<h1>Ajouter un bouquet</h1>
+		<div>
+			<form th:action="@{/ajouter_bouquet}" th:object="${bouquet}" method="POST">
+		        <div>Saison
+		        	<input type="text" th:field="*{saison}" /></div>    
+		        <br/>
+		        <div>Prix unitaire
+		        	<input type="text" th:field="*{prixUnitaire}" /></div>
+		        <div>Couleur
+		        	<input type="text" th:field="*{couleur}" /></div>     
+		        <br/>
+		        <div>Taille
+		        	<input type="text" th:field="*{taille}" /></div>     
+		        <br/>
+		        <div>Chemin image
+		        	<input type="text" th:field="*{cheminImage}" /></div>     
+		        <br/>
+		        <div>Composition Florale 
+		        	<input type="checkbox" name="compoFlorale" th:checked="${compoFlorale}"/></div>		        
+		        <input type="submit" value="Create" />
+	      	</form>		
+		</div>	
+	</body>
+</html>

@@ -2,33 +2,34 @@ package fr.latelierchantdefleur.outilgestion.entites;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="fleur")
-public class Fleur extends Element{
+@Table(name = "fleur", schema = "chantdefleur")
+public class Fleur extends Element {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@Column(name="id_fleur")
-	//private Integer idFleur;
-	@Column(name="nom", nullable=false)
+	// @Id
+	// @GeneratedValue(strategy = GenerationType.IDENTITY)
+	// @Column(name="id_fleur")
+	// private Integer idFleur;
+	@Column(name = "nom", nullable = false)
 	private String nom;
-	@Column(name="mon_latin", nullable = true)
+	@Column(name = "mon_latin", nullable = true)
 	private String nomLatin;
-	@Column (name="couleur", nullable = true)
+	@Column(name = "couleur", nullable = true)
 	private String couleur;
-	
+	@Enumerated(EnumType.STRING)
 	private Saison saison;
-	
-	public Fleur() {super();}
+
+	public Fleur() {
+		super();
+	}
 
 	public Fleur(String nom, String nomLatin, String couleur, Saison saison) {
 		super();
@@ -38,16 +39,16 @@ public class Fleur extends Element{
 		this.saison = saison;
 	}
 
-	//public Integer getIdFleur() {
-	//	return idFleur;
-	//}
-    //
-	//public void setIdFleur(Integer idFleur) {
-	//	this.idFleur = idFleur;
-	//}
+	// public Integer getIdFleur() {
+	// return idFleur;
+	// }
+	//
+	// public void setIdFleur(Integer idFleur) {
+	// this.idFleur = idFleur;
+	// }
 
 	public String getNom() {
-		return nom;
+		return this.nom;
 	}
 
 	public void setNom(String nom) {
@@ -55,7 +56,7 @@ public class Fleur extends Element{
 	}
 
 	public String getNomLatin() {
-		return nomLatin;
+		return this.nomLatin;
 	}
 
 	public void setNomLatin(String nomLatin) {
@@ -63,7 +64,7 @@ public class Fleur extends Element{
 	}
 
 	public String getCouleur() {
-		return couleur;
+		return this.couleur;
 	}
 
 	public void setCouleur(String couleur) {
@@ -71,7 +72,7 @@ public class Fleur extends Element{
 	}
 
 	public Saison getSaison() {
-		return saison;
+		return this.saison;
 	}
 
 	public void setSaison(Saison saison) {
@@ -80,9 +81,8 @@ public class Fleur extends Element{
 
 	@Override
 	public String toString() {
-		return "Fleur [nom=" + nom + ", nomLatin=" + nomLatin + ", couleur=" + couleur
-				+ ", saison=" + saison + "]";
+		return "Fleur [nom=" + this.nom + ", nomLatin=" + this.nomLatin + ", couleur=" + this.couleur + ", saison="
+				+ this.saison + "]";
 	}
-	
-	
+
 }

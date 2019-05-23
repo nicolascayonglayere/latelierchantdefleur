@@ -2,23 +2,37 @@ package fr.latelierchantdefleur.outilgestion.entites;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "facture", schema = "chantdefleur")
 public class Facture {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_facture")
 	private Integer idFacture;
+	@Column(name = "date_facture", nullable = false)
 	private Date dateFacture;
+	@Column(name = "date_paiement", nullable = true)
 	private Date datePaiement;
+	@Column(name = "montant", nullable = false)
 	private Double montant;
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+	@JoinColumn(name = "id_commande")
 	private Commande commande;
+	@Column(name = "acquitte", nullable = false)
 	private boolean acquitee;
+	@Enumerated(EnumType.STRING)
 	private TypePaiement typePaiement;
 
 	public Facture() {

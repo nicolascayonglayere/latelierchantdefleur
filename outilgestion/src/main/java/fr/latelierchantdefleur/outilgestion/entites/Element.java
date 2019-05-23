@@ -1,6 +1,7 @@
 package fr.latelierchantdefleur.outilgestion.entites;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,61 +10,83 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Element implements Serializable{
+@Table(name = "element", schema = "chantdefleur")
+public class Element implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Id	
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_element")
 	private Integer idElement;
-	private Commentaire commentaire;
-	private Stock stock;
-	
-	
-	public Element() {}
 
+	private Date dateAjout;
+	// @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST,
+	// CascadeType.DETACH, CascadeType.MERGE,
+	// CascadeType.REFRESH })
+	// @JoinTable(name = "chantdefleur.element_liste_commentaire", joinColumns =
+	// @JoinColumn(name = "id_commentaire"), inverseJoinColumns = @JoinColumn(name =
+	// "id_element"))
+	// private List<Commentaire> commentaires;
+	// @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.DETACH,
+	// CascadeType.MERGE, CascadeType.REFRESH })
+	// @JoinColumn(name = "id_stock")
+	// private Stock stock;
 
-	public Element(Commentaire commentaire, Stock stock) {
-		this.commentaire = commentaire;
-		this.stock = stock;
+	public Element() {
 	}
 
+	// public Element(List<Commentaire> commentaires, Stock stock) {
+	// this.commentaires = commentaires;
+	// this.stock = stock;
+	// }
 
 	public Integer getIdElement() {
-		return idElement;
+		return this.idElement;
 	}
-
 
 	public void setIdElement(Integer idElement) {
 		this.idElement = idElement;
 	}
 
-
-	public Commentaire getCommentaire() {
-		return commentaire;
+	public Date getDateAjout() {
+		return this.dateAjout;
 	}
 
-
-	public void setCommentaire(Commentaire commentaire) {
-		this.commentaire = commentaire;
+	public void setDateAjout(Date dateAjout) {
+		this.dateAjout = dateAjout;
 	}
 
+	// public Stock getStock() {
+	// return this.stock;
+	// }
+	//
+	// public void setStock(Stock stock) {
+	// this.stock = stock;
+	// }
+	//
+	// public List<Commentaire> getCommentaires() {
+	// return this.commentaires;
+	// }
+	//
+	// public void setCommentaires(List<Commentaire> commentaires) {
+	// this.commentaires = commentaires;
+	// }
+	//
+	// public void addCommentaire(Commentaire commentaire) {
+	// if (this.commentaires.size() == 0) {
+	// this.commentaires = new ArrayList<Commentaire>();
+	// }
+	// this.commentaires.add(commentaire);
+	// }
 
-	public Stock getStock() {
-		return stock;
-	}
-
-
-	public void setStock(Stock stock) {
-		this.stock = stock;
-	}
-
-
-	@Override
-	public String toString() {
-		return "Element [idElement=" + idElement + ", commentaire=" + commentaire + ", stock=" + stock + "]";
-	}	
+	// @Override
+	// public String toString() {
+	// return "Element [idElement=" + this.idElement + ", commentaire=" +
+	// this.commentaires.get(0) + ", stock="
+	// + this.stock + "]";
+	// }
 }

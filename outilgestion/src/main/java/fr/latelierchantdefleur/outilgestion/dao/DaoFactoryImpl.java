@@ -1,17 +1,21 @@
 package fr.latelierchantdefleur.outilgestion.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import fr.latelierchantdefleur.outilgestion.dao.contract.IBouquetDao;
+import fr.latelierchantdefleur.outilgestion.dao.contract.IElementDao;
 import fr.latelierchantdefleur.outilgestion.dao.contract.IFleurDao;
 import fr.latelierchantdefleur.outilgestion.dao.contract.IMateriauDao;
 
+@Component
 public class DaoFactoryImpl implements IDaoFactory {
 
 	private IBouquetDao bouquetDao;
 	private IFleurDao fleurDao;
 	private IMateriauDao materiauDao;
-	
+	private IElementDao elementDao;
+
 	@Override
 	public IBouquetDao getBouquetDao() {
 		return this.bouquetDao;
@@ -20,7 +24,7 @@ public class DaoFactoryImpl implements IDaoFactory {
 	@Autowired
 	@Override
 	public void setBouquetDao(IBouquetDao bouquetDao) {
-		this.bouquetDao = bouquetDao;		
+		this.bouquetDao = bouquetDao;
 	}
 
 	@Override
@@ -42,6 +46,17 @@ public class DaoFactoryImpl implements IDaoFactory {
 	@Override
 	public void setMateriauDao(IMateriauDao materiauDao) {
 		this.materiauDao = materiauDao;
+	}
+
+	@Override
+	public IElementDao getElementDao() {
+		return this.elementDao;
+	}
+
+	@Autowired
+	@Override
+	public void setElementDao(IElementDao elementDao) {
+		this.elementDao = elementDao;
 	}
 
 }
