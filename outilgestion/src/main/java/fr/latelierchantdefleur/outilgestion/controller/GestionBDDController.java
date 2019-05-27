@@ -21,10 +21,11 @@ public class GestionBDDController {
 
 	private IManagerFactory managerFactory;
 
-	@GetMapping("/accueil")
-	public String accueil(Model model) {// @ModelAttribute Bouquet bouquet, BindingResult errors, Model model) {
+	@GetMapping("/bouquets")
+	public String accueil(@ModelAttribute Bouquet bouquet, BindingResult errors, Model model) {
 		List<Bouquet> mesBouquets = this.managerFactory.getBouquetManager().trouverTsBouquets();
-		model.addAllAttributes(mesBouquets);
+		System.out.println("CTRL liste bouquet -------" + mesBouquets.size());
+		model.addAttribute("mesBouquets", mesBouquets);
 
 		return ("bouquets");
 	}
@@ -44,12 +45,13 @@ public class GestionBDDController {
 		Element monElement = new Element();
 		monElement.setDateAjout(Calendar.getInstance().getTime());
 		this.managerFactory.getElementManager().ajouterElement(monElement);
-		Bouquet bouquetSave = new Bouquet(Saison.valueOf(bouquet.getSaison()), bouquet.getPrixUnitaire(),
-				bouquet.getCouleur(), bouquet.getTaille(), bouquet.getCheminImage(), bouquet.isCompoFlorale());
+		Saison maSaison = new Saison(bouquet.getSaison());
+		Bouquet bouquetSave = new Bouquet(maSaison, bouquet.getPrixUnitaire(), bouquet.getCouleur(),
+				bouquet.getTaille(), bouquet.getCheminImage(), bouquet.isCompoFlorale());
 		bouquetSave.setIdElement(monElement.getIdElement());
 
 		this.managerFactory.getBouquetManager().ajouterBouquet(bouquetSave);
-		return ("accueil");
+		return ("bouquets");
 	}
 
 	public IManagerFactory getManagerFactory() {

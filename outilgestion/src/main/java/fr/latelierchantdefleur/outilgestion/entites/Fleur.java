@@ -1,9 +1,9 @@
 package fr.latelierchantdefleur.outilgestion.entites;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,7 +24,7 @@ public class Fleur extends Element {
 	private String nomLatin;
 	@Column(name = "couleur", nullable = true)
 	private String couleur;
-	@Enumerated(EnumType.STRING)
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
 	private Saison saison;
 
 	public Fleur() {

@@ -7,6 +7,7 @@ import fr.latelierchantdefleur.outilgestion.dao.contract.IBouquetDao;
 import fr.latelierchantdefleur.outilgestion.dao.contract.IElementDao;
 import fr.latelierchantdefleur.outilgestion.dao.contract.IFleurDao;
 import fr.latelierchantdefleur.outilgestion.dao.contract.IMateriauDao;
+import fr.latelierchantdefleur.outilgestion.dao.contract.ISaisonDao;
 
 @Component
 public class DaoFactoryImpl implements IDaoFactory {
@@ -15,6 +16,7 @@ public class DaoFactoryImpl implements IDaoFactory {
 	private IFleurDao fleurDao;
 	private IMateriauDao materiauDao;
 	private IElementDao elementDao;
+	private ISaisonDao saisonDao;
 
 	@Override
 	public IBouquetDao getBouquetDao() {
@@ -57,6 +59,17 @@ public class DaoFactoryImpl implements IDaoFactory {
 	@Override
 	public void setElementDao(IElementDao elementDao) {
 		this.elementDao = elementDao;
+	}
+
+	@Override
+	public ISaisonDao getSaisonDao() {
+		return this.saisonDao;
+	}
+
+	@Autowired
+	@Override
+	public void setSaisonDao(ISaisonDao saisonDao) {
+		this.saisonDao = saisonDao;
 	}
 
 }

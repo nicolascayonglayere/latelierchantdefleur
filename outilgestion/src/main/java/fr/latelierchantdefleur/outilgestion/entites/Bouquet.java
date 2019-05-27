@@ -5,12 +5,11 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,7 +24,7 @@ public class Bouquet extends Element {
 	// @GeneratedValue(strategy = GenerationType.IDENTITY)
 	// @Column(name = "id_bouquet")
 	// private Integer idBouquet;
-	@Enumerated(EnumType.STRING)
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
 	private Saison saison;
 	@Column(name = "prix_unitaire", nullable = false)
 	private Double prixUnitaire;

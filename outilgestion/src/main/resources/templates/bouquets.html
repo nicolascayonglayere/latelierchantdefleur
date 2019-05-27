@@ -9,8 +9,8 @@
 		<h1>Mes bouquets</h1>
 		<div>
 			<div th:each ="bouquet:${mesBouquets}">
-				<div th:utext="${bouquet.id}"></div>
-				<div th:utext="${bouquet.saison}"></div>
+				<!--  <div th:utext="${bouquet.idBouquet}"></div>-->
+				<div th:utext="${bouquet.saison.saison}"></div>
 				<div th:utext="${bouquet.prixUnitaire}"></div>
 				<div th:utext="${bouquet.couleur}"></div>
 				<div th:utext="${bouquet.taille}"></div>
