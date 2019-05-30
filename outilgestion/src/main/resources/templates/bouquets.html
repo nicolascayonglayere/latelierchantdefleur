@@ -8,19 +8,26 @@
 	<body>
 		<h1>Mes bouquets</h1>
 		<div>
-			<div th:each ="bouquet:${mesBouquets}">
+			<div th:each ="bouquet:${mesBouquets}" class="row">
 				<!--  <div th:utext="${bouquet.idBouquet}"></div>-->
-				<div th:utext="${bouquet.saison.saison}"></div>
-				<div th:utext="${bouquet.prixUnitaire}"></div>
-				<div th:utext="${bouquet.couleur}"></div>
-				<div th:utext="${bouquet.taille}"></div>
-				<div th:utext="${bouquet.compoFlorale}"></div>
-				<div th:utext="${bouquet.cheminImage}"></div>				
-			</div> 
+				<span th:utext="${bouquet.saison.saison}"></span>
+				<span th:utext="${bouquet.prixUnitaire}"></span>
+				<span th:utext="${bouquet.couleur}"></span>
+				<span th:utext="${bouquet.taille}"></span>
+				<span th:utext="${bouquet.compoFlorale}"></span>
+				<span th:utext="${bouquet.cheminImage}"></span>
+				<span><img th:src="@{/G:/Images/{image}(image=${bouquet.cheminImage})}"></span>
+				<hr> 				
+			</div>			
 		</div>
 		
+ 
 		<div>
 			<a th:href="@{/ajouter_bouquet}">AJOUTER UN BOUQUET</a>
+		</div>
+		<hr>
+		<div>
+			<a th:href="@{/ajouter_fleur}">AJOUTER UNE FLEUR</a>
 		</div>
 		
 	</body>

@@ -4,6 +4,7 @@ import fr.latelierchantdefleur.outilgestion.manager.contract.IBouquetManager;
 import fr.latelierchantdefleur.outilgestion.manager.contract.IElementManager;
 import fr.latelierchantdefleur.outilgestion.manager.contract.IFleurManager;
 import fr.latelierchantdefleur.outilgestion.manager.contract.IMateriauManager;
+import fr.latelierchantdefleur.outilgestion.manager.contract.ISaisonManager;
 
 public interface IManagerFactory {
 
@@ -22,4 +23,8 @@ public interface IManagerFactory {
 	IElementManager getElementManager();
 
 	void setElementManager(IElementManager elementManager);
+
+	ISaisonManager getSaisonManager();
+
+	void setSaisonManager(ISaisonManager saisonManager);
 }

@@ -22,9 +22,9 @@ public class Bouquet extends Element {
 	private static final long serialVersionUID = 1L;
 	// @Id
 	// @GeneratedValue(strategy = GenerationType.IDENTITY)
-	// @Column(name = "id_bouquet")
-	// private Integer idBouquet;
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+	@Column(name = "id_bouquet")
+	private Integer idBouquet;
+	@OneToOne
 	private Saison saison;
 	@Column(name = "prix_unitaire", nullable = false)
 	private Double prixUnitaire;
@@ -73,13 +73,13 @@ public class Bouquet extends Element {
 		this.compoFlorale = compoFlorale;
 	}
 
-	// public Integer getIdBouquet() {
-	// return idBouquet;
-	// }
-	//
-	// public void setIdBouquet(Integer idBouquet) {
-	// this.idBouquet = idBouquet;
-	// }
+	public Integer getIdBouquet() {
+		return this.idBouquet;
+	}
+
+	public void setIdBouquet(Integer idBouquet) {
+		this.idBouquet = idBouquet;
+	}
 
 	public Saison getSaison() {
 		return this.saison;

@@ -9,23 +9,63 @@
 		<div>
 			<form th:action="@{/ajouter_bouquet}" th:object="${bouquet}" method="POST">
 		        <div>Saison
-		        	<input type="text" th:field="*{saison}" /></div>    
-		        <br/>
+		             <select th:field="*{saison}"> 
+				      	<option th:each="saison : ${saisonListe}" th:value="${saison.id}" th:text="${saison.saison}" /> 
+				     </select>
+		        	<!--  <input type="text" th:field="*{saison}" /></div>-->    
+		        </div>
 		        <div>Prix unitaire
 		        	<input type="text" th:field="*{prixUnitaire}" /></div>
 		        <div>Couleur
 		        	<input type="text" th:field="*{couleur}" /></div>     
-		        <br/>
 		        <div>Taille
-		        	<input type="text" th:field="*{taille}" /></div>     
-		        <br/>
+		             <select th:field="*{taille}"> 
+				      	<option th:each="taille : ${tailleListe}" th:value="${taille}" th:text="${taille}" /> 
+				     </select>		        
+		        	<!--  <input type="text" th:field="*{taille}" />-->
+		        </div>   
+		        	  
 		        <div>Chemin image
-		        	<input type="text" th:field="*{cheminImage}" /></div>     
-		        <br/>
+		        	<input type="file" id="file" th:field="*{cheminImage}" multiple onchange="GetFileSizeNameAndType()" />
+				    <div id="fp"></div>
+				    <p>
+				        <div id="divTotalSize"></div>
+				    </p>		        
+		        	<!--  <input type="text" th:field="*{cheminImage}" />-->
+		        </div>     
 		        <div>Composition Florale 
 		        	<input type="checkbox" name="compoFlorale" th:checked="${compoFlorale}"/></div>		        
 		        <input type="submit" value="Create" />
 	      	</form>		
 		</div>	
 	</body>
+	<script type="text/javascript">
+		function GetFileSizeNameAndType()
+	    {
+	    var fi = document.getElementById('file'); // GET THE FILE INPUT AS VARIABLE.
+	
+	    var totalFileSize = 0;
+	
+	    // VALIDATE OR CHECK IF ANY FILE IS SELECTED.
+	    if (fi.files.length > 0)
+	    {
+	        // RUN A LOOP TO CHECK EACH SELECTED FILE.
+	        for (var i = 0; i <= fi.files.length - 1; i++)
+	        {
+	            //ACCESS THE SIZE PROPERTY OF THE ITEM OBJECT IN FILES COLLECTION. IN THIS WAY ALSO GET OTHER PROPERTIES LIKE FILENAME AND FILETYPE
+	            var fsize = fi.files.item(i).size;
+	            totalFileSize = totalFileSize + fsize;
+	            document.getElementById('fp').innerHTML =
+	            document.getElementById('fp').innerHTML
+	            +
+	            '<br /> ' + 'File Name is <b>' + fi.files.item(i).name
+	            +
+	            '</b> and Size is <b>' + Math.round((fsize / 1024)) //DEFAULT SIZE IS IN BYTES SO WE DIVIDING BY 1024 TO CONVERT IT IN KB
+	            +
+	            '</b> KB and File Type is <b>' + fi.files.item(i).type + "</b>.";
+	        }
+	    }
+	    document.getElementById('divTotalSize').innerHTML = "Total File(s) Size is <b>" + Math.round(totalFileSize / 1024) + "</b> KB";
+	}	
+	</script>
 </html>

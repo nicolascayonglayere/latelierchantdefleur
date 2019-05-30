@@ -19,8 +19,9 @@ public class BouquetManagerImpl implements IBouquetManager {
 	public Bouquet ajouterBouquet(Bouquet bouquet) {
 		Saison saison = bouquet.getSaison();
 		System.out.println("CTRL input ----- " + saison.getSaison());
-		System.out.println("CTRL BDD ----- " + this.daoFacto.getSaisonDao().findBySaison(saison.getSaison()).getId());
-		saison.setId(this.daoFacto.getSaisonDao().findBySaison(saison.getSaison()).getId());
+		System.out.println(
+				"CTRL BDD ----- " + this.daoFacto.getSaisonDao().findById(Integer.valueOf(saison.getSaison())));
+		saison.setId(this.daoFacto.getSaisonDao().findById(Integer.valueOf(saison.getSaison())).get().getId());
 		bouquet.setSaison(saison);
 		this.daoFacto.getBouquetDao().save(bouquet);
 		return bouquet;

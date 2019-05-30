@@ -1,4 +1,4 @@
-package fr.latelierchantdefleur.outilgestion.controller;
+package fr.latelierchantdefleur.outilgestion.controller.formulaires;
 
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package fr.latelierchantdefleur.outilgestion.entites;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
@@ -16,15 +15,15 @@ public class Fleur extends Element {
 	private static final long serialVersionUID = 1L;
 	// @Id
 	// @GeneratedValue(strategy = GenerationType.IDENTITY)
-	// @Column(name="id_fleur")
-	// private Integer idFleur;
+	@Column(name = "id_fleur")
+	private Integer idFleur;
 	@Column(name = "nom", nullable = false)
 	private String nom;
-	@Column(name = "mon_latin", nullable = true)
+	@Column(name = "nom_latin", nullable = true)
 	private String nomLatin;
 	@Column(name = "couleur", nullable = true)
 	private String couleur;
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+	@OneToOne
 	private Saison saison;
 
 	public Fleur() {
@@ -39,13 +38,13 @@ public class Fleur extends Element {
 		this.saison = saison;
 	}
 
-	// public Integer getIdFleur() {
-	// return idFleur;
-	// }
-	//
-	// public void setIdFleur(Integer idFleur) {
-	// this.idFleur = idFleur;
-	// }
+	public Integer getIdFleur() {
+		return this.idFleur;
+	}
+
+	public void setIdFleur(Integer idFleur) {
+		this.idFleur = idFleur;
+	}
 
 	public String getNom() {
 		return this.nom;
