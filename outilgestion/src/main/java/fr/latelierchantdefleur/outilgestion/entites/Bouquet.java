@@ -22,8 +22,8 @@ public class Bouquet extends Element {
 	private static final long serialVersionUID = 1L;
 	// @Id
 	// @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_bouquet")
-	private Integer idBouquet;
+	// @Column(name = "id_bouquet")
+	// private Integer idBouquet;
 	@OneToOne
 	private Saison saison;
 	@Column(name = "prix_unitaire", nullable = false)
@@ -40,7 +40,7 @@ public class Bouquet extends Element {
 	private List<Materiau> materiaux;
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE,
 			CascadeType.REFRESH })
-	@JoinTable(name = "chantdefleur.bouquet_liste_fleur", joinColumns = @JoinColumn(name = "id_bouquet"), inverseJoinColumns = @JoinColumn(name = "id_fleur"))
+	@JoinTable(name = "chantdefleur.bouquet_liste_fleur", joinColumns = @JoinColumn(name = "id_element_bouquet"), inverseJoinColumns = @JoinColumn(name = "id_element_fleur"))
 	private List<Fleur> fleursComp;
 	@Column(name = "composition_florale", nullable = false)
 	private boolean compoFlorale;
@@ -73,13 +73,13 @@ public class Bouquet extends Element {
 		this.compoFlorale = compoFlorale;
 	}
 
-	public Integer getIdBouquet() {
-		return this.idBouquet;
-	}
-
-	public void setIdBouquet(Integer idBouquet) {
-		this.idBouquet = idBouquet;
-	}
+	// public Integer getIdBouquet() {
+	// return this.idBouquet;
+	// }
+	//
+	// public void setIdBouquet(Integer idBouquet) {
+	// this.idBouquet = idBouquet;
+	// }
 
 	public Saison getSaison() {
 		return this.saison;

@@ -7,11 +7,15 @@
 	
 	<body>
 		<h1>Liste des fleurs composant le bouquet</h1>
+		<h2>Identifiant du bouquet en cours de creation</h2>
+		<div th:text="${session.elementCree.idElement}" th:unless="${session == null}"></div>		
 		<div>
-			<form th:action="@{/ajouter_fleur}" th:object="${fleur}" method="POST">
-				<div th:each ="fleur:${mesFleurs}" class="row">
+			<form th:action="@{/liste_fleurs_bouquet}" th:object="${fleur}" method="POST">
+				<input type="hidden" name="idElementBouquet" th:value="${session.elementCree.idElement}"/>
+				<div th:each ="fleur:${mesFleurs}" class="row">					
 					<input type="checkbox" name="ajoutBouquet" th:checked="${ajoutBouquet}"/>			
-					<span th:utext="${fleur.idFleur}"></span>
+					<span th:utext="${fleur.idElement}"></span>
+					<input type="hidden" name="idElementFleur" th:value="${fleur.idElement}"/>
 					<span th:utext="${fleur.nom}"></span>
 					<span th:utext="${fleur.nomLatin}"></span>
 					<span th:utext="${fleur.couleur}"></span>

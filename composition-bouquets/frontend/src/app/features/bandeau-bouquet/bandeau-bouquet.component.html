@@ -1,0 +1,140 @@
+<!-- <div class="col-md-12"> -->
+    <div class="row col-md-12 justify-content-center">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                Composants
+                <button type="button" class="btn-primary" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><fa-icon [icon]="faCaretDown"></fa-icon></button>
+                <fa-icon [icon]="faTrash" (click)="onClikResetCompo()"></fa-icon>
+            </div>
+            <div id="collapseExample" [ngbCollapse]="isCollapsed">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush" *ngFor="let tige of elementCompo">
+                        <li class="list-group-item d-flex">
+                            <span class="textCompo">{{tige.nom}} -- prix unitaire : {{tige.prixUnitaire}} </span>
+                            <fa-icon [icon]="faMinusCircle" (click)="onClickRemoveElt(tige.id)" class="ml-auto"></fa-icon>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card-group">
+            <div class="card">
+                <div class="card-header">COUT INTRANTS</div>
+                <div class="card-body">
+                    <div class="card-title">{{coutIntrant | number}}</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">TEMPS de COMPOSITION</div>
+                <div class="card-body">
+                    <form class="form-inline" (ngSubmit)="onSubmitTempsTravail(f)" #f="ngForm">
+                        <div class="form-group">
+                            <input type="text" name="tempsTravail" value="{{tempsTravail}}" ngModel />
+                        </div>
+                        <button class="btn-primary" type="submit">
+                            <fa-icon [icon]="faCheckCircle"></fa-icon>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">COUT DE REVIENT</div>
+            <div class="card-body">
+                <div class="card-title">{{coutRevient | number}}</div>
+            </div>
+            <div class="card-footer text-muted">
+                Taux horaire : {{tauxHoraire}} €/h <button type="button" class="btn-primary" (click)="openVerticallyCentered(contentTauxHoraire)">Modifier</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">COUT AVEC MARGE</div>
+            <div class="card-body">
+                <div class="card-title">{{coutMarge | number}}</div>
+            </div>
+            <div class="card-footer text-muted">
+                Marge actuelle : {{margeActuelle}} <button type="button" class="btn-primary" (click)="openVerticallyCentered(contentMarge)">Modifier</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">COUT AVEC TVA</div>
+            <div class="card-body">
+                <div class="card-title">{{coutTva | number}}</div>
+            </div>
+            <div class="card-footer text-muted">
+                TVA actuelle : {{tvaActuelle}} <button type="button" class="btn-primary" (click)="openVerticallyCentered(contentTva)">Modifier</button>
+            </div>
+        </div>
+    </div>
+<!-- </div> -->
+<!-- <router-outlet (tigeCompositionEvent)="addElement($event)"></router-outlet> -->
+
+<ng-template #contentTauxHoraire let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Modification du taux horaire</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <form class="form-inline" (ngSubmit)="onSubmitTauxHoraire(f)" #f="ngForm">
+            <div class="form-group">
+                <input type="text" name="tauxHoraire" value="{{tauxHoraire}}" ngModel />
+            </div>
+            <button class="btn-primary" type="submit">
+                <fa-icon [icon]="faCheckCircle"></fa-icon>
+            </button>
+        </form>
+        <div *ngIf="messageModifOk === true"><span> Modification effectuee ! </span></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+
+  <ng-template #contentMarge let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Modification de la marge</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <form class="form-inline" (ngSubmit)="onSubmitMarge(f)" #f="ngForm">
+            <div class="form-group">
+                <input type="text" name="marge" value="{{margeActuelle}}" ngModel />
+            </div>
+            <button class="btn-primary" type="submit">
+                <fa-icon [icon]="faCheckCircle"></fa-icon>
+            </button>
+        </form>
+        <div *ngIf="messageModifOk === true"><span> Modification effectuee ! </span></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>
+
+  <ng-template #contentTva let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Modification de la TVA</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <form class="form-inline" (ngSubmit)="onSubmitTva(f)" #f="ngForm">
+            <div class="form-group">
+                <input type="text" name="tva" value="{{tvaActuelle}}" ngModel />
+            </div>
+            <button class="btn-primary" type="submit">
+                <fa-icon [icon]="faCheckCircle"></fa-icon>
+            </button>
+        </form>
+        <div *ngIf="messageModifOk === true"><span> Modification effectuee ! </span></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </ng-template>

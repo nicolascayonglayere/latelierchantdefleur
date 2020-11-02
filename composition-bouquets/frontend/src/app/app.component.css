@@ -1,0 +1,13 @@
+h1, .h1 {
+    text-align: center;
+}
+
+.jumbotron {
+    margin-bottom: 0;
+}
+
+.container {
+    background-color: #edafb7;
+    color: #2e669e;
+}
+

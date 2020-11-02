@@ -1,0 +1,29 @@
+<ul class="list-group" *ngFor="let tige of tiges">
+  <li class="list-group-item">{{ tige.id }} -- {{ tige.nom }} -- {{ tige.nomLatin }} -- {{ tige.prixUnitaire }} <button (click)="onClickAjoutComposition(tige)">Ajouter a la composition</button></li>
+</ul>
+
+<!-- <table datatable class="row-border hover">
+    <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Nom latin</th>
+          <th>Prix unitaire</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="tiges?.length != 0">
+        <tr *ngFor="let tige of tiges">
+            <td>{{ tige.id }}</td>
+            <td>{{ tige.nom }}</td>
+            <td>{{ tige.nomLatin }}</td>
+            <td>{{ tige.prixUnitaire }}</td>            
+        </tr>
+    </tbody>
+    <tbody *ngIf="tiges?.length === 0">
+      <tr>
+        <td colspan="3" class="no-data-available">No data!</td>
+      </tr>
+    <tbody>    
+
+</table> -->
+

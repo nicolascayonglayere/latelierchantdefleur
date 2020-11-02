@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import fr.latelierchantdefleur.outilgestion.dao.IDaoFactory;
 import fr.latelierchantdefleur.outilgestion.entites.Bouquet;
+import fr.latelierchantdefleur.outilgestion.entites.Fleur;
 import fr.latelierchantdefleur.outilgestion.entites.Saison;
 import fr.latelierchantdefleur.outilgestion.manager.contract.IBouquetManager;
 
@@ -41,6 +42,13 @@ public class BouquetManagerImpl implements IBouquetManager {
 	@Override
 	public List<Bouquet> trouverTsBouquets() {
 		return this.daoFacto.getBouquetDao().findAll();
+	}
+
+	@Override
+	public Bouquet ajouterFleursBouquet(Bouquet bouquet, List<Fleur> listeFleurs) {
+		bouquet.setFleursComp(listeFleurs);
+
+		return this.daoFacto.getBouquetDao().saveAndFlush(bouquet);
 	}
 
 	public IDaoFactory getDaoFacto() {

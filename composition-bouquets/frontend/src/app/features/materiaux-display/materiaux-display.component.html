@@ -1,0 +1,22 @@
+<table datatable [dtOptions]="dtOptions" class="row-border hover" id="materiau-table">
+    <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Prix unitaire</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="materiaux?.length != 0">
+        <tr *ngFor="let materiau of materiaux">
+            <td>{{ materiau.id }}</td>
+            <td>{{ materiau.nom }}</td>
+            <td>{{ materiau.prixUnitaire }}</td>            
+        </tr>
+    </tbody>
+    <!-- <tbody *ngIf="materiaux?.length === 0">
+      <tr>
+        <td colspan="3" class="no-data-available">No data!</td>
+      </tr>
+    <tbody>     -->
+
+</table>

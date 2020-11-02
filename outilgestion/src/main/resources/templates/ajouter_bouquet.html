@@ -15,9 +15,11 @@
 		        	<!--  <input type="text" th:field="*{saison}" /></div>-->    
 		        </div>
 		        <div>Prix unitaire
-		        	<input type="text" th:field="*{prixUnitaire}" /></div>
+		        	<input type="text" th:field="*{prixUnitaire}" />
+		        </div>
 		        <div>Couleur
-		        	<input type="text" th:field="*{couleur}" /></div>     
+		        	<input type="text" th:field="*{couleur}" />
+		        </div>     
 		        <div>Taille
 		             <select th:field="*{taille}"> 
 				      	<option th:each="taille : ${tailleListe}" th:value="${taille}" th:text="${taille}" /> 
@@ -34,7 +36,8 @@
 		        	<!--  <input type="text" th:field="*{cheminImage}" />-->
 		        </div>     
 		        <div>Composition Florale 
-		        	<input type="checkbox" name="compoFlorale" th:checked="${compoFlorale}"/></div>		        
+		        	<input type="checkbox" name="compoFlorale" th:checked="${compoFlorale}"/>
+		        </div>		        
 		        <input type="submit" value="Create" />
 	      	</form>		
 		</div>	

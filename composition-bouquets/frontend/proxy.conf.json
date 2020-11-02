@@ -1,0 +1,6 @@
+{
+    "/atelier-chant-de-fleur": {
+      "target": "'http://localhost:8181'",
+      "secure": false
+    }
+  }

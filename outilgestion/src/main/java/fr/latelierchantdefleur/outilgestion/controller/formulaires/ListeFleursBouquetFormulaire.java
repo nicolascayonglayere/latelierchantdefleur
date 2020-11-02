@@ -2,17 +2,9 @@ package fr.latelierchantdefleur.outilgestion.controller.formulaires;
 
 public class ListeFleursBouquetFormulaire {
 
-	private Integer idBouquet;
+	private Integer idElementBouquet;
 	private boolean ajoutBouquet;
-	private Integer idFleur;
-
-	public Integer getIdBouquet() {
-		return this.idBouquet;
-	}
-
-	public void setIdBouquet(Integer idBouquet) {
-		this.idBouquet = idBouquet;
-	}
+	private Integer idElementFleur;
 
 	public boolean isAjoutBouquet() {
 		return this.ajoutBouquet;
@@ -22,12 +14,20 @@ public class ListeFleursBouquetFormulaire {
 		this.ajoutBouquet = ajoutBouquet;
 	}
 
-	public Integer getIdFleur() {
-		return this.idFleur;
+	public Integer getIdElementBouquet() {
+		return this.idElementBouquet;
 	}
 
-	public void setIdFleur(Integer idFleur) {
-		this.idFleur = idFleur;
+	public void setIdElementBouquet(Integer idElementBouquet) {
+		this.idElementBouquet = idElementBouquet;
+	}
+
+	public Integer getIdElementFleur() {
+		return this.idElementFleur;
+	}
+
+	public void setIdElementFleur(Integer idElementFleur) {
+		this.idElementFleur = idElementFleur;
 	}
 
 }

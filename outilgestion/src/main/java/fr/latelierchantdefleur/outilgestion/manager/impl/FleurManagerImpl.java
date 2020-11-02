@@ -37,8 +37,9 @@ public class FleurManagerImpl implements IFleurManager {
 	}
 
 	@Override
-	public Fleur trouverFleur(int idFleur) {
-		return this.getDaoFacto().getFleurDao().findById(idFleur).get();
+	public Fleur trouverFleur(int idElementFleur) {
+		System.out.println("CTRL IdELEMENTFLEUR ---" + idElementFleur);
+		return this.getDaoFacto().getFleurDao().findByIdElement(idElementFleur).get();
 	}
 
 	@Override

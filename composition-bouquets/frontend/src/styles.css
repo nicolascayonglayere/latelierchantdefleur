@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+.dataTables_empty {
+    display: none;
+  }
+
+  body{
+    background-color: #edafb7;
+    color: #2e669e;
+  }
+
+.list-group-item{
+  background-color: #edafb7;
+}
+
+.card-body {
+  background-color: #edafb7;
+  color: #2e669e;
+}
+
+.card-header {
+  background-color: #D49DA4;
+}
+
+.card {
+  border-color: #000000;
+}
+
+.card-footer {
+  background-color: #FAB9C2;
+}
+
+
