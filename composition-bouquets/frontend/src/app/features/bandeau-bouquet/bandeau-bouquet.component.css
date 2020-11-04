@@ -5,3 +5,13 @@
 .textCompo{
     margin-right: 10px;
   }
+
+#inputTpsTravail {
+
+  width: 75%;
+}
+
+#btonExpand{
+  margin-left: 10px;
+  margin-right: 10px;
+}

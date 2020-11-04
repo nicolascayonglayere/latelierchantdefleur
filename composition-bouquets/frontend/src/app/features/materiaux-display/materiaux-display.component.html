@@ -1,22 +1,18 @@
-<table datatable [dtOptions]="dtOptions" class="row-border hover" id="materiau-table">
-    <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nom</th>
-          <th>Prix unitaire</th>
-        </tr>
-    </thead>
-    <tbody *ngIf="materiaux?.length != 0">
-        <tr *ngFor="let materiau of materiaux">
-            <td>{{ materiau.id }}</td>
-            <td>{{ materiau.nom }}</td>
-            <td>{{ materiau.prixUnitaire }}</td>            
-        </tr>
-    </tbody>
-    <!-- <tbody *ngIf="materiaux?.length === 0">
-      <tr>
-        <td colspan="3" class="no-data-available">No data!</td>
-      </tr>
-    <tbody>     -->
+<ngb-pagination [collectionSize]="materiaux?.length" [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
 
-</table>
+<ul class="list-group" *ngFor="let materiau of materiaux | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+  <li class="list-group-item d-flex justify-content-between">
+    {{ materiau.id }} -- {{ materiau.nom }} -- {{ materiau.prixUnitaire / 1000 }} €/unité
+    <form class="form-inline ml-auto" (ngSubmit)="onSubmitQuantite(f)" #f="ngForm">
+      <div class="md-form form-group">
+          <input class="form-control form-control-sm" type="number" name="quantite" placeholder="quantité souhaitée" [(ngModel)]="quantiteElt" />
+      </div>
+      <button class="btn-primary" type="submit">
+          <fa-icon [icon]="faCheckCircle"></fa-icon>
+      </button>
+    </form>
+    <button class="btn-primary btn-sm" (click)="onClickAjoutComposition(materiau)"><fa-icon [icon]="faPlus" id="iconPlus"></fa-icon></button>
+  </li>
+</ul>
+
+

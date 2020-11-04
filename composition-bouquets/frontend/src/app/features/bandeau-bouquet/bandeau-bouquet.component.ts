@@ -1,5 +1,5 @@
+import { ElementComposition } from './../../model/ElementComposition';
 import { Component, Input, OnInit } from '@angular/core';
-import { ElementComposition } from 'src/app/model/ElementComposition';
 import { Materiau } from 'src/app/model/Materiau';
 import { Tige } from 'src/app/model/Tige';
 import { CoefficientVariableService } from '../../services/coefficient-variable.service';
@@ -14,11 +14,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./bandeau-bouquet.component.css']
 })
 export class BandeauBouquetComponent implements OnInit {
-  faCheckCircle= faCheckCircle;
+  faCheckCircle = faCheckCircle;
   faMinusCircle = faMinusCircle;
-  faCaretDown =faCaretDown;
+  faCaretDown = faCaretDown;
   faTrash = faTrash;
-  
 
   coutIntrant: number = 0;
   coutRevient: number = 0;
@@ -37,19 +36,19 @@ export class BandeauBouquetComponent implements OnInit {
   messageModifOk: boolean = false;
   isCollapsed = false;
 
-  constructor(private coefficientVariableService : CoefficientVariableService,
+  constructor(private coefficientVariableService: CoefficientVariableService,
               private compositionService: CompositionService,
               private modalService: NgbModal) { }
 
   ngOnInit(): void {
-    this.coefficientVariableService.getAll().subscribe(resp =>{
-      this.tauxHoraire = resp.tauxHoraire/10;
-      this.margeActuelle = resp.marge/10;
-      this.tvaActuelle = resp.tva/10;
+    this.coefficientVariableService.getAll().subscribe(resp => {
+      this.tauxHoraire = resp.tauxHoraire / 10;
+      this.margeActuelle = resp.marge / 10;
+      this.tvaActuelle = resp.tva / 10;
     });
-    this.compositionService.currentElements.subscribe(resp =>{
-      this.elementCompo.push(resp);
-      if(this.elementCompo.length > 0){
+    this.compositionService.currentElements.subscribe(resp => {
+      if (resp.id){
+        this.elementCompo.push(resp);
         this.coutIntrant = this.calculCoutIntrant(this.elementCompo);
         this.coutRevient = this.calculCoutRevient(this.coutIntrant, this.tempsTravail);
         this.coutMarge = this.calculMarge(this.coutRevient);
@@ -58,34 +57,34 @@ export class BandeauBouquetComponent implements OnInit {
     });
   }
 
-  calculCoutIntrant(elt: ElementComposition[]) : number{
+  calculCoutIntrant(elt: ElementComposition[]): number{
     let coutIntrantCalcul = 0;
-    elt.forEach(function (e){
-      coutIntrantCalcul = coutIntrantCalcul + e.prixUnitaire;
+    elt.forEach(function(e){
+      coutIntrantCalcul = coutIntrantCalcul + (e.prixUnitaire * e.quantite);
     });
     return coutIntrantCalcul;
   }
 
-  calculCoutRevient(coutIntrant: number, tempTravail: number) : number{
+  calculCoutRevient(coutIntrant: number, tempTravail: number): number{
     return coutIntrant + (tempTravail * this.tauxHoraire);
   }
 
   calculMarge(coutRevient: number): number{
-    return coutRevient*this.margeActuelle;
+    return coutRevient * this.margeActuelle;
   }
 
   calculTva(marge: number): number {
-    return marge*this.tvaActuelle;
+    return marge * this.tvaActuelle;
   }
 
   onSubmitTempsTravail(form: NgForm) {
     this.tempsTravail = form.value['tempsTravail'];
-    if(this.elementCompo.length > 0){
+    if (this.elementCompo.length > 0){
       this.coutIntrant = this.calculCoutIntrant(this.elementCompo);
       this.coutRevient = this.calculCoutRevient(this.coutIntrant, this.tempsTravail);
       this.coutMarge = this.calculMarge(this.coutRevient);
       this.coutTva = this.calculTva(this.coutMarge);
-    }    
+    }
 }
 
 openVerticallyCentered(content) {
@@ -95,42 +94,42 @@ openVerticallyCentered(content) {
 
 onSubmitTauxHoraire(form: NgForm) {
   this.tauxHoraire = form.value['tauxHoraire'];
-  if(this.elementCompo.length > 0){
+  if (this.elementCompo.length > 0){
     this.coutIntrant = this.calculCoutIntrant(this.elementCompo);
     this.coutRevient = this.calculCoutRevient(this.coutIntrant, this.tempsTravail);
     this.coutMarge = this.calculMarge(this.coutRevient);
     this.coutTva = this.calculTva(this.coutMarge);
-  } 
+  }
   this.messageModifOk = true;
 }
 
 onSubmitMarge(form: NgForm) {
   this.margeActuelle = form.value['marge'];
-  if(this.elementCompo.length > 0){
+  if (this.elementCompo.length > 0){
     this.coutIntrant = this.calculCoutIntrant(this.elementCompo);
     this.coutRevient = this.calculCoutRevient(this.coutIntrant, this.tempsTravail);
     this.coutMarge = this.calculMarge(this.coutRevient);
     this.coutTva = this.calculTva(this.coutMarge);
-  } 
-  this.messageModifOk = true;  
+  }
+  this.messageModifOk = true;
 }
 
 onSubmitTva(form: NgForm) {
   this.tvaActuelle = form.value['tva'];
-  if(this.elementCompo.length > 0){
+  if (this.elementCompo.length > 0){
     this.coutIntrant = this.calculCoutIntrant(this.elementCompo);
     this.coutRevient = this.calculCoutRevient(this.coutIntrant, this.tempsTravail);
     this.coutMarge = this.calculMarge(this.coutRevient);
     this.coutTva = this.calculTva(this.coutMarge);
-  } 
+  }
   this.messageModifOk = true;
 }
 
-onClickRemoveElt(id: number){
-  console.log(id);
-  this.elementCompo = this.elementCompo.filter(e => e.id !== id);
+onClickRemoveElt(element: ElementComposition){
+  console.log(element);
+  this.elementCompo = this.elementCompo.filter(e => e !== element);
   console.log(this.elementCompo);
-  if(this.elementCompo.length > 0){
+  if (this.elementCompo.length > 0){
     this.coutIntrant = this.calculCoutIntrant(this.elementCompo);
     this.coutRevient = this.calculCoutRevient(this.coutIntrant, this.tempsTravail);
     this.coutMarge = this.calculMarge(this.coutRevient);

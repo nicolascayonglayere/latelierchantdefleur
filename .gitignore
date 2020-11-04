@@ -66,6 +66,7 @@ target
 
 # dependencies
 /node_modules
+composition-bouquets/frontend/node_modules
 
 # profiling files
 chrome-profiler-events*.json

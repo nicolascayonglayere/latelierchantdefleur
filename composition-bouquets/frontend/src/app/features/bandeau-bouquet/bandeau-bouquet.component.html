@@ -1,18 +1,22 @@
 <!-- <div class="col-md-12"> -->
-    <div class="row col-md-12 justify-content-center">
+    <div class="row col-md-12 col-lg-12 justify-content-center">
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 Composants
-                <button type="button" class="btn-primary" (click)="isCollapsed = !isCollapsed"
-                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><fa-icon [icon]="faCaretDown"></fa-icon></button>
-                <fa-icon [icon]="faTrash" (click)="onClikResetCompo()"></fa-icon>
+                <div class="ml-auto">
+                  <button type="button" class="btn-primary" (click)="isCollapsed = !isCollapsed"
+                  [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample" id="btonExpand">
+                    <fa-icon [icon]="faCaretDown"></fa-icon>
+                  </button>
+                  <fa-icon [icon]="faTrash" (click)="onClikResetCompo()"></fa-icon>
+              </div>
             </div>
             <div id="collapseExample" [ngbCollapse]="isCollapsed">
-                <div class="card-body">
+                <div class="card-body" *ngIf="elementCompo.length > 0">
                     <ul class="list-group list-group-flush" *ngFor="let tige of elementCompo">
                         <li class="list-group-item d-flex">
-                            <span class="textCompo">{{tige.nom}} -- prix unitaire : {{tige.prixUnitaire}} </span>
-                            <fa-icon [icon]="faMinusCircle" (click)="onClickRemoveElt(tige.id)" class="ml-auto"></fa-icon>
+                            <span class="textCompo">{{tige.quantite}} {{tige.nom}} -- prix unitaire : {{tige.prixUnitaire}} €</span>
+                            <fa-icon [icon]="faMinusCircle" (click)="onClickRemoveElt(tige)" class="ml-auto"></fa-icon>
                         </li>
                     </ul>
                 </div>
@@ -30,7 +34,7 @@
                 <div class="card-body">
                     <form class="form-inline" (ngSubmit)="onSubmitTempsTravail(f)" #f="ngForm">
                         <div class="form-group">
-                            <input type="text" name="tempsTravail" value="{{tempsTravail}}" ngModel />
+                            <input type="text" name="tempsTravail" value="{{tempsTravail}}" ngModel id="inputTpsTravail"/>
                         </div>
                         <button class="btn-primary" type="submit">
                             <fa-icon [icon]="faCheckCircle"></fa-icon>
