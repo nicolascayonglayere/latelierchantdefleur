@@ -22,4 +22,20 @@ export class MateriauService {
     // params.set('')
     return this.httpClient.get<DataTablesResponse>(rootUrl+'/datatables');
   }
+
+  getById(id: number): Observable<Materiau>{
+    return this.httpClient.get<Materiau>(rootUrl+'/'+id);
+  }
+
+  create(materiau: Materiau) : void {
+    this.httpClient.post(rootUrl + '/' + materiau.id + '/edit', materiau).subscribe(resp =>{
+      console.log('create succes', resp);
+    });
+  }
+
+  update(materiau: Materiau): void {
+    this.httpClient.put(rootUrl + '/' + materiau.id + '/edit', materiau).subscribe(resp =>{
+      console.log('update succes', resp);
+    });
+  }
 }

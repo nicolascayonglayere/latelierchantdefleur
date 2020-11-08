@@ -4,13 +4,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class TigeDTO {
 
     private Long id;
+    @NotBlank
+    @NotEmpty
     private String nom;
     private String nomLatin;
+    @Digits(integer = 6, message = "Format du prix unitaire invalide", fraction = 0)
     private Integer prixUnitaire;
+    private FournisseurDTO fournisseurDTO;
 }

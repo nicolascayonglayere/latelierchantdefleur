@@ -21,5 +21,8 @@ public class Materiau implements Serializable {
     private Integer prixUnitaire;
     @ManyToMany(mappedBy = "materiaux")
     private List<Composition> compositions;
+    @ManyToOne
+    @JoinColumn(name="fournisseur_id", nullable = false)
+    private Fournisseur fournisseur;
 
 }

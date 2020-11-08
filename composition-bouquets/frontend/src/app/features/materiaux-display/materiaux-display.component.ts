@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { Materiau } from '../../model/Materiau';
 import { DataTablesResponse } from '../../model/DataTablesResponse';
 import { MateriauService } from '../../services/materiau.service';
-import { faPlus, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faCheckCircle, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -18,6 +18,7 @@ import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 export class MateriauxDisplayComponent implements OnInit {
   faCheckCircle = faCheckCircle;
   faPlus = faPlus;
+  faEdit = faEdit;
 
   tsMateriaux: Materiau[];
   materiaux: Materiau[];
@@ -30,13 +31,14 @@ export class MateriauxDisplayComponent implements OnInit {
   pageSize = 10;
 
   constructor(private materiauService: MateriauService, private compositionservice: CompositionService, config: NgbPaginationConfig) {
-    config.size = 'sm';
+    // config.size = 'sm';
     config.boundaryLinks = true;
    }
 
   ngOnInit(): void {
     this.materiauService.getAll().subscribe(resp => {
       this.materiaux = resp;
+      this.tsMateriaux = resp;
     });
     this.compositionservice.currentElements.subscribe(resp => {
       this.eltSelected = new ElementComposition();
@@ -56,15 +58,15 @@ export class MateriauxDisplayComponent implements OnInit {
     elt.prixUnitaire = materiau.prixUnitaire / 1000;
     elt.quantite = this.quantiteElt;
     this.materiauComposition.push(elt);
-    console.log(this.materiauComposition);
-    // this.compositionservice.recuperationElements(this.tigeComposition);
     this.compositionservice.recuperationElements(elt);
   }
 
-  private constructionMateriaux(tsMateriaux: Materiau[], size: number): Materiau[]{
-    for (let index = 0; index < size; index++) {
-      this.materiaux.push(tsMateriaux[index]);
-    }
-    return this.materiaux;
+  onChangeResearch(e: any): void{
+    this.materiaux = [];
+    this.tsMateriaux.forEach(t => {
+      if (t.nom.toLowerCase().startsWith(e.target.value.toLowerCase())){
+        this.materiaux.push(t);
+      }
+    });
   }
 }

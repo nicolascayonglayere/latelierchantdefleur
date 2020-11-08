@@ -21,6 +21,7 @@
                     </ul>
                 </div>
             </div>
+            <div class="card-footer text-muted">Nombre total de tiges : {{qteTigeTot}}</div>
         </div>
         <div class="card-group">
             <div class="card">
@@ -34,7 +35,7 @@
                 <div class="card-body">
                     <form class="form-inline" (ngSubmit)="onSubmitTempsTravail(f)" #f="ngForm">
                         <div class="form-group">
-                            <input type="text" name="tempsTravail" value="{{tempsTravail}}" ngModel id="inputTpsTravail"/>
+                            <input type="number" name="tempsTravail" value="{{tempsTravail}}" ngModel id="inputTpsTravail"/>
                         </div>
                         <button class="btn-primary" type="submit">
                             <fa-icon [icon]="faCheckCircle"></fa-icon>
@@ -72,7 +73,7 @@
         </div>
     </div>
 <!-- </div> -->
-<!-- <router-outlet (tigeCompositionEvent)="addElement($event)"></router-outlet> -->
+<router-outlet></router-outlet>
 
 <ng-template #contentTauxHoraire let-modal>
     <div class="modal-header">

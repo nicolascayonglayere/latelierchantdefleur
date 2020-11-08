@@ -9,4 +9,5 @@ public class TigeRest {
     private String nom;
     private String nomLatin;
     private Integer prixUnitaire;
+    private FournisseurRest fournisseurRest;
 }

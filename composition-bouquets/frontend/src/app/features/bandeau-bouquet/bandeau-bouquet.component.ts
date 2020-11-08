@@ -27,11 +27,12 @@ export class BandeauBouquetComponent implements OnInit {
   tauxHoraire: number;
   margeActuelle: number;
   tvaActuelle: number;
-  tiges: Tige[];
-  materiaux: Materiau[] = [];
+  // tiges: Tige[];
+  // materiaux: Materiau[] = [];
 
-  tigesCompo: Tige[] = [];
+  // tigesCompo: Tige[] = [];
   elementCompo: any[] = [];
+  qteTigeTot: number = 0;
 
   messageModifOk: boolean = false;
   isCollapsed = false;
@@ -49,6 +50,9 @@ export class BandeauBouquetComponent implements OnInit {
     this.compositionService.currentElements.subscribe(resp => {
       if (resp.id){
         this.elementCompo.push(resp);
+        if (resp.type === 'TIGE'){
+          this.qteTigeTot = this.qteTigeTot + resp.quantite;
+        }
         this.coutIntrant = this.calculCoutIntrant(this.elementCompo);
         this.coutRevient = this.calculCoutRevient(this.coutIntrant, this.tempsTravail);
         this.coutMarge = this.calculMarge(this.coutRevient);
@@ -130,6 +134,9 @@ onClickRemoveElt(element: ElementComposition){
   this.elementCompo = this.elementCompo.filter(e => e !== element);
   console.log(this.elementCompo);
   if (this.elementCompo.length > 0){
+    if (element.type === 'TIGE'){
+      this.qteTigeTot = this.qteTigeTot - element.quantite;
+    }
     this.coutIntrant = this.calculCoutIntrant(this.elementCompo);
     this.coutRevient = this.calculCoutRevient(this.coutIntrant, this.tempsTravail);
     this.coutMarge = this.calculMarge(this.coutRevient);
@@ -140,6 +147,7 @@ onClickRemoveElt(element: ElementComposition){
     this.coutMarge = 0;
     this.coutTva = 0;
     this.tempsTravail = 0;
+    this.qteTigeTot = 0;
   }
 }
 
@@ -150,6 +158,7 @@ onClikResetCompo(){
   this.coutMarge = 0;
   this.coutTva = 0;
   this.tempsTravail = 0;
+  this.qteTigeTot = 0;
 }
 
 }

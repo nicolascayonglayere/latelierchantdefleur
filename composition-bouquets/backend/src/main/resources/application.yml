@@ -15,3 +15,13 @@ spring:
 server:
   port: 8181
 
+logging:
+  group.rest: org.springframework.web, org.springframework.http
+  level:
+    #    rest: trace
+    #    web: TRACE
+    org.springframework:
+      web: trace
+      http: trace
+      security: INFO
+

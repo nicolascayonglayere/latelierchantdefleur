@@ -22,4 +22,7 @@ public class Tige implements Serializable {
     private Integer prixUnitaire;
     @ManyToMany(mappedBy = "tiges")
     private List<Composition> compositions;
+    @ManyToOne
+    @JoinColumn(name="fournisseur_id", nullable = false)
+    private Fournisseur fournisseur;
 }
