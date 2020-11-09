@@ -1,6 +1,6 @@
 import { FournisseurService } from './../../services/fournisseur.service';
 import { Fournisseur } from './../../model/Fournisseur';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MateriauService } from './../../services/materiau.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -42,7 +42,7 @@ export class MateriauEditComponent implements OnInit {
         });
       }
     });
-    this.fournisseurService.getAll().subscribe(resp =>{
+    this.fournisseurService.getAll().subscribe(resp => {
       this.fournisseurs = resp;
     });
   }
@@ -51,9 +51,9 @@ export class MateriauEditComponent implements OnInit {
     this.formTitle = 'Creation d\'un nouveau materiau',
     // this.tigeForm = this.formBuilder.group({
     this.materiauForm = new FormGroup({
-      'nom': new FormControl(''),
-      'prixUnitaire': new FormControl(0),
-      'fournisseur': new FormControl(this.fournisseurs)
+      'nom': new FormControl('', Validators.required),
+      'prixUnitaire': new FormControl(0, [Validators.required, Validators.min(0)]),
+      'fournisseur': new FormControl(this.fournisseurs, Validators.required)
     });
   }
 
@@ -61,9 +61,9 @@ export class MateriauEditComponent implements OnInit {
     this.formTitle = 'Modification d\'un materiau existant : ' + this.materiauEdit.nom,
     // this.tigeForm = this.formBuilder.group({
     this.materiauForm = new FormGroup({
-      'nom': new FormControl(this.materiauEdit.nom),
-      'prixUnitaire': new FormControl(this.materiauEdit.prixUnitaire),
-      'fournisseur': new FormControl(this.materiauEdit.fournisseurRest)
+      'nom': new FormControl(this.materiauEdit.nom, Validators.required),
+      'prixUnitaire': new FormControl(this.materiauEdit.prixUnitaire, [Validators.required, Validators.min(0)]),
+      'fournisseur': new FormControl(this.materiauEdit.fournisseurRest, Validators.required)
     });
   }
 

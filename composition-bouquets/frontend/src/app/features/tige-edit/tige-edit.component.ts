@@ -2,7 +2,7 @@ import { Fournisseur } from './../../model/Fournisseur';
 import { FournisseurService } from './../../services/fournisseur.service';
 import { TigeService } from './../../services/tige.service';
 import { Tige } from './../../model/Tige';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -53,10 +53,10 @@ export class TigeEditComponent implements OnInit {
     // this.tigeForm = this.formBuilder.group({
     this.tigeForm = new FormGroup({
       // 'id': new FormControl(0),
-      'nom': new FormControl(''),
+      'nom': new FormControl('', Validators.required),
       'nomLatin': new FormControl(''),
-      'prixUnitaire': new FormControl(0),
-      'fournisseur': new FormControl(this.fournisseurs)
+      'prixUnitaire': new FormControl(0, [Validators.required, Validators.min(0)]),
+      'fournisseur': new FormControl(this.fournisseurs, Validators.required)
     });
   }
 
@@ -65,10 +65,10 @@ export class TigeEditComponent implements OnInit {
     // this.tigeForm = this.formBuilder.group({
     this.tigeForm = new FormGroup({
       // 'id': new FormControl(this.tigeEdit.id),
-      'nom': new FormControl(this.tigeEdit.nom),
+      'nom': new FormControl(this.tigeEdit.nom, Validators.required),
       'nomLatin': new FormControl(this.tigeEdit.nomLatin),
-      'prixUnitaire': new FormControl(this.tigeEdit.prixUnitaire),
-      'fournisseur': new FormControl(this.tigeEdit.fournisseurRest.nom)
+      'prixUnitaire': new FormControl(this.tigeEdit.prixUnitaire, [Validators.required, Validators.min(0)]),
+      'fournisseur': new FormControl(this.tigeEdit.fournisseurRest.nom, Validators.required)
     });
   }
 

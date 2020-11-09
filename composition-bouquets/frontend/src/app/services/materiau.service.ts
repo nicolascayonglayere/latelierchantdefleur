@@ -14,27 +14,27 @@ export class MateriauService {
   constructor(private httpClient: HttpClient) { }
 
   getAll(): Observable<Materiau[]> {
-    return this.httpClient.get<Materiau[]>(rootUrl+'/');
+    return this.httpClient.get<Materiau[]>(rootUrl + '/');
   }
 
   getAllDataTablesMateriaux(dataTablesParameters: any): Observable<DataTablesResponse> {
     // const params: HttpParams;
     // params.set('')
-    return this.httpClient.get<DataTablesResponse>(rootUrl+'/datatables');
+    return this.httpClient.get<DataTablesResponse>(rootUrl + '/datatables');
   }
 
   getById(id: number): Observable<Materiau>{
-    return this.httpClient.get<Materiau>(rootUrl+'/'+id);
+    return this.httpClient.get<Materiau>(rootUrl + '/' + id);
   }
 
-  create(materiau: Materiau) : void {
-    this.httpClient.post(rootUrl + '/' + materiau.id + '/edit', materiau).subscribe(resp =>{
+  create(materiau: Materiau): void {
+    this.httpClient.post(rootUrl + '/' + materiau.id + '/edit', materiau).subscribe(resp => {
       console.log('create succes', resp);
     });
   }
 
   update(materiau: Materiau): void {
-    this.httpClient.put(rootUrl + '/' + materiau.id + '/edit', materiau).subscribe(resp =>{
+    this.httpClient.put(rootUrl + '/' + materiau.id + '/edit', materiau).subscribe(resp => {
       console.log('update succes', resp);
     });
   }

@@ -1,3 +1,4 @@
+import { Composition } from './../../model/Composition';
 import { ElementComposition } from './../../model/ElementComposition';
 import { Component, Input, OnInit } from '@angular/core';
 import { Materiau } from 'src/app/model/Materiau';
@@ -159,6 +160,18 @@ onClikResetCompo(){
   this.coutTva = 0;
   this.tempsTravail = 0;
   this.qteTigeTot = 0;
+}
+
+onClickSaveComposition(){
+  const compositionToSave = new Composition();
+  compositionToSave.id = 0;
+  compositionToSave.dateCreation = new Date();
+  compositionToSave.dureeCreation = this.tempsTravail;
+  compositionToSave.prixUnitaire = this.coutTva;
+  compositionToSave.tiges = this.elementCompo.filter(e => e.type === 'TIGE');
+  compositionToSave.materiaux = this.elementCompo.filter(e => e.type === 'MATERIAU');
+  console.log(compositionToSave);
+  this.compositionService.save(compositionToSave);
 }
 
 }

@@ -43,7 +43,7 @@ public class MateriauController {
     @PostMapping("atelier-chant-de-fleur/materiaux/{id}/edit")
     public MateriauRest save(@RequestBody MateriauRest materiauRest){
         FournisseurDTO fournisseurDTO = this.fournisseurMapper.fromRestToDomain(materiauRest.getFournisseurRest());
-        MateriauDTO materiauDTO = this.materiauService.save(this.materiauMapper.fromRestToDomain(materiauRest, fournisseurDTO));
+        MateriauDTO materiauDTO = this.materiauService.save(this.materiauMapper.fromRestToDomainWithFournisseur(materiauRest, fournisseurDTO));
         FournisseurRest fournisseurRest = this.fournisseurMapper.fromDomainToRest(materiauDTO.getFournisseurDTO());
         return this.materiauMapper.fromDomainToRest(materiauDTO, fournisseurRest);
     }
@@ -51,7 +51,7 @@ public class MateriauController {
     @PutMapping("atelier-chant-de-fleur/materiaux/{id}/edit")
     public MateriauRest update(@RequestBody MateriauRest materiauRest){
         FournisseurDTO fournisseurDTO = this.fournisseurMapper.fromRestToDomain(materiauRest.getFournisseurRest());
-        MateriauDTO materiauDTO = this.materiauService.save(this.materiauMapper.fromRestToDomain(materiauRest, fournisseurDTO));
+        MateriauDTO materiauDTO = this.materiauService.save(this.materiauMapper.fromRestToDomainWithFournisseur(materiauRest, fournisseurDTO));
         FournisseurRest fournisseurRest = this.fournisseurMapper.fromDomainToRest(materiauDTO.getFournisseurDTO());
         return this.materiauMapper.fromDomainToRest(materiauDTO, fournisseurRest);
     }

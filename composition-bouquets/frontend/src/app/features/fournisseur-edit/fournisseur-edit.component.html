@@ -1,1 +1,46 @@
-<p>fournisseur-edit works!</p>
+<h3>{{formTitle}}</h3>
+<form [formGroup]="fournisseurForm" (ngSubmit)="onSubmitForm()" class="form">
+  <div class="form-group row">
+    <label for="nom" class="col-form-label col-sm-2">Nom</label>
+    <div class="col-sm-10">
+      <input type="text" id="nom" class="form-control " formControlName="nom" placeholder="Nom du fournisseur" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="siret" class="col-form-label col-sm-2">Numéro SIRET</label>
+    <div class="col-sm-10">
+      <input type="text" id="siret" class="form-control" formControlName="siret" placeholder="numéro SIRET">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="adresse" class="col-form-label col-sm-2">Adresse postale</label>
+    <div class="col-sm-10">
+      <input type="text" id="adresse" class="form-control" formControlName="adresse" placeholder="Adresse du fournisseur">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="codePostal" class="col-form-label col-sm-2">Code postal</label>
+    <div class="col-sm-10">
+      <input type="text" id="codePostal" class="form-control" formControlName="codePostal" placeholder="Code Postal">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="ville" class="col-form-label col-sm-2">Ville</label>
+    <div class="col-sm-10">
+      <input type="text" id="ville" class="form-control" formControlName="ville" placeholder="Ville">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="email" class="col-form-label col-sm-2">Adresse mail</label>
+    <div class="col-sm-10">
+      <input type="email" id="codePostal" class="form-control" formControlName="codePostal" placeholder="Email">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="telephone" class="col-form-label col-sm-2">Numéro de téléphone</label>
+    <div class="col-sm-10">
+      <input type="text" id="telephone" class="form-control" formControlName="telephone" placeholder="Telephone">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="fournisseurForm.invalid">Soumettre</button>
+</form>

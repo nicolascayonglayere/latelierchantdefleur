@@ -36,12 +36,21 @@ public class MateriauMapper {
         return materiau;
     }
 
-    public MateriauDTO fromRestToDomain(MateriauRest materiauRest, FournisseurDTO fournisseurDTO){
+    public MateriauDTO fromRestToDomainWithFournisseur(MateriauRest materiauRest, FournisseurDTO fournisseurDTO){
         return new MateriauDTO(
                 materiauRest.getId(),
                 materiauRest.getNom(),
                 materiauRest.getPrixUnitaire(),
                 fournisseurDTO
+        );
+    }
+
+    public MateriauDTO fromRestToDomainWithoutFournisseur(MateriauRest materiauRest){
+        return new MateriauDTO(
+                materiauRest.getId(),
+                materiauRest.getNom(),
+                materiauRest.getPrixUnitaire(),
+                null
         );
     }
 }

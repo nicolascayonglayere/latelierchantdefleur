@@ -1,0 +1,21 @@
+#researchBarComposition{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.btn-primary {
+  margin-left: 5px;
+}
+
+.form-control-sm {
+  width: 30%;
+}
+
+.list-group-item-heading{
+  text-align: center;
+}
+
+.list-group{
+  border: double;
+  margin-bottom: 2px;
+}

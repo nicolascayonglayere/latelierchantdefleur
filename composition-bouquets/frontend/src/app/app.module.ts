@@ -16,6 +16,7 @@ import { TigeEditComponent } from './features/tige-edit/tige-edit.component';
 import { MateriauEditComponent } from './features/materiau-edit/materiau-edit.component';
 import { FournisseursDisplayComponent } from './features/fournisseurs-display/fournisseurs-display.component';
 import { FournisseurEditComponent } from './features/fournisseur-edit/fournisseur-edit.component';
+import { CompositionsDisplayComponent } from './features/compositions-display/compositions-display.component';
 
 const appRoutes: Routes = [
   { path: 'atelier-chant-de-fleur/materiaux', component: MateriauxDisplayComponent },
@@ -23,7 +24,8 @@ const appRoutes: Routes = [
   { path: 'atelier-chant-de-fleur/tiges/edit/:id', component: TigeEditComponent },
   { path: 'atelier-chant-de-fleur/materiaux/edit/:id', component: MateriauEditComponent },
   { path: 'atelier-chant-de-fleur/fournisseurs', component: FournisseursDisplayComponent },
-  { path: 'atelier-chant-de-fleur/fournisseurs/edit/:id', component: FournisseurEditComponent }
+  { path: 'atelier-chant-de-fleur/fournisseurs/edit/:id', component: FournisseurEditComponent },
+  { path: 'atelier-chant-de-fleur/compositions', component: CompositionsDisplayComponent }
 ];
 
 @NgModule({
@@ -36,7 +38,8 @@ const appRoutes: Routes = [
     TigeEditComponent,
     MateriauEditComponent,
     FournisseursDisplayComponent,
-    FournisseurEditComponent
+    FournisseurEditComponent,
+    CompositionsDisplayComponent
   ],
   imports: [
     BrowserModule,
