@@ -1,13 +1,14 @@
+import { SnackbarSuccessComponent } from './../../layout/snackbar/snackbar-success/snackbar-success.component';
 import { Composition } from './../../model/Composition';
 import { ElementComposition } from './../../model/ElementComposition';
 import { Component, Input, OnInit } from '@angular/core';
-import { Materiau } from 'src/app/model/Materiau';
-import { Tige } from 'src/app/model/Tige';
 import { CoefficientVariableService } from '../../services/coefficient-variable.service';
 import { CompositionService } from '../../services/composition.service';
 import {faCheckCircle, faMinusCircle, faCaretDown, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-bandeau-bouquet',
@@ -15,6 +16,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./bandeau-bouquet.component.css']
 })
 export class BandeauBouquetComponent implements OnInit {
+  configSuccess: MatSnackBarConfig = {
+    panelClass: 'snack-bar-success',
+    duration: 1000,
+  };
+
+  configFailed: MatSnackBarConfig = {
+    panelClass: 'snack-bar-failed',
+    duration: 1000,
+  };
+
   faCheckCircle = faCheckCircle;
   faMinusCircle = faMinusCircle;
   faCaretDown = faCaretDown;
@@ -28,10 +39,7 @@ export class BandeauBouquetComponent implements OnInit {
   tauxHoraire: number;
   margeActuelle: number;
   tvaActuelle: number;
-  // tiges: Tige[];
-  // materiaux: Materiau[] = [];
 
-  // tigesCompo: Tige[] = [];
   elementCompo: any[] = [];
   qteTigeTot: number = 0;
 
@@ -40,7 +48,9 @@ export class BandeauBouquetComponent implements OnInit {
 
   constructor(private coefficientVariableService: CoefficientVariableService,
               private compositionService: CompositionService,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal,
+              private router: Router,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.coefficientVariableService.getAll().subscribe(resp => {
@@ -64,7 +74,7 @@ export class BandeauBouquetComponent implements OnInit {
 
   calculCoutIntrant(elt: ElementComposition[]): number{
     let coutIntrantCalcul = 0;
-    elt.forEach(function(e){
+    elt.forEach(e => {
       coutIntrantCalcul = coutIntrantCalcul + (e.prixUnitaire * e.quantite);
     });
     return coutIntrantCalcul;
@@ -82,7 +92,7 @@ export class BandeauBouquetComponent implements OnInit {
     return marge * this.tvaActuelle;
   }
 
-  onSubmitTempsTravail(form: NgForm) {
+  onSubmitTempsTravail(form: NgForm): void {
     this.tempsTravail = form.value['tempsTravail'];
     if (this.elementCompo.length > 0){
       this.coutIntrant = this.calculCoutIntrant(this.elementCompo);
@@ -92,12 +102,12 @@ export class BandeauBouquetComponent implements OnInit {
     }
 }
 
-openVerticallyCentered(content) {
+openVerticallyCentered(content): void {
   this.messageModifOk = false;
   this.modalService.open(content, { centered: true });
 }
 
-onSubmitTauxHoraire(form: NgForm) {
+onSubmitTauxHoraire(form: NgForm): void {
   this.tauxHoraire = form.value['tauxHoraire'];
   if (this.elementCompo.length > 0){
     this.coutIntrant = this.calculCoutIntrant(this.elementCompo);
@@ -108,7 +118,7 @@ onSubmitTauxHoraire(form: NgForm) {
   this.messageModifOk = true;
 }
 
-onSubmitMarge(form: NgForm) {
+onSubmitMarge(form: NgForm): void {
   this.margeActuelle = form.value['marge'];
   if (this.elementCompo.length > 0){
     this.coutIntrant = this.calculCoutIntrant(this.elementCompo);
@@ -119,7 +129,7 @@ onSubmitMarge(form: NgForm) {
   this.messageModifOk = true;
 }
 
-onSubmitTva(form: NgForm) {
+onSubmitTva(form: NgForm): void {
   this.tvaActuelle = form.value['tva'];
   if (this.elementCompo.length > 0){
     this.coutIntrant = this.calculCoutIntrant(this.elementCompo);
@@ -130,7 +140,7 @@ onSubmitTva(form: NgForm) {
   this.messageModifOk = true;
 }
 
-onClickRemoveElt(element: ElementComposition){
+onClickRemoveElt(element: ElementComposition): void{
   console.log(element);
   this.elementCompo = this.elementCompo.filter(e => e !== element);
   console.log(this.elementCompo);
@@ -152,7 +162,7 @@ onClickRemoveElt(element: ElementComposition){
   }
 }
 
-onClikResetCompo(){
+onClikResetCompo(): void{
   this.elementCompo = [];
   this.coutIntrant = 0;
   this.coutRevient = 0;
@@ -162,7 +172,7 @@ onClikResetCompo(){
   this.qteTigeTot = 0;
 }
 
-onClickSaveComposition(){
+onClickSaveComposition(): void{
   const compositionToSave = new Composition();
   compositionToSave.id = 0;
   compositionToSave.dateCreation = new Date();
@@ -170,8 +180,20 @@ onClickSaveComposition(){
   compositionToSave.prixUnitaire = this.coutTva;
   compositionToSave.tiges = this.elementCompo.filter(e => e.type === 'TIGE');
   compositionToSave.materiaux = this.elementCompo.filter(e => e.type === 'MATERIAU');
-  console.log(compositionToSave);
-  this.compositionService.save(compositionToSave);
+  this.compositionService.save(compositionToSave).subscribe(resp => {
+    this.snackBar.openFromComponent(SnackbarSuccessComponent, {
+      ...this.configSuccess,
+      data: 'Enregistrement effectué !'
+    });
+    this.router.navigate(['/atelier-chant-de-fleur', 'compositions']);
+  },
+  error => {
+    this.snackBar.openFromComponent(SnackbarSuccessComponent, {
+      ...this.configFailed,
+      data: 'Erreur lors de la sauvegarde !'
+    });
+  });
+
 }
 
 }

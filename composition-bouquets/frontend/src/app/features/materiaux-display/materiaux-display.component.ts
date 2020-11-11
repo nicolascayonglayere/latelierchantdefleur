@@ -1,3 +1,4 @@
+import { PageEvent } from '@angular/material/paginator';
 import { CompositionService } from './../../services/composition.service';
 import { ElementComposition } from './../../model/ElementComposition';
 import { NgForm } from '@angular/forms';
@@ -27,8 +28,14 @@ export class MateriauxDisplayComponent implements OnInit {
   materiauComposition: ElementComposition[] = [];
   eltSelected: ElementComposition;
   quantiteElt: number = 1;
-  page = 1;
-  pageSize = 10;
+
+  pageIndex:number = 0;
+page: PageEvent;// = 1;
+pageSize = 10;
+pageSizeOptions = [10, 25, 50];
+length: number;
+lowValue:number = 0;
+highValue:number = 50;
 
   constructor(private materiauService: MateriauService, private compositionservice: CompositionService, config: NgbPaginationConfig) {
     // config.size = 'sm';
@@ -39,6 +46,7 @@ export class MateriauxDisplayComponent implements OnInit {
     this.materiauService.getAll().subscribe(resp => {
       this.materiaux = resp;
       this.tsMateriaux = resp;
+      this.length = this.tsMateriaux.length;
     });
     this.compositionservice.currentElements.subscribe(resp => {
       this.eltSelected = new ElementComposition();
@@ -69,4 +77,11 @@ export class MateriauxDisplayComponent implements OnInit {
       }
     });
   }
+
+  getPaginatorData(event: PageEvent): PageEvent{
+    console.log(event);
+    this.lowValue = event.pageIndex * event.pageSize;
+    this.highValue = this.lowValue + event.pageSize;
+    return event;
+}
 }

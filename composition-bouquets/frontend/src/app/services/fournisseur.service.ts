@@ -20,17 +20,11 @@ export class FournisseurService {
     return this.httpClient.get<Fournisseur>(rootUrl + '/' + id);
   }
 
-  create(fournisseur: Fournisseur){
-    this.httpClient.post(rootUrl + '/' + fournisseur.id + '/edit', fournisseur)
-    .subscribe(resp => {
-      console.log('Create success ', fournisseur);
-    });
+  create(fournisseur: Fournisseur): Observable<Fournisseur>{
+    return this.httpClient.post<Fournisseur>(rootUrl + '/' + fournisseur.id + '/edit', fournisseur);
   }
 
-  update(fournisseur: Fournisseur){
-    this.httpClient.put(rootUrl + '/' + fournisseur.id + '/edit', fournisseur)
-    .subscribe(resp => {
-      console.log('Update success ', fournisseur);
-    });
+  update(fournisseur: Fournisseur): Observable<Fournisseur>{
+    return this.httpClient.put<Fournisseur>(rootUrl + '/' + fournisseur.id + '/edit', fournisseur);
   }
 }

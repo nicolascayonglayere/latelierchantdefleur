@@ -1,3 +1,4 @@
+import { PageEvent } from '@angular/material/paginator';
 import { CompositionService } from './../../services/composition.service';
 import { Component, OnInit } from '@angular/core';
 import { Composition } from 'src/app/model/Composition';
@@ -14,10 +15,15 @@ export class CompositionsDisplayComponent implements OnInit {
   faEdit = faEdit;
 
   ttesComposition: Composition[];
-  compositionResearch : Composition[];
+  compositionResearch: Composition[];
 
-  page = 1;
-  pageSize = 10;
+  pageIndex:number = 0;
+page: PageEvent;// = 1;
+pageSize = 10;
+pageSizeOptions = [10, 25, 50];
+length: number;
+lowValue:number = 0;
+highValue:number = 50;
 
   constructor(private compositionService: CompositionService, config: NgbPaginationConfig) {
     config.boundaryLinks = true;
@@ -26,6 +32,7 @@ export class CompositionsDisplayComponent implements OnInit {
   ngOnInit(): void {
     this.compositionService.getAll().subscribe(resp =>{
       this.ttesComposition = resp;
+      this.length = this.ttesComposition.length;
     });
   }
 
@@ -37,5 +44,12 @@ export class CompositionsDisplayComponent implements OnInit {
     //   }
     // });
   }
+
+  getPaginatorData(event: PageEvent): PageEvent{
+    console.log(event);
+    this.lowValue = event.pageIndex * event.pageSize;
+    this.highValue = this.lowValue + event.pageSize;
+    return event;
+}
 
 }

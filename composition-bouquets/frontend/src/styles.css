@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
 .dataTables_empty {
     display: none;
   }
@@ -33,6 +36,26 @@
   margin-left: 10px;
 }
 
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.snack-bar-success{
+  background: darkgreen;
+  text-align: center;
+  color: white;
+}
 
+.snack-bar-failed{
+  background: rebeccapurple;
+  text-align: center;
+  color: white;
+}
+
+.justify-content-between{
+  align-items: center;
+}
+
+.mat-paginator{
+  background: #edafb7;
+}
 

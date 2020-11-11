@@ -6,6 +6,7 @@ import { CompositionService} from '../../services/composition.service';
 import { ElementComposition } from 'src/app/model/ElementComposition';
 import { faPlus, faCheckCircle, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-tiges-display',
@@ -22,8 +23,15 @@ tiges: Tige[];
 tigeComposition: ElementComposition[] = [];
 eltSelected: ElementComposition;
 quantiteElt: number = 1;
-page = 1;
+
+pageIndex:number = 0;
+page: PageEvent;// = 1;
 pageSize = 10;
+pageSizeOptions = [10, 25, 50];
+length: number;
+lowValue:number = 0;
+highValue:number = 50;
+
 tigesTotal: Tige[];
 
   constructor(private tigeService: TigeService,
@@ -38,6 +46,7 @@ tigesTotal: Tige[];
       console.log(tiges);
       this.tiges = tiges;
       this.tigesTotal = tiges;
+      this.length = this.tigesTotal.length;
     });
     this.compositionservice.currentElements.subscribe(resp => {
       this.eltSelected = new ElementComposition();
@@ -69,4 +78,10 @@ tigesTotal: Tige[];
     });
   }
 
+  getPaginatorData(event: PageEvent): PageEvent{
+    console.log(event);
+    this.lowValue = event.pageIndex * event.pageSize;
+    this.highValue = this.lowValue + event.pageSize;
+    return event;
+}
 }

@@ -4,11 +4,13 @@
             <div class="card-header d-flex justify-content-between">
                 Composants
                 <div class="ml-auto">
-                  <button type="button" class="btn-primary" (click)="isCollapsed = !isCollapsed"
+                  <button mat-icon-button color="primary" type="button" (click)="isCollapsed = !isCollapsed"
                   [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample" id="btonExpand">
                     <fa-icon [icon]="faCaretDown"></fa-icon>
                   </button>
+                  <button mat-icon-button color="primary">
                   <fa-icon [icon]="faTrash" (click)="onClikResetCompo()"></fa-icon>
+                </button>
               </div>
             </div>
             <div id="collapseExample" [ngbCollapse]="isCollapsed">
@@ -37,7 +39,7 @@
                         <div class="form-group">
                             <input type="number" name="tempsTravail" value="{{tempsTravail}}" ngModel id="inputTpsTravail"/>
                         </div>
-                        <button class="btn-primary" type="submit">
+                        <button mat-icon-button color="primary" type="submit">
                             <fa-icon [icon]="faCheckCircle"></fa-icon>
                         </button>
                     </form>
@@ -50,7 +52,8 @@
                 <div class="card-title">{{coutRevient | number}}</div>
             </div>
             <div class="card-footer text-muted">
-                Taux horaire : {{tauxHoraire}} €/h <button type="button" class="btn-primary" (click)="openVerticallyCentered(contentTauxHoraire)">Modifier</button>
+                Taux horaire : {{tauxHoraire}} €/h
+                <button mat-raised-button color="primary" type="button" (click)="openVerticallyCentered(contentTauxHoraire)">Modifier</button>
             </div>
         </div>
         <div class="card">
@@ -59,7 +62,8 @@
                 <div class="card-title">{{coutMarge | number}}</div>
             </div>
             <div class="card-footer text-muted">
-                Marge actuelle : {{margeActuelle}} <button type="button" class="btn-primary" (click)="openVerticallyCentered(contentMarge)">Modifier</button>
+                Marge actuelle : {{margeActuelle}}
+                <button mat-raised-button color="primary" type="button" (click)="openVerticallyCentered(contentMarge)">Modifier</button>
             </div>
         </div>
         <div class="card">
@@ -68,10 +72,11 @@
                 <div class="card-title">{{coutTva | number}}</div>
             </div>
             <div class="card-footer text-muted">
-                TVA actuelle : {{tvaActuelle}} <button type="button" class="btn-primary" (click)="openVerticallyCentered(contentTva)">Modifier</button>
+                TVA actuelle : {{tvaActuelle}}
+                <button mat-raised-button color="primary" type="button" (click)="openVerticallyCentered(contentTva)">Modifier</button>
             </div>
         </div>
-        <button type="button" class="btn-primary" (click)="onClickSaveComposition()">Enregistrer la composition</button>
+        <button mat-raised-button color="primary" type="button" (click)="onClickSaveComposition()">Enregistrer la composition</button>
     </div>
 <!-- </div> -->
 <router-outlet></router-outlet>

@@ -19,8 +19,8 @@ export class CompositionService {
     this.elementsSource.next(element);
   }
 
-  save(composition: Composition){
-    this.httpClient.post(rootUrl + '/' + '0/edit', composition).subscribe(resp => console.log('Creation success ', resp));
+  save(composition: Composition): Observable<Composition>{
+    return this.httpClient.post<Composition>(rootUrl + '/' + '0/edit', composition);
   }
 
   getAll(): Observable<Composition[]>{

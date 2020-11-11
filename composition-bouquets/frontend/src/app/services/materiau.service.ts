@@ -27,15 +27,11 @@ export class MateriauService {
     return this.httpClient.get<Materiau>(rootUrl + '/' + id);
   }
 
-  create(materiau: Materiau): void {
-    this.httpClient.post(rootUrl + '/' + materiau.id + '/edit', materiau).subscribe(resp => {
-      console.log('create succes', resp);
-    });
+  create(materiau: Materiau): Observable<Materiau> {
+    return this.httpClient.post<Materiau>(rootUrl + '/' + materiau.id + '/edit', materiau);
   }
 
-  update(materiau: Materiau): void {
-    this.httpClient.put(rootUrl + '/' + materiau.id + '/edit', materiau).subscribe(resp => {
-      console.log('update succes', resp);
-    });
+  update(materiau: Materiau): Observable<Materiau> {
+    return this.httpClient.put<Materiau>(rootUrl + '/' + materiau.id + '/edit', materiau);
   }
 }

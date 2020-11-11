@@ -1,12 +1,17 @@
 <div class="row justify-content-between" id="researchBarFournisseur">
-  <button type="button" class="btn-primary btn-sm"  routerLink="/atelier-chant-de-fleur/fournisseurs/edit/0">Ajouter un nouveau fournisseur</button>
+  <button mat-raised-button color="primary" type="button" routerLink="/atelier-chant-de-fleur/fournisseurs/edit/0">Ajouter un nouveau fournisseur</button>
   <input type="text" class="form-control form-control-sm" name="searchBar" placeholder="Rechercher" (change)="onChangeResearch($event)"/>
-  <ngb-pagination [collectionSize]="tsFournisseurs?.length" [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+  <mat-paginator [length]="tsFournisseurs?.length"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="pageSizeOptions"
+               (page)="page = $event">
+</mat-paginator>
+  <!-- <ngb-pagination [collectionSize]="tsFournisseurs?.length" [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination> -->
 </div>
 
-<ul class="list-group" *ngFor="let fournisseur of tsFournisseurs | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+<ul class="list-group" *ngFor="let fournisseur of tsFournisseurs | slice: lowValue : highValue">
   <li class="list-group-item d-flex justify-content-between">
     {{ fournisseur.nom }} -- {{fournisseur?.adresse }} -- {{fournisseur?.email}} -- {{fournisseur?.telephone}}
-    <button class="btn-primary btn-sm" routerLink="/atelier-chant-de-fleur/fournisseurs/edit/{{fournisseur.id}}"><fa-icon [icon]="faEdit"></fa-icon></button>
+    <button mat-raised-button color="primary" routerLink="/atelier-chant-de-fleur/fournisseurs/edit/{{fournisseur.id}}"><fa-icon [icon]="faEdit"></fa-icon></button>
   </li>
 </ul>

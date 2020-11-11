@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Component } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { MenuNavigationComponent } from './features/menu-navigation/menu-navigation.component';
+import { MenuNavigationComponent } from './layout/menu-navigation/menu-navigation.component';
 import { TigesDisplayComponent } from './features/tiges-display/tiges-display.component';
 import { MateriauxDisplayComponent } from './features/materiaux-display/materiaux-display.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -17,6 +17,16 @@ import { MateriauEditComponent } from './features/materiau-edit/materiau-edit.co
 import { FournisseursDisplayComponent } from './features/fournisseurs-display/fournisseurs-display.component';
 import { FournisseurEditComponent } from './features/fournisseur-edit/fournisseur-edit.component';
 import { CompositionsDisplayComponent } from './features/compositions-display/compositions-display.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSelectModule} from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatListModule} from '@angular/material/list';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { SnackbarSuccessComponent } from './layout/snackbar/snackbar-success/snackbar-success.component';
+
 
 const appRoutes: Routes = [
   { path: 'atelier-chant-de-fleur/materiaux', component: MateriauxDisplayComponent },
@@ -39,7 +49,8 @@ const appRoutes: Routes = [
     MateriauEditComponent,
     FournisseursDisplayComponent,
     FournisseurEditComponent,
-    CompositionsDisplayComponent
+    CompositionsDisplayComponent,
+    SnackbarSuccessComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +60,15 @@ const appRoutes: Routes = [
     FontAwesomeModule,
     FormsModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatListModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

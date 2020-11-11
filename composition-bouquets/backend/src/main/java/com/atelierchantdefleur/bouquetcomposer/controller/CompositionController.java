@@ -13,6 +13,7 @@ import com.atelierchantdefleur.bouquetcomposer.model.rest.TigeRest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,7 @@ public class CompositionController {
     public List<CompositionRest> getAll(){
         List<CompositionDTO> compositionDTOS = this.compositionService.getAll();
         return compositionDTOS.stream()
+                .sorted(Comparator.comparing(CompositionDTO::getDateCreation).reversed())
                 .map(c -> this.compositionMapper.fromDomainToRest(
                         c,
                         c.getTiges().stream()

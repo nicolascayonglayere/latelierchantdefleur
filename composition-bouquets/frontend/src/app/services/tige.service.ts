@@ -20,15 +20,11 @@ export class TigeService {
     return this.httpClient.get<Tige>(rootUrl + '/' + id);
   }
 
-  create(tige: Tige): void {
-    this.httpClient.post(rootUrl + '/' + tige.id + '/edit', tige).subscribe(resp =>{
-      console.log('create succes', resp);
-    });
+  create(tige: Tige): Observable<Tige> {
+    return this.httpClient.post<Tige>(rootUrl + '/' + tige.id + '/edit', tige);
   }
 
-  update(tige: Tige): void {
-    this.httpClient.put(rootUrl + '/' + tige.id + '/edit', tige).subscribe(resp =>{
-      console.log('update success ', resp);
-    });
+  update(tige: Tige): Observable<Tige> {
+    return this.httpClient.put<Tige>(rootUrl + '/' + tige.id + '/edit', tige);
   }
 }

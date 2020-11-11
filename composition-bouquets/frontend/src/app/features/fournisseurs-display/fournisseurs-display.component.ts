@@ -1,3 +1,4 @@
+import { PageEvent } from '@angular/material/paginator';
 import { FournisseurService } from './../../services/fournisseur.service';
 import { Fournisseur } from './../../model/Fournisseur';
 import { Component, OnInit } from '@angular/core';
@@ -13,8 +14,14 @@ export class FournisseursDisplayComponent implements OnInit {
 
   faEdit = faEdit;
 
-  page = 1;
-  pageSize = 10;
+  pageIndex:number = 0;
+page: PageEvent;// = 1;
+pageSize = 10;
+pageSizeOptions = [10, 25, 50];
+length: number;
+lowValue:number = 0;
+highValue:number = 50;
+
 
   tsFournisseurs: Fournisseur[];
   fournisseursResearch: Fournisseur[];
@@ -27,6 +34,7 @@ export class FournisseursDisplayComponent implements OnInit {
     this.fournisseursResearch = [];
     this.fournisseurService.getAll().subscribe(resp =>{
       this.tsFournisseurs = resp;
+      this.length = this.tsFournisseurs.length;
     });
   }
 
@@ -38,5 +46,12 @@ export class FournisseursDisplayComponent implements OnInit {
       }
     });
   }
+
+  getPaginatorData(event: PageEvent): PageEvent{
+    console.log(event);
+    this.lowValue = event.pageIndex * event.pageSize;
+    this.highValue = this.lowValue + event.pageSize;
+    return event;
+}
 
 }
