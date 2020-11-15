@@ -10,12 +10,15 @@ const rootUrl = 'http://localhost:8181/atelier-chant-de-fleur/compositions';
 })
 export class CompositionService {
 
-  private elementsSource = new BehaviorSubject(new ElementComposition);
+  elementsSource = new BehaviorSubject(new ElementComposition());
   currentElements = this.elementsSource.asObservable();
+
+  allCompositionsSource = new BehaviorSubject([]);
+  currentAllCompositions = this.allCompositionsSource.asObservable();
 
   constructor(private httpClient: HttpClient) { }
 
-  recuperationElements(element: ElementComposition){
+  recuperationElements(element: ElementComposition): void{
     this.elementsSource.next(element);
   }
 
@@ -23,7 +26,9 @@ export class CompositionService {
     return this.httpClient.post<Composition>(rootUrl + '/' + '0/edit', composition);
   }
 
-  getAll(): Observable<Composition[]>{
-    return this.httpClient.get<Composition[]>(rootUrl + '/');
+  getAll(): void{
+    this.httpClient.get<Composition[]>(rootUrl + '/').subscribe(resp => {
+      this.allCompositionsSource.next(resp);
+    });
   }
 }

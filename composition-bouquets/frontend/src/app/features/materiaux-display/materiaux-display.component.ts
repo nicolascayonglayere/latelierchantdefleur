@@ -35,7 +35,7 @@ pageSize = 10;
 pageSizeOptions = [10, 25, 50];
 length: number;
 lowValue:number = 0;
-highValue:number = 50;
+highValue:number = 10;
 
   constructor(private materiauService: MateriauService, private compositionservice: CompositionService, config: NgbPaginationConfig) {
     // config.size = 'sm';
@@ -43,7 +43,8 @@ highValue:number = 50;
    }
 
   ngOnInit(): void {
-    this.materiauService.getAll().subscribe(resp => {
+    this.materiauService.getAll()
+    this.materiauService.currentAllMateriaux.subscribe(resp => {
       this.materiaux = resp;
       this.tsMateriaux = resp;
       this.length = this.tsMateriaux.length;

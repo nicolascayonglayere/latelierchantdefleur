@@ -6,9 +6,8 @@
     margin-right: 10px;
   }
 
-#inputTpsTravail {
-
-  width: 75%;
+.mat-form-field {
+  width: 30%;
 }
 
 #btonExpand{

@@ -20,7 +20,7 @@ pageSize = 10;
 pageSizeOptions = [10, 25, 50];
 length: number;
 lowValue:number = 0;
-highValue:number = 50;
+highValue:number = 10;
 
 
   tsFournisseurs: Fournisseur[];
@@ -32,7 +32,8 @@ highValue:number = 50;
 
   ngOnInit(): void {
     this.fournisseursResearch = [];
-    this.fournisseurService.getAll().subscribe(resp =>{
+    this.fournisseurService.getAll();
+    this.fournisseurService.currentAllFournisseur.subscribe(resp =>{
       this.tsFournisseurs = resp;
       this.length = this.tsFournisseurs.length;
     });

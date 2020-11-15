@@ -13,6 +13,5 @@ public class CompositionRest {
     private LocalDate dateCreation;
     private float dureeCreation;
     private float prixUnitaire;
-    private List<TigeRest> tiges;
-    private List<MateriauRest> materiaux;
+    private List<ElementCompositionRest> elements;
 }

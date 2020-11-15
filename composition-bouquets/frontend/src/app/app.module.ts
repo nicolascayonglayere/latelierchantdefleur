@@ -18,14 +18,18 @@ import { FournisseursDisplayComponent } from './features/fournisseurs-display/fo
 import { FournisseurEditComponent } from './features/fournisseur-edit/fournisseur-edit.component';
 import { CompositionsDisplayComponent } from './features/compositions-display/compositions-display.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatSelectModule} from '@angular/material/select';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatListModule} from '@angular/material/list';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 import { SnackbarSuccessComponent } from './layout/snackbar/snackbar-success/snackbar-success.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { CompositionAddDialogComponent } from './features/bandeau-bouquet/composition-add-dialog/composition-add-dialog.component';
 
 
 const appRoutes: Routes = [
@@ -36,6 +40,7 @@ const appRoutes: Routes = [
   { path: 'atelier-chant-de-fleur/fournisseurs', component: FournisseursDisplayComponent },
   { path: 'atelier-chant-de-fleur/fournisseurs/edit/:id', component: FournisseurEditComponent },
   { path: 'atelier-chant-de-fleur/compositions', component: CompositionsDisplayComponent }
+  // { path: '', redirectTo: 'atelier-chant-de-fleur/tiges', pathMatch: 'full' },
 ];
 
 @NgModule({
@@ -50,7 +55,8 @@ const appRoutes: Routes = [
     FournisseursDisplayComponent,
     FournisseurEditComponent,
     CompositionsDisplayComponent,
-    SnackbarSuccessComponent
+    SnackbarSuccessComponent,
+    CompositionAddDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +74,10 @@ const appRoutes: Routes = [
     MatInputModule,
     MatButtonModule,
     MatListModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatCardModule,
+    MatDialogModule,
+    NgxMaterialTimepickerModule.setLocale('fr-FR')
   ],
   providers: [],
   bootstrap: [AppComponent]

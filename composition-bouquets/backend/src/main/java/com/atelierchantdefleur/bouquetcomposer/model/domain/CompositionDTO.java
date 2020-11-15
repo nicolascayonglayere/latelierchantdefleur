@@ -19,20 +19,12 @@ public class CompositionDTO {
     private LocalDate dateCreation;
     private LocalTime dureeCreation;
     private Integer prixUnitaire;
-    private List<TigeDTO> tiges;
-    private List<MateriauDTO> materiaux;
+    private List<ElementCompositionDTO> elementsComposition;
 
-    public void addTige(TigeDTO tige){
-        if(Objects.isNull(this.tiges)){
-            this.tiges = new ArrayList<>();
+    public void addElement(ElementCompositionDTO elementCompositionDTO){
+        if(Objects.isNull(this.elementsComposition)){
+            this.elementsComposition = new ArrayList<>();
         }
-        this.tiges.add(tige);
-    }
-
-    public void addMateriau(MateriauDTO materiau){
-        if(Objects.isNull(this.materiaux)){
-            this.materiaux = new ArrayList<>();
-        }
-        this.materiaux.add(materiau);
+        this.elementsComposition.add(elementCompositionDTO);
     }
 }

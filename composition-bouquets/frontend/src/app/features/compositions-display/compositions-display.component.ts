@@ -23,14 +23,15 @@ pageSize = 10;
 pageSizeOptions = [10, 25, 50];
 length: number;
 lowValue:number = 0;
-highValue:number = 50;
+highValue:number = 10;
 
   constructor(private compositionService: CompositionService, config: NgbPaginationConfig) {
     config.boundaryLinks = true;
   }
 
   ngOnInit(): void {
-    this.compositionService.getAll().subscribe(resp =>{
+    this.compositionService.getAll();
+    this.compositionService.currentAllCompositions.subscribe(resp => {
       this.ttesComposition = resp;
       this.length = this.ttesComposition.length;
     });
@@ -53,3 +54,5 @@ highValue:number = 50;
 }
 
 }
+
+

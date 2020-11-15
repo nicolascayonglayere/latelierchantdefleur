@@ -2,17 +2,17 @@ package com.atelierchantdefleur.bouquetcomposer.controller;
 
 import com.atelierchantdefleur.bouquetcomposer.domain.CompositionService;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.CompositionDTO;
+import com.atelierchantdefleur.bouquetcomposer.model.domain.ElementCompositionDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.MateriauDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.TigeDTO;
-import com.atelierchantdefleur.bouquetcomposer.model.mapper.CompositionMapper;
-import com.atelierchantdefleur.bouquetcomposer.model.mapper.FournisseurMapper;
-import com.atelierchantdefleur.bouquetcomposer.model.mapper.MateriauMapper;
-import com.atelierchantdefleur.bouquetcomposer.model.mapper.TigeMapper;
+import com.atelierchantdefleur.bouquetcomposer.model.mapper.*;
 import com.atelierchantdefleur.bouquetcomposer.model.rest.CompositionRest;
+import com.atelierchantdefleur.bouquetcomposer.model.rest.ElementCompositionRest;
 import com.atelierchantdefleur.bouquetcomposer.model.rest.TigeRest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,23 +26,19 @@ public class CompositionController {
     @Autowired
     private CompositionMapper compositionMapper;
     @Autowired
-    private TigeMapper tigeMapper;
-    @Autowired
-    private MateriauMapper materiauMapper;
-    @Autowired
-    private FournisseurMapper fournisseurMapper;
+    private ElementCompositionMapper elementCompositionMapper;
 
     @PostMapping("atelier-chant-de-fleur/compositions/{id}/edit")
     public CompositionRest save(@RequestBody CompositionRest compositionRest){
-        List<TigeDTO> tigeDTO = compositionRest.getTiges().stream()
-        .map(this.tigeMapper::fromRestToDomainWithoutFournisseur)
+        List<ElementCompositionDTO> elementCompositionDTOS = compositionRest.getElements().stream()
+                .map(this.elementCompositionMapper::fromRestToDomain)
                 .collect(Collectors.toList());
-        List<MateriauDTO> materiauDTOS = compositionRest.getMateriaux().stream()
-                .map(this.materiauMapper::fromRestToDomainWithoutFournisseur)
-                .collect(Collectors.toList());
-        CompositionDTO compositionDTOTosave = this.compositionMapper.fromRestToDomain(compositionRest, tigeDTO, materiauDTOS);
+        CompositionDTO compositionDTOTosave = this.compositionMapper.fromRestToDomain(compositionRest, elementCompositionDTOS);
         CompositionDTO compositionDTO = this.compositionService.save(compositionDTOTosave);
-        return this.compositionMapper.fromDomainToRest(compositionDTO, compositionRest.getTiges(), compositionRest.getMateriaux());
+        List<ElementCompositionRest> elementCompositionRests = new ArrayList<>(compositionDTO.getElementsComposition().stream()
+                .map(this.elementCompositionMapper::fromDomainToRest)
+                .collect(Collectors.toSet()));
+        return this.compositionMapper.fromDomainToRest(compositionDTO, elementCompositionRests);
     }
 
     @GetMapping("atelier-chant-de-fleur/compositions/")
@@ -52,12 +48,7 @@ public class CompositionController {
                 .sorted(Comparator.comparing(CompositionDTO::getDateCreation).reversed())
                 .map(c -> this.compositionMapper.fromDomainToRest(
                         c,
-                        c.getTiges().stream()
-                            .map(t -> this.tigeMapper.fromDomainToRest(t, this.fournisseurMapper.fromDomainToRest(t.getFournisseurDTO())))
-                            .collect(Collectors.toList()),
-                        c.getMateriaux().stream()
-                            .map((m -> this.materiauMapper.fromDomainToRest(m, this.fournisseurMapper.fromDomainToRest(m.getFournisseurDTO()))))
-                            .collect(Collectors.toList())))
+                        new ArrayList<>(c.getElementsComposition().stream().map(this.elementCompositionMapper::fromDomainToRest).collect(Collectors.toSet()))))
                 .collect(Collectors.toList());
     }
 }

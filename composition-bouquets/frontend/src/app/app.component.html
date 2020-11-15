@@ -3,8 +3,36 @@
     <h1>Outil de composition de bouquets</h1>
   </div>
   <app-menu-navigation></app-menu-navigation>
-  <!-- <div class="col-xs-12"> -->
-  <app-bandeau-bouquet></app-bandeau-bouquet>
-  <!-- </div> -->
-  <!-- <router-outlet></router-outlet> -->
+  <div class="d-flex">
+    <div class="col-sm-4" id="app-bandeau-bouquet" >
+      <app-bandeau-bouquet></app-bandeau-bouquet>
+      <!-- <button mat-icon-button color="primary" type="button" (click)="isCollapsed = !isCollapsed"
+      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample" id="btonExpand">
+      <fa-icon [icon]="faCaretLeft"></fa-icon>
+    </button> -->
+    </div>
+    <div class="col-sm-8">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <!-- <div class="d-flex"*ngIf="isCollapsed">
+    <div id="app-bandeau-bouquet" >
+      <app-bandeau-bouquet [ngbCollapse]="isCollapsed"></app-bandeau-bouquet>
+      <button mat-icon-button color="primary" type="button" (click)="isCollapsed = !isCollapsed"
+      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample" id="btonExpand">
+      <fa-icon [icon]="faCaretRight"></fa-icon>
+    </button>
+    </div>
+    <div class="col-sm-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div> -->
 </div>
+
+
+
+<div *ngIf="isCollapsed">
+  <router-outlet></router-outlet>
+</div>
+<fa-icon [icon]="faCaretRight" *ngIf="isCollapsed"></fa-icon>

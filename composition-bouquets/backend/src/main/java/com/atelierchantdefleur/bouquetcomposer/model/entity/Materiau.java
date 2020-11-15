@@ -9,18 +9,9 @@ import java.util.List;
 @Entity
 @Table(name="materiau")
 @Data
-public class Materiau implements Serializable {
+@PrimaryKeyJoinColumn(name = "element_id")
+public class Materiau extends ElementComposition implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-    @Column(name = "nom", nullable = false)
-    private String nom;
-    @Column(name="prix_unitaire")
-    private Integer prixUnitaire;
-    @ManyToMany(mappedBy = "materiaux")
-    private List<Composition> compositions;
     @ManyToOne
     @JoinColumn(name="fournisseur_id", nullable = false)
     private Fournisseur fournisseur;

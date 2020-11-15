@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Fournisseur } from '../model/Fournisseur';
@@ -9,11 +9,15 @@ const rootUrl = 'http://localhost:8181/atelier-chant-de-fleur/fournisseurs';
   providedIn: 'root'
 })
 export class FournisseurService {
+  allFournisseursSource = new BehaviorSubject([]);
+  currentAllFournisseur = this.allFournisseursSource.asObservable();
 
   constructor(private httpClient: HttpClient) { }
 
-  getAll(): Observable<Fournisseur[]>{
-    return this.httpClient.get<Fournisseur[]>(rootUrl + '/');
+  getAll(): void{
+    this.httpClient.get<Fournisseur[]>(rootUrl + '/').subscribe(resp =>{
+      this.allFournisseursSource.next(resp);
+    });
   }
 
   getById(id: number): Observable<Fournisseur>{

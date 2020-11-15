@@ -1,3 +1,4 @@
+import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { Component } from '@angular/core';
 import { Tige } from './model/Tige';
 
@@ -8,6 +9,9 @@ import { Tige } from './model/Tige';
 })
 export class AppComponent {
   title = 'frontend';
+  faCaretRight = faCaretRight;
+  faCaretLeft = faCaretLeft;
+  isCollapsed = false;
 
 
 }

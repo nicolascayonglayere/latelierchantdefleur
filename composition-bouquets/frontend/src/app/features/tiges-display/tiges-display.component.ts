@@ -30,7 +30,7 @@ pageSize = 10;
 pageSizeOptions = [10, 25, 50];
 length: number;
 lowValue:number = 0;
-highValue:number = 50;
+highValue:number = 10;
 
 tigesTotal: Tige[];
 
@@ -42,8 +42,8 @@ tigesTotal: Tige[];
                }
 
   ngOnInit(): void {
-    this.tigeService.getAll().subscribe(tiges => {
-      console.log(tiges);
+    this.tigeService.getAll();
+    this.tigeService.currentAllTiges.subscribe(tiges => {
       this.tiges = tiges;
       this.tigesTotal = tiges;
       this.length = this.tigesTotal.length;

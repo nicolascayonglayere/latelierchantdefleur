@@ -24,14 +24,8 @@ public class Composition implements Serializable {
     private Integer prixUnitaire;
     @ManyToMany
     @JoinTable(
-            name = "tige_composition",
+            name = "elements_composition",
             joinColumns = @JoinColumn(name = "composition_id"),
-            inverseJoinColumns = @JoinColumn(name = "tige_id"))
-    private List<Tige> tiges;
-    @ManyToMany
-    @JoinTable(
-            name = "materiau_composition",
-            joinColumns = @JoinColumn(name = "composition_id"),
-            inverseJoinColumns = @JoinColumn(name = "materiau_id"))
-    private List<Materiau> materiaux;
+            inverseJoinColumns = @JoinColumn(name = "elements_id"))
+    private List<ElementComposition> elements;
 }

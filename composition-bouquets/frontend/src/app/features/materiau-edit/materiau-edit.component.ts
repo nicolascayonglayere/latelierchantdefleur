@@ -55,7 +55,8 @@ export class MateriauEditComponent implements OnInit {
         });
       }
     });
-    this.fournisseurService.getAll().subscribe(resp => {
+    this.fournisseurService.getAll();
+    this.fournisseurService.currentAllFournisseur.subscribe(resp => {
       this.fournisseurs = resp;
     });
   }

@@ -1,10 +1,10 @@
 <div class="row justify-content-between" id="researchBarFournisseur">
   <button mat-raised-button color="primary" type="button" routerLink="/atelier-chant-de-fleur/fournisseurs/edit/0">Ajouter un nouveau fournisseur</button>
   <input type="text" class="form-control form-control-sm" name="searchBar" placeholder="Rechercher" (change)="onChangeResearch($event)"/>
-  <mat-paginator [length]="tsFournisseurs?.length"
-               [pageSize]="pageSize"
-               [pageSizeOptions]="pageSizeOptions"
-               (page)="page = $event">
+  <mat-paginator [length]="length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="page = getPaginatorData($event)">
 </mat-paginator>
   <!-- <ngb-pagination [collectionSize]="tsFournisseurs?.length" [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination> -->
 </div>

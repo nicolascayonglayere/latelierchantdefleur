@@ -1,7 +1,7 @@
 import { Tige } from './../model/Tige';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 const rootUrl = 'http://localhost:8181/atelier-chant-de-fleur/tiges';
 
@@ -10,10 +10,15 @@ const rootUrl = 'http://localhost:8181/atelier-chant-de-fleur/tiges';
 })
 export class TigeService {
 
+  allTigesSource = new BehaviorSubject([]);
+  currentAllTiges = this.allTigesSource.asObservable();
+
   constructor(private httpClient: HttpClient) { }
 
-  getAll(): Observable<Tige[]> {
-    return this.httpClient.get<Tige[]>(rootUrl + '/');
+  getAll(): void{
+    this.httpClient.get<Tige[]>(rootUrl + '/').subscribe(resp => {
+      this.allTigesSource.next(resp);
+    });
   }
 
   getById(id: number): Observable<Tige> {

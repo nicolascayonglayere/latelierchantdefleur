@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>Confirmer la sauvegarde de la composition</h1>
+<div mat-dialog-content>
+  Composition du {{ data.dateCreation | date: 'dd/MM/yyyy' }}
+  <br/>
+  Durée de composition :
+  {{data.dureeCreation | number }} heure -- Prix de vente : {{data.prixUnitaire | number}} €
+  <div class="row justify-content-between" *ngFor="let element of data.elements">
+
+      <ul>
+
+        <li class="">
+          {{element.quantite}} -- {{element.type}} -- {{element.nom}}
+        </li>
+      </ul>
+  </div>
+
+</div>
+<mat-dialog-actions align="end">
+  <button
+    mat-stroked-button
+    color="primary"
+    class="ripple"
+    [mat-dialog-close]="data"
+    [aria-label]="'Ajouter'"
+    cdkFocusInitial
+  >
+    Ajouter
+  </button>
+  <button
+    mat-stroked-button
+    class="ripple"
+    [mat-dialog-close]="'Cancel'"
+    [aria-label]="'Annuler'"
+  >
+    Annuler
+  </button>
+</mat-dialog-actions>

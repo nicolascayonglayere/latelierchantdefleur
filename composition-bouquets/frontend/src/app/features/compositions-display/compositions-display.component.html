@@ -2,10 +2,10 @@
   <!-- <button type="button" class="btn-primary btn-sm"  routerLink="/atelier-chant-de-fleur/compositions/edit/0">Ajouter un nouveau fournisseur</button> -->
   <input type="text" class="form-control form-control-sm" name="searchBar" placeholder="Rechercher"
     (change)="onChangeResearch($event)" />
-    <mat-paginator [length]="ttesComposition?.length"
+    <mat-paginator [length]="length"
     [pageSize]="pageSize"
     [pageSizeOptions]="pageSizeOptions"
-    (page)="page = $event">
+    (page)="page = getPaginatorData($event)">
   </mat-paginator>
   <!-- <ngb-pagination [collectionSize]="ttesComposition?.length" [(page)]="page" [maxSize]="5" [rotate]="true"
     [ellipses]="false" [boundaryLinks]="true"></ngb-pagination> -->
@@ -14,25 +14,19 @@
 <ul class="list-group"
   *ngFor="let composition of ttesComposition | slice: lowValue : highValue">
   <h4 class="list-group-item-heading">
-    Composition du {{ composition.dateCreation | date: 'dd/MM/yyyy' }} -- Durée de composition :
-    {{composition.dureeCreation }} heure -- Prix de vente : {{composition.prixUnitaire}} €
+    Composition du {{ composition.dateCreation | date: 'dd/MM/yyyy' }}
   </h4>
   <li class="list-group-item">
-    <div class="row justify-content-between">
-      <div>Tiges :
-        <ul *ngFor="let tige of composition.tiges">
+    Durée de composition :
+    {{composition.dureeCreation }} heure -- Prix de vente : {{composition.prixUnitaire}} €
+    <div class="row justify-content-between" *ngFor="let element of composition.elements">
+
+        <ul>
+
           <li class="">
-            {{tige.nom}} -- {{tige.fournisseurRest.nom}}
+            {{element.quantite}} -- {{element.type}} -- {{element.nom}}
           </li>
         </ul>
-      </div>
-      <div *ngIf="composition.materiaux.length > 0">Materiaux :
-        <ul class="" *ngFor="let materiau of composition.materiaux">
-          <li class="">
-            {{materiau.nom}} -- {{materiau.fournisseurRest.nom}}
-          </li>
-        </ul>
-      </div>
     </div>
     <!-- <button class="btn-primary btn-sm" routerLink="/atelier-chant-de-fleur/composition/edit/{{composition.id}}"><fa-icon [icon]="faEdit"></fa-icon></button> -->
   </li>
