@@ -51,8 +51,8 @@ public class FournisseurMapper {
         fournisseur.setEmail(Objects.isNull(fournisseurDTO.getEmail()) ? null : fournisseurDTO.getEmail());
         fournisseur.setTelephone(Objects.isNull(fournisseurDTO.getTelephone()) ? null : fournisseurDTO.getTelephone());
         fournisseur.setNumeroSiret(Objects.isNull(fournisseurDTO.getNumeroSiret()) ? null : fournisseurDTO.getNumeroSiret());
-        fournisseur.setTiges(new ArrayList<>());
-        fournisseur.setMateriaux(new ArrayList<>());
+//        fournisseur.setTiges(new ArrayList<>());
+//        fournisseur.setMateriaux(new ArrayList<>());
         return fournisseur;
     }
 
@@ -66,8 +66,8 @@ public class FournisseurMapper {
         fournisseurRest.setEmail(Objects.isNull(fournisseurDTO.getEmail()) ? null : fournisseurDTO.getEmail());
         fournisseurRest.setTelephone(Objects.isNull(fournisseurDTO.getTelephone()) ? null : fournisseurDTO.getTelephone());
         fournisseurRest.setNumeroSiret(Objects.isNull(fournisseurDTO.getNumeroSiret()) ? null : fournisseurDTO.getNumeroSiret());
-        fournisseurRest.setTiges(new ArrayList<>());
-        fournisseurRest.setMateriaux(new ArrayList<>());
+//        fournisseurRest.setTiges(new ArrayList<>());
+//        fournisseurRest.setMateriaux(new ArrayList<>());
         return fournisseurRest;
     }
 }

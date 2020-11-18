@@ -38,6 +38,10 @@ public class CompositionController {
         List<ElementCompositionRest> elementCompositionRests = new ArrayList<>(compositionDTO.getElementsComposition().stream()
                 .map(this.elementCompositionMapper::fromDomainToRest)
                 .collect(Collectors.toSet()));
+        elementCompositionRests.stream()
+//                .sorted(Comparator.comparing(ElementCompositionRest::getNom))
+                .sorted(Comparator.comparing(ElementCompositionRest::getType))
+                .collect(Collectors.toList());
         return this.compositionMapper.fromDomainToRest(compositionDTO, elementCompositionRests);
     }
 

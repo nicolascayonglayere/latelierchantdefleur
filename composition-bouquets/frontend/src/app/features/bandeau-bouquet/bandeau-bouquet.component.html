@@ -4,9 +4,10 @@
     <div class="ml-auto">
       <button mat-icon-button color="primary" type="button" (click)="isCollapsed = !isCollapsed"
         [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample" id="btonExpand">
-        <fa-icon [icon]="faCaretDown"></fa-icon>
+        <fa-icon [icon]="faAngleDoubleDown" *ngIf="isCollapsed" matTooltip="Afficher la composition"></fa-icon>
+        <fa-icon [icon]="faAngleDoubleUp" *ngIf="!isCollapsed" matTooltip="Masquer la composition"></fa-icon>
       </button>
-      <button mat-icon-button color="primary">
+      <button mat-icon-button color="primary" matTooltip="Remise à zéro">
         <fa-icon [icon]="faTrash" (click)="onClikResetCompo()"></fa-icon>
       </button>
     </div>
@@ -17,7 +18,7 @@
       <ul class="list-group list-group-flush" *ngFor="let tige of elementCompo">
         <li class="list-group-item d-flex">
           <span class="textCompo">{{tige.quantite}} {{tige.nom}} -- prix unitaire : {{tige.prixUnitaire}} €</span>
-          <fa-icon [icon]="faMinusCircle" (click)="onClickRemoveElt(tige)" class="ml-auto"></fa-icon>
+          <fa-icon [icon]="faMinusCircle" (click)="onClickRemoveElt(tige)" class="ml-auto" matTooltip="Retirer l'élément de la composition"></fa-icon>
         </li>
       </ul>
     </div>
@@ -27,7 +28,7 @@
 </div>
 
 <div class="card">
-  <div class="card-header">COUT INTRANTS</div>
+  <div class="card-header">COUT TOTAL ELEMENTS</div>
   <div class="card-body">
     <div class="card-title">{{coutIntrant | number}}</div>
   </div>

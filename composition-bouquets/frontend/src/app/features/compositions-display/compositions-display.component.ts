@@ -1,3 +1,4 @@
+import { CompositionDisplay } from 'src/app/model/CompositionDisplay';
 import { PageEvent } from '@angular/material/paginator';
 import { CompositionService } from './../../services/composition.service';
 import { Component, OnInit } from '@angular/core';
@@ -14,7 +15,7 @@ export class CompositionsDisplayComponent implements OnInit {
 
   faEdit = faEdit;
 
-  ttesComposition: Composition[];
+  ttesComposition: CompositionDisplay[] = [];
   compositionResearch: Composition[];
 
   pageIndex:number = 0;
@@ -32,7 +33,7 @@ highValue:number = 10;
   ngOnInit(): void {
     this.compositionService.getAll();
     this.compositionService.currentAllCompositions.subscribe(resp => {
-      this.ttesComposition = resp;
+      resp.forEach(c => this.ttesComposition.push(this.constructCompoDisplay(c)));
       this.length = this.ttesComposition.length;
     });
   }
@@ -47,10 +48,21 @@ highValue:number = 10;
   }
 
   getPaginatorData(event: PageEvent): PageEvent{
-    console.log(event);
+    // console.log(event);
     this.lowValue = event.pageIndex * event.pageSize;
     this.highValue = this.lowValue + event.pageSize;
     return event;
+}
+
+private constructCompoDisplay(compo: Composition): CompositionDisplay {
+  const compoDisplay = new CompositionDisplay();
+  compoDisplay.id = compo.id;
+  compoDisplay.dateCreation = compo.dateCreation;
+  compoDisplay.dureeCreation = compo.dureeCreation;
+  compoDisplay.prixUnitaire = compo.prixUnitaire;
+  compoDisplay.tiges = compo.elements.filter(e => e.type === 'TIGE');
+  compoDisplay.materiaux = compo.elements.filter(e => e.type === 'MATERIAU');
+  return compoDisplay;
 }
 
 }

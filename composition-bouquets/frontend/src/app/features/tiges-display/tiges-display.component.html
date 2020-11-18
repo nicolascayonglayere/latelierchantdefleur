@@ -2,27 +2,28 @@
   <button mat-raised-button color="primary" type="button" routerLink="/atelier-chant-de-fleur/tiges/edit/0">Ajouter une nouvelle tige</button>
   <input type="text" class="form-control form-control-sm" name="searchBar" placeholder="Rechercher" (change)="onChangeResearch($event)" />
   <mat-paginator [length]="length"
-  [pageSize]="pageSize"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="page = getPaginatorData($event)">
-</mat-paginator>
-  <!-- <ngb-pagination [collectionSize]="tiges?.length" [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination> -->
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="page = getPaginatorData($event)">
+  </mat-paginator>
 </div>
 
-<ul class="list-group" *ngFor="let tige of tiges | slice: lowValue : highValue">
-  <li class="list-group-item d-flex justify-content-between">
-    {{ tige.nom }} -- {{ tige.nomLatin }} -- {{ tige.prixUnitaire / 100 }} €/unité -- Fournisseur : {{tige.fournisseurRest.nom}}
-    <form class="form-inline ml-auto" (ngSubmit)="onSubmitQuantite(f)" #f="ngForm">
-      <mat-form-field appearance="fill" id="select-mat-form-field">
-        <mat-label>quantité souhaitée</mat-label>
-        <input matInput type="number" name="quantite" [(ngModel)]="quantiteElt" />
-      </mat-form-field>
-      <button mat-icon-button color="primary" type="submit">
-          <fa-icon [icon]="faCheckCircle"></fa-icon>
-      </button>
-    </form>
-    <button mat-icon-button color="primary" (click)="onClickAjoutComposition(tige)"><fa-icon [icon]="faPlus" id="iconPlus"></fa-icon></button>
-    <button mat-icon-button color="primary" routerLink="/atelier-chant-de-fleur/tiges/edit/{{tige.id}}"><fa-icon [icon]="faEdit"></fa-icon></button>
-  </li>
-</ul>
+<div *ngIf="tiges.length > 0">
+  <ul class="list-group" *ngFor="let tige of tiges | slice: lowValue : highValue; let i = index">
+    <li class="list-group-item d-flex justify-content-between">
+      <div class="flex-grow-1">{{ tige.nom }} -- {{ tige.nomLatin }} -- {{ tige.prixUnitaire / 100 }} €/unité -- Fournisseur : {{tige.fournisseurRest.nom}}</div>
+      <div class="ml-auto">
+        <mat-form-field appearance="fill" id="select-mat-form-field">
+          <mat-label>quantité souhaitée</mat-label>
+          <input matInput type="number" name="quantite" [(ngModel)]="quantiteElt[i]" (click)="onClickDisabledOthers(i)" [disabled]="editing[i]" min="0"/>
+        </mat-form-field>
+
+      <button mat-icon-button color="primary" (click)="onClickAjoutComposition(tige, i)" [disabled]="editing[i]" matTooltip="Ajouter à la composition"><fa-icon [icon]="faPlus" id="iconPlus" ></fa-icon></button>
+      <button mat-icon-button color="primary" routerLink="/atelier-chant-de-fleur/tiges/edit/{{tige.id}}" [disabled]="editing[i]" matTooltip="Modifier la tige"><fa-icon [icon]="faEdit"></fa-icon></button>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="tiges.length === 0" class="alert alert-danger">Aucune tige enregistrée en base.</div>
 

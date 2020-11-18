@@ -10,24 +10,36 @@
   <!-- <ngb-pagination [collectionSize]="ttesComposition?.length" [(page)]="page" [maxSize]="5" [rotate]="true"
     [ellipses]="false" [boundaryLinks]="true"></ngb-pagination> -->
 </div>
+<div *ngIf="ttesComposition.length >0">
+  <ul class="list-group"
+    *ngFor="let composition of ttesComposition | slice: lowValue : highValue">
+    <h4 class="list-group-item-heading">
+      Composition du {{ composition.dateCreation | date: 'dd/MM/yyyy' }}
+    </h4>
+    <li class="list-group-item">
+      Durée de composition :
+      {{composition.dureeCreation }} heure -- Prix de vente : {{composition.prixUnitaire}} €
+      <div class="row justify-content-between">
+        <div>Tiges :
+          <ul *ngFor="let element of composition.tiges">
+            <li class="">
+              {{element.quantite}} -- {{element.type}} -- {{element.nom}}
+            </li>
+          </ul>
+        </div>
+        <div>Materiaux :
+          <ul *ngFor="let element of composition.materiaux">
 
-<ul class="list-group"
-  *ngFor="let composition of ttesComposition | slice: lowValue : highValue">
-  <h4 class="list-group-item-heading">
-    Composition du {{ composition.dateCreation | date: 'dd/MM/yyyy' }}
-  </h4>
-  <li class="list-group-item">
-    Durée de composition :
-    {{composition.dureeCreation }} heure -- Prix de vente : {{composition.prixUnitaire}} €
-    <div class="row justify-content-between" *ngFor="let element of composition.elements">
+            <li class="">
+              {{element.quantite}} -- {{element.type}} -- {{element.nom}}
+            </li>
+          </ul>
+        </div>
 
-        <ul>
+      </div>
+      <!-- <button class="btn-primary btn-sm" routerLink="/atelier-chant-de-fleur/composition/edit/{{composition.id}}"><fa-icon [icon]="faEdit"></fa-icon></button> -->
+    </li>
+  </ul>
+</div>
 
-          <li class="">
-            {{element.quantite}} -- {{element.type}} -- {{element.nom}}
-          </li>
-        </ul>
-    </div>
-    <!-- <button class="btn-primary btn-sm" routerLink="/atelier-chant-de-fleur/composition/edit/{{composition.id}}"><fa-icon [icon]="faEdit"></fa-icon></button> -->
-  </li>
-</ul>
+<div *ngIf="ttesComposition.length === 0" class="alert alert-danger">Aucune composition enregistrée en base.</div>

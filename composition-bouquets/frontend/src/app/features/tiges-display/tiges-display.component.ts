@@ -4,7 +4,7 @@ import { TigeService } from '../../services/tige.service';
 import { Tige } from '../../model/Tige';
 import { CompositionService} from '../../services/composition.service';
 import { ElementComposition } from 'src/app/model/ElementComposition';
-import { faPlus, faCheckCircle, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { PageEvent } from '@angular/material/paginator';
 
@@ -16,13 +16,12 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class TigesDisplayComponent implements OnInit {
   faPlus = faPlus;
-  faCheckCircle = faCheckCircle;
   faEdit = faEdit;
 
 tiges: Tige[];
 tigeComposition: ElementComposition[] = [];
 eltSelected: ElementComposition;
-quantiteElt: number = 1;
+quantiteElt: number[] = [];
 
 pageIndex:number = 0;
 page: PageEvent;// = 1;
@@ -34,11 +33,14 @@ highValue:number = 10;
 
 tigesTotal: Tige[];
 
+editing: boolean[] = [];
+
   constructor(private tigeService: TigeService,
               private compositionservice: CompositionService,
               config: NgbPaginationConfig) {
                 config.size = 'sm';
                 config.boundaryLinks = true;
+
                }
 
   ngOnInit(): void {
@@ -47,26 +49,31 @@ tigesTotal: Tige[];
       this.tiges = tiges;
       this.tigesTotal = tiges;
       this.length = this.tigesTotal.length;
+      for ( let x = 0, ln = this.length ; x < ln; x++){
+        this.editing[x] = false;
+        this.quantiteElt[x] = 1;
+      }
     });
     this.compositionservice.currentElements.subscribe(resp => {
       this.eltSelected = new ElementComposition();
       this.eltSelected = resp;
     });
+
   }
 
-  onClickAjoutComposition(tige: Tige): void {
+  onClickAjoutComposition(tige: Tige, index: number): void {
     const elt: ElementComposition = new ElementComposition();
     elt.id = tige.id;
     elt.nom = tige.nom;
     elt.type = 'TIGE';
     elt.prixUnitaire = tige.prixUnitaire / 100;
-    elt.quantite = this.quantiteElt;
+    elt.quantite = this.quantiteElt[index];
     this.tigeComposition.push(elt);
     this.compositionservice.recuperationElements(elt);
-  }
-
-  onSubmitQuantite(form: NgForm): void{
-    this.quantiteElt = form.value['quantite'];
+    for ( let x = 0, ln = this.length ; x < ln; x++){
+      this.editing[x] = false;
+      // this.quantiteElt[x] = 1;
+    }
   }
 
   onChangeResearch(e: any): void{
@@ -84,4 +91,12 @@ tigesTotal: Tige[];
     this.highValue = this.lowValue + event.pageSize;
     return event;
 }
+
+  onClickDisabledOthers(index: number): void{
+    for(let x = 0, ln = this.length ; x < ln; x++){
+      this.editing[x] = true;
+    }
+    this.editing[index] = false;
+
+  }
 }

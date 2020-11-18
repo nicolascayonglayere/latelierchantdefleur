@@ -15,6 +15,6 @@ public class FournisseurRest {
     private String ville;
     private String email;
     private String telephone;
-    private List<MateriauRest> materiaux;
-    private List<TigeRest> tiges;
+//    private List<MateriauRest> materiaux;
+//    private List<TigeRest> tiges;
 }

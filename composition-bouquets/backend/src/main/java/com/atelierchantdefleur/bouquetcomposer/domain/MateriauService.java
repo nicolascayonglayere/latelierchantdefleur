@@ -46,6 +46,7 @@ public class MateriauService {
         Fournisseur fournisseur = this.fournisseurMapper.fromDomainToEntity(materiauDTO.getFournisseurDTO());
         Materiau materiauToSave = this.materiauMapper.fromDomainToEntity(materiauDTO);
         materiauToSave.setFournisseur(fournisseur);
+        materiauToSave.setType("MATERIAU");
         Materiau materiau = this.materiauRepository.save(materiauToSave);
         return this.materiauMapper.fromEntityToDomain(materiau, this.fournisseurMapper.fromEntityToDomain(materiau.getFournisseur()));
     }

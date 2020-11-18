@@ -40,18 +40,18 @@ public class FournisseurController {
     public FournisseurRest getById(@PathVariable(name="id") Integer id){
         FournisseurDTO fournisseurDTO = this.fournisseurService.getById(id);
         FournisseurRest fournisseurRest = this.fournisseurMapper.fromDomainToRest(fournisseurDTO);
-        fournisseurRest.setTiges(
-                fournisseurDTO.getTiges().stream()
-                        .sorted(Comparator.comparing(TigeDTO::getNom))
-                        .map(t -> this.tigeMapper.fromDomainToRest(t, fournisseurRest))
-                        .collect(Collectors.toList())
-        );
-        fournisseurRest.setMateriaux(
-                fournisseurDTO.getMateriaux().stream()
-                        .sorted(Comparator.comparing(MateriauDTO::getNom))
-                        .map(m -> this.materiauMapper.fromDomainToRest(m, fournisseurRest))
-                        .collect(Collectors.toList())
-        );
+//        fournisseurRest.setTiges(
+//                fournisseurDTO.getTiges().stream()
+//                        .sorted(Comparator.comparing(TigeDTO::getNom))
+//                        .map(t -> this.tigeMapper.fromDomainToRest(t, fournisseurRest))
+//                        .collect(Collectors.toList())
+//        );
+//        fournisseurRest.setMateriaux(
+//                fournisseurDTO.getMateriaux().stream()
+//                        .sorted(Comparator.comparing(MateriauDTO::getNom))
+//                        .map(m -> this.materiauMapper.fromDomainToRest(m, fournisseurRest))
+//                        .collect(Collectors.toList())
+//        );
         return fournisseurRest;
     }
 
@@ -65,18 +65,18 @@ public class FournisseurController {
     public FournisseurRest update(@RequestBody FournisseurRest fournisseurRest){
         FournisseurDTO fournisseurDTO = this.fournisseurService.save(this.fournisseurMapper.fromRestToDomain(fournisseurRest));
         FournisseurRest fournisseurRestUpdate = this.fournisseurMapper.fromDomainToRest(fournisseurDTO);
-        fournisseurRestUpdate.setTiges(
-                fournisseurDTO.getTiges().stream()
-                        .sorted(Comparator.comparing(TigeDTO::getNom))
-                        .map(t -> this.tigeMapper.fromDomainToRest(t, fournisseurRestUpdate))
-                        .collect(Collectors.toList())
-        );
-        fournisseurRestUpdate.setMateriaux(
-                fournisseurDTO.getMateriaux().stream()
-                        .sorted(Comparator.comparing(MateriauDTO::getNom))
-                        .map(m -> this.materiauMapper.fromDomainToRest(m, fournisseurRestUpdate))
-                        .collect(Collectors.toList())
-        );
+//        fournisseurRestUpdate.setTiges(
+//                fournisseurDTO.getTiges().stream()
+//                        .sorted(Comparator.comparing(TigeDTO::getNom))
+//                        .map(t -> this.tigeMapper.fromDomainToRest(t, fournisseurRestUpdate))
+//                        .collect(Collectors.toList())
+//        );
+//        fournisseurRestUpdate.setMateriaux(
+//                fournisseurDTO.getMateriaux().stream()
+//                        .sorted(Comparator.comparing(MateriauDTO::getNom))
+//                        .map(m -> this.materiauMapper.fromDomainToRest(m, fournisseurRestUpdate))
+//                        .collect(Collectors.toList())
+//        );
         return fournisseurRestUpdate;
     }
 

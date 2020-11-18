@@ -45,6 +45,7 @@ public class TigeService {
         Fournisseur fournisseur = this.fournisseurMapper.fromDomainToEntity(tigeDTO.getFournisseurDTO());
         Tige tigeToSave = this.tigeMapper.fromDomainToEntity(tigeDTO);
         tigeToSave.setFournisseur(fournisseur);
+        tigeToSave.setType("TIGE");
         Tige tige = this.tigeRepository.save(tigeToSave);
         return this.tigeMapper.fromEntityToDomain(tige, this.fournisseurMapper.fromEntityToDomain(tige.getFournisseur()));
     }

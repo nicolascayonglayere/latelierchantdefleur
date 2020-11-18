@@ -79,13 +79,13 @@ export class FournisseurEditComponent implements OnInit {
     const formValue = this.fournisseurForm.value;
     const newFournisseur = new Fournisseur();
     newFournisseur.id = this.fournisseurEdit.id;
-    newFournisseur.nom = formValue['nom'];
-    newFournisseur.numeroSiret = formValue['siret'];
-    newFournisseur.adresse = formValue['adresse'];
-    newFournisseur.codePostal = formValue['codePostal'];
-    newFournisseur.ville = formValue['ville'];
-    newFournisseur.email = formValue['email'];
-    newFournisseur.telephone =  formValue['telephone'];
+    newFournisseur.nom = formValue.nom;
+    newFournisseur.numeroSiret = formValue.siret;
+    newFournisseur.adresse = formValue.adresse;
+    newFournisseur.codePostal = formValue.codePostal;
+    newFournisseur.ville = formValue.ville;
+    newFournisseur.email = formValue.email;
+    newFournisseur.telephone =  formValue.telephone;
     let fournisseurObs: Observable<Fournisseur>;
     if (newFournisseur.id === 0){
       fournisseurObs = this.fournisseurService.create(newFournisseur);

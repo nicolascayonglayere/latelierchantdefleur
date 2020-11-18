@@ -7,7 +7,7 @@ import { Composition } from './../../model/Composition';
 import { Component, Input, OnInit } from '@angular/core';
 import { CoefficientVariableService } from '../../services/coefficient-variable.service';
 import { CompositionService } from '../../services/composition.service';
-import {faCheckCircle, faMinusCircle, faCaretDown, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {faCheckCircle, faMinusCircle, faCaretDown, faTrash, faCaretUp, faAngleDoubleDown, faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
 import { FormBuilder, NgForm, Validators, FormGroup, FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
@@ -32,7 +32,10 @@ export class BandeauBouquetComponent implements OnInit {
 
   faCheckCircle = faCheckCircle;
   faMinusCircle = faMinusCircle;
+  faAngleDoubleDown = faAngleDoubleDown;
+  faAngleDoubleUp = faAngleDoubleUp;
   faCaretDown = faCaretDown;
+  faCaretUp = faCaretUp;
   faTrash = faTrash;
 
   coutIntrant: number = 0;

@@ -23,8 +23,8 @@ public class ElementCompositionMapper {
     public ElementCompositionDTO fromRestToDomain(ElementCompositionRest elementCompositionRest){
         return new ElementCompositionDTO(
         elementCompositionRest.getId(),
-        elementCompositionRest.getNom(),
         elementCompositionRest.getType(),
+        elementCompositionRest.getNom(),
         elementCompositionRest.getQuantite(),
         (int) (elementCompositionRest.getPrixUnitaire()*100));
     }
@@ -32,8 +32,8 @@ public class ElementCompositionMapper {
     public ElementCompositionDTO fromEntityToDomain(ElementComposition elementComposition, Long quantite){
         return new ElementCompositionDTO(
                 elementComposition.getId(),
-                elementComposition.getNom(),
                 elementComposition.getType(),
+                elementComposition.getNom(),
                 Integer.valueOf(quantite.toString()),
                 elementComposition.getPrixUnitaire());
     }

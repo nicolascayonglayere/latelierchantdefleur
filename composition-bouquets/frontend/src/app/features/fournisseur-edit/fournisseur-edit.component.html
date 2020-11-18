@@ -1,7 +1,6 @@
-<h3>{{formTitle}}</h3>
+<h3 class="titre-form">{{formTitle}}</h3>
 <form [formGroup]="fournisseurForm" (ngSubmit)="onSubmitForm()" class="form">
   <div class="form-group row">
-    <!-- <label for="nom" class="col-form-label col-sm-2">Nom</label> -->
     <div class="col-sm-12">
       <mat-form-field appearance="fill" id="select-mat-form-field">
         <mat-label>Nom</mat-label>
@@ -10,7 +9,6 @@
     </div>
   </div>
   <div class="form-group row">
-    <!-- <label for="siret" class="col-form-label col-sm-2">Numéro SIRET</label> -->
     <div class="col-sm-12">
       <mat-form-field appearance="fill" id="select-mat-form-field">
         <mat-label>Numéro SIRET</mat-label>
@@ -19,7 +17,6 @@
     </div>
   </div>
   <div class="form-group row">
-    <!-- <label for="adresse" class="col-form-label col-sm-2">Adresse postale</label> -->
     <div class="col-sm-12">
       <mat-form-field appearance="fill" id="select-mat-form-field">
         <mat-label>Adresse postale</mat-label>
@@ -28,7 +25,6 @@
     </div>
   </div>
   <div class="form-group row">
-    <!-- <label for="codePostal" class="col-form-label col-sm-2">Code postal</label> -->
     <div class="col-sm-12">
       <mat-form-field appearance="fill" id="select-mat-form-field">
         <mat-label>Code postal</mat-label>
@@ -37,7 +33,6 @@
     </div>
   </div>
   <div class="form-group row">
-    <!-- <label for="ville" class="col-form-label col-sm-2">Ville</label> -->
     <div class="col-sm-12">
       <mat-form-field appearance="fill" id="select-mat-form-field">
         <mat-label>Ville</mat-label>
@@ -46,7 +41,6 @@
     </div>
   </div>
   <div class="form-group row">
-    <!-- <label for="email" class="col-form-label col-sm-2">Adresse mail</label> -->
     <div class="col-sm-12">
       <mat-form-field appearance="fill" id="select-mat-form-field">
         <mat-label>Adresse mail</mat-label>
@@ -55,7 +49,6 @@
     </div>
   </div>
   <div class="form-group row">
-    <!-- <label for="telephone" class="col-form-label col-sm-2">Numéro de téléphone</label> -->
     <div class="col-sm-12">
       <mat-form-field appearance="fill" id="select-mat-form-field">
         <mat-label>Numéro de téléphone</mat-label>
@@ -64,5 +57,4 @@
     </div>
   </div>
   <button mat-raised-button color="primary" type="submit" [disabled]="fournisseurForm.invalid">Soumettre</button>
-  <!-- class="btn btn-primary"  -->
 </form>

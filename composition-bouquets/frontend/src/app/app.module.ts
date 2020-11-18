@@ -27,6 +27,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { SnackbarSuccessComponent } from './layout/snackbar/snackbar-success/snackbar-success.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { CompositionAddDialogComponent } from './features/bandeau-bouquet/composition-add-dialog/composition-add-dialog.component';
@@ -77,6 +78,7 @@ const appRoutes: Routes = [
     MatPaginatorModule,
     MatCardModule,
     MatDialogModule,
+    MatTooltipModule,
     NgxMaterialTimepickerModule.setLocale('fr-FR')
   ],
   providers: [],

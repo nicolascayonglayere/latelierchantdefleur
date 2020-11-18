@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { Materiau } from '../../model/Materiau';
 import { DataTablesResponse } from '../../model/DataTablesResponse';
 import { MateriauService } from '../../services/materiau.service';
-import { faPlus, faCheckCircle, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -17,7 +17,6 @@ import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
   providers: [NgbPaginationConfig]
 })
 export class MateriauxDisplayComponent implements OnInit {
-  faCheckCircle = faCheckCircle;
   faPlus = faPlus;
   faEdit = faEdit;
 
@@ -27,7 +26,7 @@ export class MateriauxDisplayComponent implements OnInit {
   dataTablesData: DataTablesResponse;
   materiauComposition: ElementComposition[] = [];
   eltSelected: ElementComposition;
-  quantiteElt: number = 1;
+  quantiteElt: number[] = [];
 
   pageIndex:number = 0;
 page: PageEvent;// = 1;
@@ -36,6 +35,8 @@ pageSizeOptions = [10, 25, 50];
 length: number;
 lowValue:number = 0;
 highValue:number = 10;
+
+editing: boolean[] = [];
 
   constructor(private materiauService: MateriauService, private compositionservice: CompositionService, config: NgbPaginationConfig) {
     // config.size = 'sm';
@@ -48,6 +49,10 @@ highValue:number = 10;
       this.materiaux = resp;
       this.tsMateriaux = resp;
       this.length = this.tsMateriaux.length;
+      for ( let x = 0, ln = this.length ; x < ln; x++){
+        this.editing[x] = false;
+        this.quantiteElt[x] = 1;
+      }
     });
     this.compositionservice.currentElements.subscribe(resp => {
       this.eltSelected = new ElementComposition();
@@ -55,19 +60,20 @@ highValue:number = 10;
     });
   }
 
-  onSubmitQuantite(form: NgForm): void{
-    this.quantiteElt = form.value['quantite'];
-  }
-
-  onClickAjoutComposition(materiau: Materiau): void {
+  onClickAjoutComposition(materiau: Materiau, index: number): void {
     const elt: ElementComposition = new ElementComposition();
     elt.id = materiau.id;
     elt.nom = materiau.nom;
     elt.type = 'MATERIAU';
     elt.prixUnitaire = materiau.prixUnitaire / 1000;
-    elt.quantite = this.quantiteElt;
+    elt.quantite = this.quantiteElt[index];
+    console.log(elt);
     this.materiauComposition.push(elt);
     this.compositionservice.recuperationElements(elt);
+    for ( let x = 0, ln = this.length ; x < ln; x++){
+      this.editing[x] = false;
+      // this.quantiteElt[x] = 1;
+    }
   }
 
   onChangeResearch(e: any): void{
@@ -84,5 +90,13 @@ highValue:number = 10;
     this.lowValue = event.pageIndex * event.pageSize;
     this.highValue = this.lowValue + event.pageSize;
     return event;
+}
+
+onClickDisabledOthers(index: number): void{
+  for(let x = 0, ln = this.length ; x < ln; x++){
+    this.editing[x] = true;
+  }
+  this.editing[index] = false;
+
 }
 }
