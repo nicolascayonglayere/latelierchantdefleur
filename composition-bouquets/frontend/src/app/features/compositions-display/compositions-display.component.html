@@ -1,5 +1,4 @@
 <div class="row justify-content-between" id="researchBarComposition">
-  <!-- <button type="button" class="btn-primary btn-sm"  routerLink="/atelier-chant-de-fleur/compositions/edit/0">Ajouter un nouveau fournisseur</button> -->
   <input type="text" class="form-control form-control-sm" name="searchBar" placeholder="Rechercher"
     (change)="onChangeResearch($event)" />
     <mat-paginator [length]="length"
@@ -7,18 +6,19 @@
     [pageSizeOptions]="pageSizeOptions"
     (page)="page = getPaginatorData($event)">
   </mat-paginator>
-  <!-- <ngb-pagination [collectionSize]="ttesComposition?.length" [(page)]="page" [maxSize]="5" [rotate]="true"
-    [ellipses]="false" [boundaryLinks]="true"></ngb-pagination> -->
 </div>
 <div *ngIf="ttesComposition.length >0">
   <ul class="list-group"
-    *ngFor="let composition of ttesComposition | slice: lowValue : highValue">
-    <h4 class="list-group-item-heading">
-      Composition du {{ composition.dateCreation | date: 'dd/MM/yyyy' }}
+    *ngFor="let composition of compositionResearch | slice: lowValue : highValue">
+    <h4 class="list-group-item-heading d-flex">
+      <div id="compo-descr">{{composition.nom}} composition du {{ composition.dateCreation | date: 'dd/MM/yyyy' }}</div>
+      <button mat-icon-button color="primary" type="submit" class="ml-auto" (click)="onClickAddImageDialog(composition)" matTooltip="Ajouter/Supprimer une image">
+        <fa-icon [icon]="faUpload"></fa-icon>
+      </button>
     </h4>
     <li class="list-group-item">
       Durée de composition :
-      {{composition.dureeCreation }} heure -- Prix de vente : {{composition.prixUnitaire}} €
+      {{composition.dureeCreation * 60 * 60 * 1000 | date:'HH:mm':'UTC' }} -- Prix de vente : {{composition.prixUnitaire}} € -- {{composition.qteImage}} photo
       <div class="row justify-content-between">
         <div>Tiges :
           <ul *ngFor="let element of composition.tiges">
@@ -27,7 +27,7 @@
             </li>
           </ul>
         </div>
-        <div>Materiaux :
+        <div *ngIf="composition.materiaux.length > 0">Materiaux :
           <ul *ngFor="let element of composition.materiaux">
 
             <li class="">

@@ -1,0 +1,67 @@
+<h1>Ajouter des images à la composition {{compo.nom}}</h1>
+<div>
+  <div id="compo-descr">Composition du {{ compo.dateCreation | date: 'dd/MM/yyyy' }} --
+    Durée de composition :
+    {{compo.dureeCreation * 60 * 60 * 1000 | date:'HH:mm' : 'UTC' }} -- Prix de vente : {{compo.prixUnitaire | number}} €
+  </div>
+
+
+  <div *ngIf="currentFile" class="progress">
+    <div
+      class="progress-bar progress-bar-info progress-bar-striped"
+      role="progressbar"
+      attr.aria-valuenow="{{ progress }}"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      [ngStyle]="{ width: progress + '%' }"
+    >
+      {{ progress }}%
+    </div>
+  </div>
+
+
+    <!-- <label class="btn btn-default"> -->
+
+    <!-- </label> -->
+  <div>
+    <mat-form-field appearance="fill">
+      <input matInput type="text" name="nom" placeholder="nom de l'image" [(ngModel)]="nomImg"/>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <input matInput type="text" name="description" placeholder="description" [(ngModel)]="description"/>
+    </mat-form-field>
+  </div>
+  <div class="d-flex" id="file-select">
+    <input type="file" (change)="selectFile($event)" />
+    <button mat-raised-button [disabled]="!selectedFiles" (click)="upload()"
+    color="primary"
+    class="ml-auto">
+      Upload
+    </button>
+  </div>
+
+
+  <!-- <div class="alert alert-light" role="alert">{{ message }}</div> -->
+  <div class="card-header">Images de la composition</div>
+  <div class="card-deck">
+
+    <ul
+      class="list-group list-group-flush"
+      *ngFor="let file of fileInfos"
+    >
+      <li class="card">
+        <img class="card-img-top" [src]= 'file.imgDisplay' id="img"/>
+        <div class="card-body">
+          <h5 class="card-title">{{ file.nom }}</h5>
+          <p class="card-text">{{file.description}}</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+          <p>SUPPRIMER</p>
+          <button mat-icon-button color="primary" matTooltip="Supprimer l'image" class="ml-auto">
+            <fa-icon [icon]="faTrash" (click)="onClikDeleteImage(file.id)"></fa-icon>
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

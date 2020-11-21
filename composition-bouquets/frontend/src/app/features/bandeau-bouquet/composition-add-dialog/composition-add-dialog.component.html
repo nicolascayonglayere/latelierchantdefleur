@@ -3,17 +3,17 @@
   Composition du {{ data.dateCreation | date: 'dd/MM/yyyy' }}
   <br/>
   Durée de composition :
-  {{data.dureeCreation | number }} heure -- Prix de vente : {{data.prixUnitaire | number}} €
+  {{data.dureeCreation * 60 * 60 * 1000 | date:'HH:mm' : 'UTC' }} -- Prix de vente : {{data.prixUnitaire | number}} €
   <div class="row justify-content-between" *ngFor="let element of data.elements">
-
       <ul>
-
         <li class="">
           {{element.quantite}} -- {{element.type}} -- {{element.nom}}
         </li>
       </ul>
   </div>
-
+  <mat-form-field appearance="fill">
+    <input matInput type="text" name="nom" placeholder="nom de la composition" [(ngModel)]="data.nom"/>
+  </mat-form-field>
 </div>
 <mat-dialog-actions align="end">
   <button

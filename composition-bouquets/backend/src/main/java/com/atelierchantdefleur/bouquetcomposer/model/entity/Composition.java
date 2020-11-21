@@ -16,6 +16,8 @@ public class Composition implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @Column(name="nom")
+    private String nom;
     @Column(name="date_creation", nullable = false)
     private LocalDate dateCreation;
     @Column(name="duree_creation", nullable = false)
@@ -28,4 +30,16 @@ public class Composition implements Serializable {
             joinColumns = @JoinColumn(name = "composition_id"),
             inverseJoinColumns = @JoinColumn(name = "elements_id"))
     private List<ElementComposition> elements;
+    @OneToMany(mappedBy = "composition")
+    private List<ImageComposition> images;
+
+    @Override
+    public String toString() {
+        return "Composition{" +
+                "id=" + id +
+                ", dateCreation=" + dateCreation +
+                ", dureeCreation=" + dureeCreation +
+                ", prixUnitaire=" + prixUnitaire +
+                '}';
+    }
 }

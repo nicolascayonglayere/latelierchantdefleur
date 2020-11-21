@@ -31,4 +31,8 @@ export class CompositionService {
       this.allCompositionsSource.next(resp);
     });
   }
+
+  getById(id: number): Observable<Composition>{
+    return this.httpClient.get<Composition>(rootUrl + '/' + id);
+  }
 }

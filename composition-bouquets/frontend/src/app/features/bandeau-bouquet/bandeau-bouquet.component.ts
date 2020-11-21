@@ -194,7 +194,6 @@ onClikResetCompo(): void{
 }
 
 onClickSaveComposition(): void{
-  console.log(this.elementCompo);
   const eltsCompoCopy = [];
   this.elementCompo.forEach(e => eltsCompoCopy.push(e));
   const compoDisplay = new Composition();
@@ -218,7 +217,6 @@ onClickSaveComposition(): void{
       });
     });
   compoDisplay.elements = eltList;
-  console.log(this.elementCompo);
   this.dialogRef = this.dialog.open(
     CompositionAddDialogComponent,
     {
@@ -233,6 +231,7 @@ onClickSaveComposition(): void{
       }
       const compositionToSave = new Composition();
       compositionToSave.id = 0;
+      compositionToSave.nom = result.nom;
       compositionToSave.dateCreation = new Date();
       compositionToSave.dureeCreation = this.tempsTravail;
       compositionToSave.prixUnitaire = this.coutTva;

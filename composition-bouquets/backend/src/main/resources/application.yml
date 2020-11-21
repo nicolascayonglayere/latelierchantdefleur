@@ -8,9 +8,18 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: false
+        use_sql_comments: true
+        format_sql: true
   h2:
     console:
       enabled: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
 
 server:
   port: 8181
@@ -24,4 +33,5 @@ logging:
       web: trace
       http: trace
       security: INFO
+    org.hibernate: info
 

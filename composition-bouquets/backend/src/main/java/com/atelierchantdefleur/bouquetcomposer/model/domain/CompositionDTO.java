@@ -16,15 +16,24 @@ import java.util.Objects;
 public class CompositionDTO {
 
     private Long id;
+    private String nom;
     private LocalDate dateCreation;
     private LocalTime dureeCreation;
     private Integer prixUnitaire;
     private List<ElementCompositionDTO> elementsComposition;
+    private List<ImageCompositionDTO> imagesComposition;
 
     public void addElement(ElementCompositionDTO elementCompositionDTO){
         if(Objects.isNull(this.elementsComposition)){
             this.elementsComposition = new ArrayList<>();
         }
         this.elementsComposition.add(elementCompositionDTO);
+    }
+
+    public void addImageComposition(ImageCompositionDTO imageCompositionDTO){
+        if(Objects.isNull(this.imagesComposition)){
+            this.imagesComposition = new ArrayList<>();
+        }
+        this.imagesComposition.add(imageCompositionDTO);
     }
 }
