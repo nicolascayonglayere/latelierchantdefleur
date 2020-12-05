@@ -11,7 +11,7 @@ public class CoefficientVariableController {
 
     @GetMapping("atelier-chant-de-fleur/coefficients")
     public CoefficientVariableRest getAll(){
-        return new CoefficientVariableRest(16, 300, 12);
+        return new CoefficientVariableRest(30, 30, 20);
     }
 
 }

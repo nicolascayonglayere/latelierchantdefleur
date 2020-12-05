@@ -1,4 +1,4 @@
-package com.atelierchantdefleur.bouquetcomposer.domain;
+package com.atelierchantdefleur.bouquetcomposer.service;
 
 import com.atelierchantdefleur.bouquetcomposer.model.domain.FournisseurDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.MateriauDTO;
@@ -10,7 +10,6 @@ import com.atelierchantdefleur.bouquetcomposer.repository.MateriauRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

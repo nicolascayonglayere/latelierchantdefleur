@@ -16,7 +16,7 @@ public class ElementCompositionMapper {
         elementCompositionRest.setNom(elementCompositionDTO.getNom());
         elementCompositionRest.setType(elementCompositionDTO.getType());
         elementCompositionRest.setQuantite(elementCompositionDTO.getQuantite());
-        elementCompositionRest.setPrixUnitaire(elementCompositionDTO.getPrixUnitaire() / 100);
+        elementCompositionRest.setPrixUnitaire(elementCompositionDTO.getPrixUnitaire()/100f);
         return elementCompositionRest;
     }
 
@@ -26,7 +26,7 @@ public class ElementCompositionMapper {
         elementCompositionRest.getType(),
         elementCompositionRest.getNom(),
         elementCompositionRest.getQuantite(),
-        (int) (elementCompositionRest.getPrixUnitaire()*100));
+        (int)elementCompositionRest.getPrixUnitaire()*100);
     }
 
     public ElementCompositionDTO fromEntityToDomain(ElementComposition elementComposition, Long quantite){

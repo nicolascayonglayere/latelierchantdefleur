@@ -6,11 +6,15 @@
     margin-right: 10px;
   }
 
-.mat-form-field {
+#select-mat-form-field {
   width: 30%;
 }
 
 #btonExpand{
   margin-left: 10px;
   margin-right: 10px;
+}
+
+#forfaits{
+  display: grid;
 }

@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>Confirmer la suppression de la composition</h1>
+<div mat-dialog-content>
+  {{data.compo.nom}} du {{ data.compo.dateCreation | date: 'dd/MM/yyyy' }}
+  <br/>
+  Durée de composition :
+  {{data.compo.dureeCreation * 60 * 60 * 1000 | date:'HH:mm' : 'UTC' }} -- Prix de vente : {{data.compo.prixUnitaire | number}} € -- TVA : {{data.compo.tva}} %
+
+  <div>
+    Attention ! Cette composition est présente dans les évènements suivants
+    <ul *ngFor="let evt of data.evts">
+      <li>{{evt.nom}} prévu le {{evt.datePrevue | date: 'dd/MM/yyyy'}}</li>
+    </ul>
+  </div>
+  Confirmer la suppression ?
+</div>
+<mat-dialog-actions align="end">
+  <button
+    mat-stroked-button
+    color="primary"
+    class="ripple"
+    [mat-dialog-close]="data"
+    [aria-label]="'Supprimer'"
+    cdkFocusInitial
+  >
+    Supprimer
+  </button>
+  <button
+    mat-stroked-button
+    class="ripple"
+    [mat-dialog-close]="'Cancel'"
+    [aria-label]="'Annuler'"
+  >
+    Annuler
+  </button>
+</mat-dialog-actions>

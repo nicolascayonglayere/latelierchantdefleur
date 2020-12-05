@@ -9,4 +9,5 @@ export class CompositionDisplay{
   tiges: ElementComposition[];
   materiaux: ElementComposition[];
   qteImage: number;
+  tva: number;
 }

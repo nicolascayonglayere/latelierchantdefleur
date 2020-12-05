@@ -1,0 +1,51 @@
+<h3 class="titre-form">{{formTitle}}</h3>
+<form [formGroup]="evtForm" (ngSubmit)="onSubmitForm()" class="form">
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <mat-form-field appearance="fill" id="select-mat-form-field">
+        <mat-label>Nom</mat-label>
+        <input matInput type="text" id="nom" formControlName="nom" placeholder="Nom de l'évènement" required>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <mat-form-field appearance="fill" id="nom-compo">
+        <input matInput [matDatepicker]="picker" placeholder="date prévue de l'évènement" formControlName="datePrevue" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <mat-form-field appearance="fill">
+        <mat-label>Forfait main d'oeuvre</mat-label>
+        <input matInput type="number" name="forfaitMo" placeholder="0 € TTC" formControlName="forfaitMo" (change)="onChangeCalculMo()" [(ngModel)]="forfaitMo"/>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <mat-form-field appearance="fill">
+        <mat-label>Forfait déplacement</mat-label>
+        <input matInput type="number" name="forfaitDplct" placeholder="0 € TTC" formControlName="forfaitDplct" (change)="onChangeCalculDplct()" [(ngModel)]="forfaitDplct"/>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div *ngIf="evenement.compositions.length > 0">
+    <h4>Compositions de l'évènement</h4>
+    <ul *ngFor="let element of compositionsEdit" class="list-group">
+      <li class="list-group-item d-flex">
+        {{element.nom}} -- {{element.prixUnitaire | number}} €
+        <fa-icon [icon]="faMinusCircle" (click)="onClickRemoveElt(element)" class="ml-auto" matTooltip="Retirer l'élément"></fa-icon>
+      </li>
+    </ul>
+  </div>
+  <div class="card-footer">Montant total facturé : {{mntCompoTot | number }} € dont {{mntCompoTva | number }} € de TVA</div>
+  <button mat-raised-button color="primary" type="submit" [disabled]="evtForm.invalid">Soumettre</button>
+</form>

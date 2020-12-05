@@ -9,16 +9,28 @@
 </div>
 <div *ngIf="ttesComposition.length >0">
   <ul class="list-group"
-    *ngFor="let composition of compositionResearch | slice: lowValue : highValue">
+    *ngFor="let composition of compositionResearch | slice: lowValue : highValue; let i = index">
     <h4 class="list-group-item-heading d-flex">
-      <div id="compo-descr">{{composition.nom}} composition du {{ composition.dateCreation | date: 'dd/MM/yyyy' }}</div>
-      <button mat-icon-button color="primary" type="submit" class="ml-auto" (click)="onClickAddImageDialog(composition)" matTooltip="Ajouter/Supprimer une image">
-        <fa-icon [icon]="faUpload"></fa-icon>
-      </button>
+      <div id="compo-descr">{{composition.nom}} -- composition du {{ composition.dateCreation | date: 'dd/MM/yyyy' }}</div>
+      <div class="ml-auto">
+        <a routerLink="/atelier-chant-de-fleur/compositions/{{composition.id}}" class="ml-auto" mat-icon-button color="primary" matTooltip="Détail de la composition">
+          <fa-icon [icon]="faInfoCircle" id="iconPlus" ></fa-icon>
+        </a>
+        <button mat-icon-button color="primary" (click)="onClickAjoutComposition(composition)" matTooltip="Ajouter à l'évènement">
+          <fa-icon [icon]="faPlus" id="iconPlus" ></fa-icon>
+        </button>
+        <button mat-icon-button color="primary" type="submit" (click)="onClickAddImageDialog(composition)" matTooltip="Ajouter/Supprimer une image">
+          <fa-icon [icon]="faUpload"></fa-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="Supprimer la composition">
+          <fa-icon [icon]="faTrash" (click)="onClikDeleteCompo(i)"></fa-icon>
+        </button>
+      </div>
+
     </h4>
     <li class="list-group-item">
       Durée de composition :
-      {{composition.dureeCreation * 60 * 60 * 1000 | date:'HH:mm':'UTC' }} -- Prix de vente : {{composition.prixUnitaire}} € -- {{composition.qteImage}} photo
+      {{composition.dureeCreation * 60 * 60 * 1000 | date:'HH:mm':'UTC' }} -- Prix de vente : {{composition.prixUnitaire}} € -- tva : {{composition.tva}} % -- {{composition.qteImage}} photo
       <div class="row justify-content-between">
         <div>Tiges :
           <ul *ngFor="let element of composition.tiges">
@@ -35,7 +47,6 @@
             </li>
           </ul>
         </div>
-
       </div>
       <!-- <button class="btn-primary btn-sm" routerLink="/atelier-chant-de-fleur/composition/edit/{{composition.id}}"><fa-icon [icon]="faEdit"></fa-icon></button> -->
     </li>

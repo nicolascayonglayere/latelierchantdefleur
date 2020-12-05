@@ -1,18 +1,25 @@
 <h1 mat-dialog-title>Confirmer la sauvegarde de la composition</h1>
 <div mat-dialog-content>
-  Composition du {{ data.dateCreation | date: 'dd/MM/yyyy' }}
+  Composition du {{ data.compo.dateCreation | date: 'dd/MM/yyyy' }}
   <br/>
   Durée de composition :
-  {{data.dureeCreation * 60 * 60 * 1000 | date:'HH:mm' : 'UTC' }} -- Prix de vente : {{data.prixUnitaire | number}} €
-  <div class="row justify-content-between" *ngFor="let element of data.elements">
-      <ul>
+  {{data.compo.dureeCreation * 60 * 60 * 1000 | date:'HH:mm' : 'UTC' }} -- Prix de vente : {{data.compo.prixUnitaire | number}} € -- TVA : {{data.compo.tva}} %
+  <div >
+      <ul *ngFor="let element of data.compo.elements">
         <li class="">
           {{element.quantite}} -- {{element.type}} -- {{element.nom}}
         </li>
       </ul>
   </div>
-  <mat-form-field appearance="fill">
-    <input matInput type="text" name="nom" placeholder="nom de la composition" [(ngModel)]="data.nom"/>
+  <mat-form-field appearance="fill" id="nom-compo">
+    <input matInput type="text" name="nom" placeholder="nom de la composition" [(ngModel)]="data.compo.nom"/>
+  </mat-form-field>
+  <mat-form-field appearance="fill" id="nom-compo">
+    <mat-label>Sélectionnez un évènement</mat-label>
+    <mat-select id="fournisseurId" name="fournisseurCtrl" [(ngModel)]="data.idEvt">
+      <mat-option *ngFor="let evt of evenements" value="{{evt.id}}" ngDefaultControl>
+        {{evt.nom}}</mat-option>
+    </mat-select>
   </mat-form-field>
 </div>
 <mat-dialog-actions align="end">

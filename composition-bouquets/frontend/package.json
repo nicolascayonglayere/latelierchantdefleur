@@ -26,6 +26,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
+    "angular-bootstrap-md": "^10.0.1",
     "angular-datatables": "^9.0.2",
     "bootstrap": "^4.0.0",
     "datatables.net": "^1.10.20",

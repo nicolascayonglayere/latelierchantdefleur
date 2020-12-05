@@ -1,0 +1,11 @@
+#fournisseur-list{
+  padding-inline-start: 0;
+}
+
+#cplt-prix{
+  display: grid;
+}
+
+#evt-header{
+  align-items: center;
+}

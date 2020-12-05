@@ -1,0 +1,24 @@
+<div class="row justify-content-between" id="researchBarEvenement">
+  <input type="text" class="form-control form-control-sm" name="searchBar" placeholder="Rechercher"
+    (change)="onChangeResearch($event)" />
+    <mat-paginator [length]="length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="page = getPaginatorData($event)">
+  </mat-paginator>
+</div>
+
+<div *ngIf="tsEvt.length >0">
+  <ul class="list-group"
+    *ngFor="let evt of evtResearch | slice: lowValue : highValue">
+    <li class="list-group-item d-flex" id="evt-display">
+      {{evt.nom}} prévu le {{evt.datePrevue | date: 'dd/MM/yyyy'}}
+      <a routerLink="/atelier-chant-de-fleur/evenements/{{evt.id}}" class="ml-auto" mat-icon-button color="primary" matTooltip="Détail de l'évènement">
+        <fa-icon [icon]="faInfoCircle" id="iconPlus" ></fa-icon>
+      </a>
+      <button mat-icon-button color="primary" matTooltip="Supprimer l'évènement">
+        <fa-icon [icon]="faTrash" (click)="onClikDeleteEvt(evt.id)"></fa-icon>
+      </button>
+    </li>
+  </ul>
+</div>

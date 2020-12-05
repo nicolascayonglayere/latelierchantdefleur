@@ -1,6 +1,6 @@
 package com.atelierchantdefleur.bouquetcomposer.controller;
 
-import com.atelierchantdefleur.bouquetcomposer.domain.CompositionService;
+import com.atelierchantdefleur.bouquetcomposer.service.CompositionService;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.CompositionDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.ElementCompositionDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.mapper.CompositionMapper;
@@ -10,6 +10,7 @@ import com.atelierchantdefleur.bouquetcomposer.model.rest.CompositionRest;
 import com.atelierchantdefleur.bouquetcomposer.model.rest.ElementCompositionRest;
 import com.atelierchantdefleur.bouquetcomposer.model.rest.ImageCompositionRest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -42,7 +43,22 @@ public class CompositionController {
                 .collect(Collectors.toSet()));
         elementCompositionRests.stream()
                 .sorted(Comparator.comparing(ElementCompositionRest::getNom))
-//                .sorted(Comparator.comparing(ElementCompositionRest::getType))
+                .collect(Collectors.toList());
+        return this.compositionMapper.fromDomainToRest(compositionDTO, elementCompositionRests, new ArrayList<>());
+    }
+
+    @PostMapping(value="atelier-chant-de-fleur/compositions/{id}/edit", params = {"id-evenement"})
+    public CompositionRest saveInEvt(@RequestBody CompositionRest compositionRest, @RequestParam(name="id-evenement")Long idEvt){
+        List<ElementCompositionDTO> elementCompositionDTOS = compositionRest.getElements().stream()
+                .map(this.elementCompositionMapper::fromRestToDomain)
+                .collect(Collectors.toList());
+        CompositionDTO compositionDTOTosave = this.compositionMapper.fromRestToDomain(compositionRest, elementCompositionDTOS, new ArrayList<>());
+        CompositionDTO compositionDTO = this.compositionService.saveInEvt(compositionDTOTosave, idEvt);
+        List<ElementCompositionRest> elementCompositionRests = new ArrayList<>(compositionDTO.getElementsComposition().stream()
+                .map(this.elementCompositionMapper::fromDomainToRest)
+                .collect(Collectors.toSet()));
+        elementCompositionRests.stream()
+                .sorted(Comparator.comparing(ElementCompositionRest::getNom))
                 .collect(Collectors.toList());
         return this.compositionMapper.fromDomainToRest(compositionDTO, elementCompositionRests, new ArrayList<>());
     }
@@ -73,5 +89,17 @@ public class CompositionController {
                 .map(this.imageCompositionMapper::fromDomainToRest)
                 .collect(Collectors.toList());
         return this.compositionMapper.fromDomainToRest(compositionDTO, elementCompositionRests, imageCompositionRests);
+    }
+
+    @DeleteMapping("atelier-chant-de-fleur/compositions/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable Long id){
+        this.compositionService.deleteById(id);
+        return ResponseEntity.ok(null);
+    }
+
+    @DeleteMapping("atelier-chant-de-fleur/compositions/evenements/{id}")
+    public ResponseEntity<String> deleteByIdFromEvt(@PathVariable Long id){
+        this.compositionService.deleteByIdFromEvt(id);
+        return ResponseEntity.ok(null);
     }
 }

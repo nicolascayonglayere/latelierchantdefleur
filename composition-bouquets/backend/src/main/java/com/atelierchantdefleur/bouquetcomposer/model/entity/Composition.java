@@ -32,6 +32,10 @@ public class Composition implements Serializable {
     private List<ElementComposition> elements;
     @OneToMany(mappedBy = "composition")
     private List<ImageComposition> images;
+    @ManyToMany(mappedBy = "compositions")
+    private List<Evenement> evenements;
+    @Column(name="tva", nullable = false, columnDefinition = "integer default 20")
+    private Integer tva;
 
     @Override
     public String toString() {

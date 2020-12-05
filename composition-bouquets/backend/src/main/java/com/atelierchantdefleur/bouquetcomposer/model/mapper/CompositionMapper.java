@@ -27,6 +27,7 @@ public class CompositionMapper {
         compositionDTO.setPrixUnitaire((int) (compositionRest.getPrixUnitaire() * 100));
         compositionDTO.setElementsComposition(elementCompositionDTOS);
         compositionDTO.setImagesComposition(imageCompositionDTOS);
+        compositionDTO.setTva(compositionRest.getTva());
         return compositionDTO;
     }
 
@@ -39,6 +40,7 @@ public class CompositionMapper {
         compositionRest.setDureeCreation((float)Duration.between(LocalTime.MIDNIGHT, compositionDTO.getDureeCreation()).toMinutes()/60);//float)compositionDTO.getDureeCreation().getSecond()/3600);
         compositionRest.setElements(elementCompositionRests);
         compositionRest.setImages(imageComposition);
+        compositionRest.setTva(compositionDTO.getTva());
         return compositionRest;
     }
 
@@ -51,6 +53,7 @@ public class CompositionMapper {
         composition.setPrixUnitaire(compositionDTO.getPrixUnitaire());
         composition.setElements(elementCompositions);
         composition.setImages(imageCompositions);
+        composition.setTva(compositionDTO.getTva());
         return composition;
     }
 
@@ -63,6 +66,7 @@ public class CompositionMapper {
         compositionDTO.setPrixUnitaire(composition.getPrixUnitaire());
         compositionDTO.setElementsComposition(elementCompositionDTOS);
         compositionDTO.setImagesComposition(imageCompositionDTOS);
+        compositionDTO.setTva(composition.getTva());
         return compositionDTO;
     }
 }

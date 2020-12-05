@@ -22,6 +22,7 @@ public class CompositionDTO {
     private Integer prixUnitaire;
     private List<ElementCompositionDTO> elementsComposition;
     private List<ImageCompositionDTO> imagesComposition;
+    private Integer tva;
 
     public void addElement(ElementCompositionDTO elementCompositionDTO){
         if(Objects.isNull(this.elementsComposition)){

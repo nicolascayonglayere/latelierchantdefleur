@@ -11,7 +11,7 @@ export class AppComponent {
   title = 'frontend';
   faCaretRight = faCaretRight;
   faCaretLeft = faCaretLeft;
-  isCollapsed = false;
+  isCollapsedTot = false;
 
 
 }

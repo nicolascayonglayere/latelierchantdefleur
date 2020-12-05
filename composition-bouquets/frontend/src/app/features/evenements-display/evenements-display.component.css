@@ -1,0 +1,14 @@
+.form-control-sm {
+  width: 30%;
+}
+
+#researchBarEvenement{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding-left: 15px;
+}
+
+#evt-display{
+  align-items: center;
+}

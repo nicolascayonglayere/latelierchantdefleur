@@ -1,0 +1,51 @@
+<h1 mat-dialog-title>Confirmer la sauvegarde de l'évènement</h1>
+<div mat-dialog-content>
+  <div class="d-flex justify-content-between">
+    <mat-checkbox [(ngModel)]="nouveau" [disabled]="nouveau" (change)="!nouveau = nouveau" (click)="onClickNvelEvt()">Nouvel évènement</mat-checkbox>
+    <mat-checkbox [(ngModel)]="!nouveau" [disabled]="!nouveau" (change)="nouveau = !nouveau">Evenement existant</mat-checkbox>
+  </div>
+  <mat-form-field appearance="fill" id="nom-compo">
+    <mat-label>Sélectionnez un évènement existant</mat-label>
+    <mat-select id="fournisseurId" name="fournisseurCtrl" [(ngModel)]="evtExist.id" [disabled]="nouveau === true" (selectionChange)="onChangeEvtExistant($event.value)">
+      <mat-option *ngFor="let evt of evenements" value="{{evt.id}}" ngDefaultControl>
+        {{evt.nom}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  Evenement du {{ data.dateCreation | date: 'dd/MM/yyyy' }}
+  <mat-form-field appearance="fill" id="nom-compo">
+    <input matInput type="text" name="nom" placeholder="nom de l'évènement" [(ngModel)]="data.nom" [disabled]="nouveau === false"/>
+  </mat-form-field>
+  <mat-form-field appearance="fill" id="nom-compo">
+    <input matInput [matDatepicker]="picker" placeholder="date prévue de l'évènement" [(ngModel)]="data.datePrevue" [disabled]="nouveau === false">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <div >
+    <ul *ngFor="let element of data.compositions">
+      <li class="">
+        {{element.nom}} -- {{element.prixUnitaire | number}} €
+      </li>
+    </ul>
+  </div>
+</div>
+
+<mat-dialog-actions align="end">
+  <button
+    mat-stroked-button
+    color="primary"
+    class="ripple"
+    [mat-dialog-close]="data"
+    [aria-label]="'Ajouter'"
+    cdkFocusInitial
+  >
+    Ajouter
+  </button>
+  <button
+    mat-stroked-button
+    class="ripple"
+    [mat-dialog-close]="'Cancel'"
+    [aria-label]="'Annuler'"
+  >
+    Annuler
+  </button>
+</mat-dialog-actions>

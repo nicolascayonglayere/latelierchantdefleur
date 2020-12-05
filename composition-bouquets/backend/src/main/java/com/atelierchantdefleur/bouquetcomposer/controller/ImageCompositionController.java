@@ -1,7 +1,7 @@
 package com.atelierchantdefleur.bouquetcomposer.controller;
 
-import com.atelierchantdefleur.bouquetcomposer.domain.CompositionService;
-import com.atelierchantdefleur.bouquetcomposer.domain.ImageCompositionService;
+import com.atelierchantdefleur.bouquetcomposer.service.CompositionService;
+import com.atelierchantdefleur.bouquetcomposer.service.ImageCompositionService;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.CompositionDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.ImageCompositionDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.mapper.CompositionMapper;
@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
 import java.util.List;
 import java.util.stream.Collectors;
 

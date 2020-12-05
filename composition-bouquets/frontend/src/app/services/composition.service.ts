@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Composition } from './../model/Composition';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -26,6 +26,12 @@ export class CompositionService {
     return this.httpClient.post<Composition>(rootUrl + '/' + '0/edit', composition);
   }
 
+  saveInEvt(composition: Composition, idEvt: number): Observable<Composition>{
+    let params = new HttpParams();
+    params = params.append('id-evenement', idEvt.toString());
+    return this.httpClient.post<Composition>(rootUrl + '/' + '0/edit', composition, {params});
+  }
+
   getAll(): void{
     this.httpClient.get<Composition[]>(rootUrl + '/').subscribe(resp => {
       this.allCompositionsSource.next(resp);
@@ -34,5 +40,13 @@ export class CompositionService {
 
   getById(id: number): Observable<Composition>{
     return this.httpClient.get<Composition>(rootUrl + '/' + id);
+  }
+
+  deleteById(id: number): Observable<string>{
+    return this.httpClient.delete<string>(rootUrl + '/' + id);
+  }
+
+  deleteFromEvt(id: number): Observable<string>{
+    return this.httpClient.delete<string>(rootUrl + '/evenements/' + id);
   }
 }

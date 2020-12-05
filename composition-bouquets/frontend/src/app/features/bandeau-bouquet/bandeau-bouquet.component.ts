@@ -1,10 +1,13 @@
+import { CompositionEvenement } from './../../model/CompositionEvenement';
+import { EvenementService } from './../../services/evenement.service';
+import { EvenementAddDialogComponent } from './evenement-add-dialog/evenement-add-dialog.component';
+import { Evenement } from './../../model/Evenement';
 import { ElementComposition } from 'src/app/model/ElementComposition';
-// import { CompositionDisplay } from 'src/app/model/CompositionDisplay';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CompositionAddDialogComponent } from './composition-add-dialog/composition-add-dialog.component';
 import { SnackbarSuccessComponent } from './../../layout/snackbar/snackbar-success/snackbar-success.component';
 import { Composition } from './../../model/Composition';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CoefficientVariableService } from '../../services/coefficient-variable.service';
 import { CompositionService } from '../../services/composition.service';
 import {faCheckCircle, faMinusCircle, faCaretDown, faTrash, faCaretUp, faAngleDoubleDown, faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +15,6 @@ import { FormBuilder, NgForm, Validators, FormGroup, FormControl } from '@angula
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
 
 @Component({
   selector: 'app-bandeau-bouquet',
@@ -55,10 +57,18 @@ export class BandeauBouquetComponent implements OnInit {
 
   messageModifOk: boolean = false;
   isCollapsed = false;
+  isCollapsedTot = false;
 
   timePicker: FormGroup;
+  forfaitForm: FormGroup;
 
   dialogRef: MatDialogRef<CompositionAddDialogComponent>;
+  dialogRefEvt: MatDialogRef<EvenementAddDialogComponent>;
+
+  bouquet = false;
+
+  forfaitMo: number = 0;
+  forfaitDplct: number = 0;
 
   constructor(private coefficientVariableService: CoefficientVariableService,
               private compositionService: CompositionService,
@@ -66,14 +76,15 @@ export class BandeauBouquetComponent implements OnInit {
               private router: Router,
               private snackBar: MatSnackBar,
               private formBuilder: FormBuilder,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private evtService: EvenementService) { }
 
   ngOnInit(): void {
     this.initTimePicker();
     this.coefficientVariableService.getAll().subscribe(resp => {
-      this.tauxHoraire = resp.tauxHoraire / 10;
-      this.margeActuelle = resp.marge / 10;
-      this.tvaActuelle = resp.tva / 10;
+      this.tauxHoraire = resp.tauxHoraire;
+      this.margeActuelle = resp.marge;
+      this.tvaActuelle = resp.tva;
     });
     this.compositionService.currentElements.subscribe(resp => {
       if (resp.id){
@@ -87,6 +98,7 @@ export class BandeauBouquetComponent implements OnInit {
         this.coutTva = this.calculTva(this.coutMarge);
       }
     });
+
   }
 
   calculCoutIntrant(elt: ElementComposition[]): number{
@@ -102,21 +114,19 @@ export class BandeauBouquetComponent implements OnInit {
   }
 
   calculMarge(coutRevient: number): number{
-    return coutRevient * this.margeActuelle;
+    return (coutRevient * (this.margeActuelle / 100)) + coutRevient;
   }
 
   calculTva(marge: number): number {
-    return marge * this.tvaActuelle;
+    return (marge * (this.tvaActuelle / 100)) + marge;
   }
 
   onSubmitTempsTravail(): void {
-    // console.log(form.value['tempsTravail']);
-    // this.tempsTravail = form.value['tempsTravail'];
     if (this.elementCompo.length > 0){
       const formValue = this.timePicker.value;
-      const heure = formValue['heure'];
+      const heure = formValue.heure['heure'] === undefined ? 0 : formValue.heure['heure'];
       const minute = formValue['minute'];
-      this.minuteTravail = minute;
+      this.minuteTravail = +minute;
       this.tempsTravail = +minute / 60 + +heure;
       this.coutIntrant = this.calculCoutIntrant(this.elementCompo);
       this.coutRevient = this.calculCoutRevient(this.coutIntrant, this.tempsTravail);
@@ -196,11 +206,13 @@ onClikResetCompo(): void{
 onClickSaveComposition(): void{
   const eltsCompoCopy = [];
   this.elementCompo.forEach(e => eltsCompoCopy.push(e));
-  const compoDisplay = new Composition();
-  compoDisplay.id = 0;
-  compoDisplay.dateCreation = new Date();
-  compoDisplay.dureeCreation = this.tempsTravail;
-  compoDisplay.prixUnitaire = this.coutTva;
+  const compoDisplay = new CompositionEvenement();
+  compoDisplay.compo = new Composition();
+  compoDisplay.compo.id = 0;
+  compoDisplay.compo.dateCreation = new Date();
+  compoDisplay.compo.dureeCreation = this.tempsTravail;
+  compoDisplay.compo.prixUnitaire = this.coutTva;
+  compoDisplay.compo.tva = this.tvaActuelle;
   const eltList: ElementComposition[] = [];
   eltsCompoCopy.forEach(t => {
       const elt = new ElementComposition();
@@ -216,7 +228,8 @@ onClickSaveComposition(): void{
         }
       });
     });
-  compoDisplay.elements = eltList;
+  compoDisplay.compo.elements = eltList;
+  compoDisplay.idEvt = 0;
   this.dialogRef = this.dialog.open(
     CompositionAddDialogComponent,
     {
@@ -231,24 +244,102 @@ onClickSaveComposition(): void{
       }
       const compositionToSave = new Composition();
       compositionToSave.id = 0;
-      compositionToSave.nom = result.nom;
+      compositionToSave.nom = result.compo.nom;
       compositionToSave.dateCreation = new Date();
       compositionToSave.dureeCreation = this.tempsTravail;
       compositionToSave.prixUnitaire = this.coutTva;
       compositionToSave.elements = this.elementCompo;
-      this.compositionService.save(compositionToSave).subscribe(resp => {
-        this.snackBar.openFromComponent(SnackbarSuccessComponent, {
-          ...this.configSuccess,
-          data: 'Enregistrement effectué !'
+      compositionToSave.tva = this.tvaActuelle;
+      if (result.idEvt === 0){
+        this.compositionService.save(compositionToSave).subscribe(resp => {
+          this.snackBar.openFromComponent(SnackbarSuccessComponent, {
+            ...this.configSuccess,
+            data: 'Enregistrement effectué !'
+          });
+          this.router.navigate(['/atelier-chant-de-fleur', 'compositions']);
+        },
+        error => {
+          this.snackBar.openFromComponent(SnackbarSuccessComponent, {
+            ...this.configFailed,
+            data: 'Erreur lors de la sauvegarde !'
+          });
         });
-        this.router.navigate(['/atelier-chant-de-fleur', 'compositions']);
-      },
-      error => {
-        this.snackBar.openFromComponent(SnackbarSuccessComponent, {
-          ...this.configFailed,
-          data: 'Erreur lors de la sauvegarde !'
+      }else{
+        this.compositionService.saveInEvt(compositionToSave, result.idEvt).subscribe(resp => {
+          this.snackBar.openFromComponent(SnackbarSuccessComponent, {
+            ...this.configSuccess,
+            data: 'Enregistrement effectué !'
+          });
+          this.router.navigate(['/atelier-chant-de-fleur', 'evenements', result.idEvt]);
+        },
+        error => {
+          this.snackBar.openFromComponent(SnackbarSuccessComponent, {
+            ...this.configFailed,
+            data: 'Erreur lors de la sauvegarde !'
+          });
         });
-      });
+      }
+    });
+}
+
+onClickSaveEvenement(): void{
+  const eltsCompoCopy = [];
+  this.elementCompo.forEach(e => eltsCompoCopy.push(e));
+  const evenementToSave = new Evenement();
+  evenementToSave.id = 0;
+  evenementToSave.dateCreation = new Date();
+  evenementToSave.compositions = eltsCompoCopy;
+  this.dialogRefEvt = this.dialog.open(
+    EvenementAddDialogComponent,
+    {
+      disableClose: true,
+      data: evenementToSave,
+      minWidth: 500,
+    });
+  this.dialogRefEvt.afterClosed().subscribe((result) => {
+      if (result === 'Cancel' || result === 'Close') {
+        return;
+      }
+
+      evenementToSave.datePrevue = result.datePrevue;
+      evenementToSave.nom = result.nom;
+      if (result.id === 0){
+        evenementToSave.forfaitMo = this.forfaitMo;
+        evenementToSave.forfaitDplct = this.forfaitDplct;
+        this.evtService.save(evenementToSave).subscribe(resp => {
+          this.snackBar.openFromComponent(SnackbarSuccessComponent, {
+            ...this.configSuccess,
+            data: 'Enregistrement effectué !'
+          });
+          this.router.navigate(['/atelier-chant-de-fleur', 'evenements', resp.id]);
+        },
+        error => {
+          this.snackBar.openFromComponent(SnackbarSuccessComponent, {
+            ...this.configFailed,
+            data: 'Erreur lors de la sauvegarde !'
+          });
+        });
+      }else{
+        evenementToSave.id = result.id;
+        evenementToSave.dateCreation = result.dateCreation;
+        evenementToSave.compositions = result.compositions;
+        evenementToSave.forfaitMo = result.forfaitMo;
+        evenementToSave.forfaitDplct = result.forfaitDplct;
+        this.evtService.update(evenementToSave).subscribe(resp => {
+          this.snackBar.openFromComponent(SnackbarSuccessComponent, {
+            ...this.configSuccess,
+            data: 'Enregistrement effectué !'
+          });
+          this.router.navigate(['/atelier-chant-de-fleur', 'evenements', resp.id]);
+        },
+        error => {
+          this.snackBar.openFromComponent(SnackbarSuccessComponent, {
+            ...this.configFailed,
+            data: 'Erreur lors de la sauvegarde !'
+          });
+        });
+      }
+
     });
 }
 
@@ -257,6 +348,14 @@ initTimePicker(): void {
     heure: new FormControl(0, [Validators.min(0), Validators.required]),
     minute: new FormControl(0, [Validators.min(0), Validators.max(59), Validators.required, Validators.maxLength(2)])
   });
+}
+
+onChangeCalculMo(): void{
+  this.coutTva = this.coutTva + this.forfaitMo;
+}
+
+onChangeCalculDplct(): void{
+  this.coutTva = this.coutTva + this.forfaitDplct;
 }
 
   private calculQte(list: any, id: number): number{
@@ -270,3 +369,5 @@ initTimePicker(): void {
   }
 
 }
+
+

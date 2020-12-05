@@ -6,14 +6,15 @@
   [pageSizeOptions]="pageSizeOptions"
   (page)="page = getPaginatorData($event)">
   </mat-paginator>
-  <!-- <ngb-pagination [collectionSize]="tsFournisseurs?.length" [(page)]="page" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination> -->
 </div>
 
 <div *ngIf="tsFournisseurs.length > 0">
   <ul class="list-group" *ngFor="let fournisseur of tsFournisseurs | slice: lowValue : highValue">
     <li class="list-group-item d-flex justify-content-between">
       {{ fournisseur.nom }} -- {{fournisseur?.adresse }} -- {{fournisseur?.email}} -- {{fournisseur?.telephone}}
-      <button mat-raised-button color="primary" routerLink="/atelier-chant-de-fleur/fournisseurs/edit/{{fournisseur.id}}"><fa-icon [icon]="faEdit"></fa-icon></button>
+      <button mat-icon-button color="primary" routerLink="/atelier-chant-de-fleur/fournisseurs/edit/{{fournisseur.id}}" matTooltip="Modifier le fournisseur">
+        <fa-icon [icon]="faEdit"></fa-icon>
+      </button>
     </li>
   </ul>
 </div>

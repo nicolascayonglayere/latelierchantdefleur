@@ -1,4 +1,4 @@
-package com.atelierchantdefleur.bouquetcomposer.domain;
+package com.atelierchantdefleur.bouquetcomposer.service;
 
 import com.atelierchantdefleur.bouquetcomposer.model.domain.CoefficientVariableDTO;
 import org.springframework.stereotype.Service;

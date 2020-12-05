@@ -1,4 +1,4 @@
-package com.atelierchantdefleur.bouquetcomposer.domain;
+package com.atelierchantdefleur.bouquetcomposer.service;
 
 import com.atelierchantdefleur.bouquetcomposer.model.domain.FournisseurDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.entity.Fournisseur;

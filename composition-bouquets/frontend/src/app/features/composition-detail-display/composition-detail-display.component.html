@@ -1,0 +1,42 @@
+<mdb-carousel [animation]="'slide'">
+  <mdb-carousel-item *ngFor="let img of composition.images" >
+    <img class="d-block w-50 h-50" [src]='img.imgDisplay' alt={{img.nom}} id="carousel">
+  </mdb-carousel-item>
+</mdb-carousel>
+
+<div class="card">
+  <div class="card-header d-flex" id="header-compo">
+    {{compoDisplay.nom}} -- composition du {{ composition.dateCreation | date: 'dd/MM/yyyy' }}
+    <div class="ml-auto">
+      <button mat-icon-button color="primary" (click)="onClickAjoutComposition(compoDisplay)" matTooltip="Ajouter à l'évènement">
+        <fa-icon [icon]="faPlus" id="iconPlus" ></fa-icon>
+      </button>
+      <button mat-icon-button color="primary" type="submit" (click)="onClickAddImageDialog(compoDisplay)" matTooltip="Ajouter/Supprimer une image">
+        <fa-icon [icon]="faUpload"></fa-icon>
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="card-title">Durée de composition :
+      {{composition.dureeCreation * 60 * 60 * 1000 | date:'HH:mm':'UTC' }} -- Prix de vente : {{composition.prixUnitaire}} € -- TVA : {{composition.tva}} % -- {{compoDisplay.qteImage}} photo
+    </div>
+    <div class="row justify-content-between">
+      <div>Tiges :
+        <ul *ngFor="let element of compoDisplay.tiges">
+          <li class="">
+            {{element.quantite}} -- {{element.type}} -- {{element.nom}} -- {{element.prixUnitaire | number}} €
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="compoDisplay.materiaux.length > 0">Materiaux :
+        <ul *ngFor="let element of compoDisplay.materiaux">
+
+          <li class="">
+            {{element.quantite}} -- {{element.type}} -- {{element.nom}} -- {{element.prixUnitaire | number}} €
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>

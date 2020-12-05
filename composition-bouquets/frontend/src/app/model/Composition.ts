@@ -8,4 +8,5 @@ export class Composition {
   prixUnitaire: number;
   elements: ElementComposition[];
   images: ImageComposition[];
+  tva: number;
 }

@@ -1,6 +1,6 @@
 package com.atelierchantdefleur.bouquetcomposer.controller;
 
-import com.atelierchantdefleur.bouquetcomposer.domain.MateriauService;
+import com.atelierchantdefleur.bouquetcomposer.service.MateriauService;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.FournisseurDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.MateriauDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.mapper.FournisseurMapper;

@@ -1,6 +1,6 @@
 package com.atelierchantdefleur.bouquetcomposer.controller;
 
-import com.atelierchantdefleur.bouquetcomposer.domain.TigeService;
+import com.atelierchantdefleur.bouquetcomposer.service.TigeService;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.FournisseurDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.TigeDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.mapper.FournisseurMapper;

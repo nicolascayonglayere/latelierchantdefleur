@@ -15,4 +15,5 @@ public class CompositionRest {
     private float prixUnitaire;
     private List<ElementCompositionRest> elements;
     private List<ImageCompositionRest> images;
+    private Integer tva;
 }
