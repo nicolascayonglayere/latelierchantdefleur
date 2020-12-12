@@ -37,10 +37,9 @@ editing: boolean[] = [];
 
   constructor(private tigeService: TigeService,
               private compositionservice: CompositionService,
-              config: NgbPaginationConfig) {
-                config.size = 'sm';
+              private config: NgbPaginationConfig) {
+                // config.size = 'sm';
                 config.boundaryLinks = true;
-
                }
 
   ngOnInit(): void {
@@ -66,7 +65,7 @@ editing: boolean[] = [];
     elt.id = tige.id;
     elt.nom = tige.nom;
     elt.type = 'TIGE';
-    elt.prixUnitaire = tige.prixUnitaire / 100;
+    elt.prixUnitaire = tige.prixUnitaire;
     elt.quantite = this.quantiteElt[index];
     this.tigeComposition.push(elt);
     this.compositionservice.recuperationElements(elt);

@@ -11,7 +11,7 @@
 <div *ngIf="materiaux.length > 0">
   <ul class="list-group" *ngFor="let materiau of materiaux | slice: lowValue : highValue; let i = index">
     <li class="list-group-item d-flex justify-content-between">
-      {{ materiau.nom }} -- {{ materiau.prixUnitaire / 1000 }} €/unité -- Fournisseur : {{materiau.fournisseurRest.nom}}
+      {{ materiau.nom }} -- {{ materiau.prixUnitaire }} €/unité -- Fournisseur : {{materiau.fournisseurRest.nom}}
       <div class="ml-auto">
         <mat-form-field appearance="fill" id="select-mat-form-field">
           <mat-label>quantité souhaitée</mat-label>

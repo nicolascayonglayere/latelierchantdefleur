@@ -8,6 +8,6 @@ public class TigeRest {
     private Long id;
     private String nom;
     private String nomLatin;
-    private Integer prixUnitaire;
+    private float prixUnitaire;
     private FournisseurRest fournisseurRest;
 }

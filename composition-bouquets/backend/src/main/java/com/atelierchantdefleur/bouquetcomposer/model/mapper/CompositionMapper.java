@@ -36,7 +36,7 @@ public class CompositionMapper {
         compositionRest.setId(compositionDTO.getId());
         compositionRest.setNom(compositionDTO.getNom());
         compositionRest.setDateCreation(compositionDTO.getDateCreation());
-        compositionRest.setPrixUnitaire((float)compositionDTO.getPrixUnitaire() / 100);
+        compositionRest.setPrixUnitaire((float)compositionDTO.getPrixUnitaire() / 100f);
         compositionRest.setDureeCreation((float)Duration.between(LocalTime.MIDNIGHT, compositionDTO.getDureeCreation()).toMinutes()/60);//float)compositionDTO.getDureeCreation().getSecond()/3600);
         compositionRest.setElements(elementCompositionRests);
         compositionRest.setImages(imageComposition);

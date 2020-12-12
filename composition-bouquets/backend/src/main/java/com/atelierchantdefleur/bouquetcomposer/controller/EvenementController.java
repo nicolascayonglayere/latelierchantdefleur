@@ -8,10 +8,15 @@ import com.atelierchantdefleur.bouquetcomposer.model.mapper.ElementCompositionMa
 import com.atelierchantdefleur.bouquetcomposer.model.mapper.EvenementMapper;
 import com.atelierchantdefleur.bouquetcomposer.model.rest.CompositionRest;
 import com.atelierchantdefleur.bouquetcomposer.model.rest.EvenementRest;
+import com.atelierchantdefleur.bouquetcomposer.service.edition.ConstructionDevis;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -23,6 +28,8 @@ public class EvenementController {
 
     @Autowired
     private EvenementService evenementService;
+    @Autowired
+    private ConstructionDevis constructionDevis;
     @Autowired
     private EvenementMapper evenementMapper;
     @Autowired
@@ -89,5 +96,18 @@ public class EvenementController {
     public ResponseEntity<String> delete(@PathVariable("id") Long id){
         this.evenementService.delete(id);
         return ResponseEntity.ok(null);
+    }
+
+    @GetMapping("atelier-chant-de-fleur/evenements/{id}/devis")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable(name="id") Long id) throws Exception {
+        EvenementDTO evenementDTO = this.evenementService.getById(id);
+        byte[] isr = Files.readAllBytes(this.constructionDevis.manipulatePdf(evenementDTO));
+        String fileName = "employees.json";
+        HttpHeaders respHeaders = new HttpHeaders();
+        respHeaders.setContentLength(isr.length);
+        respHeaders.setContentType(MediaType.APPLICATION_PDF);
+        respHeaders.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        respHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
+        return new ResponseEntity<byte[]>(isr, respHeaders, HttpStatus.OK);
     }
 }

@@ -96,7 +96,7 @@ onClickAjoutComposition(composition: CompositionDisplay): void{
   elt.id = composition.id;
   elt.nom = composition.nom;
   elt.type = 'COMPOSITION';
-  elt.prixUnitaire = composition.prixUnitaire / 100;
+  elt.prixUnitaire = composition.prixUnitaire ;
   elt.quantite = 1;
   this.compoEvt.push(elt);
   this.compositionService.recuperationElements(elt);

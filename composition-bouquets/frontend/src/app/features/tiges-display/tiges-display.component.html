@@ -11,7 +11,7 @@
 <div *ngIf="tiges.length > 0">
   <ul class="list-group" *ngFor="let tige of tiges | slice: lowValue : highValue; let i = index">
     <li class="list-group-item d-flex justify-content-between">
-      <div class="flex-grow-1">{{ tige.nom }} -- {{ tige.nomLatin }} -- {{ tige.prixUnitaire / 100 }} €/unité -- Fournisseur : {{tige.fournisseurRest.nom}}</div>
+      <div class="flex-grow-1">{{ tige.nom }} -- {{ tige.nomLatin }} -- {{ tige.prixUnitaire }} €/unité -- Fournisseur : {{tige.fournisseurRest.nom}}</div>
       <div class="ml-auto">
         <mat-form-field appearance="fill" id="select-mat-form-field">
           <mat-label>quantité souhaitée</mat-label>

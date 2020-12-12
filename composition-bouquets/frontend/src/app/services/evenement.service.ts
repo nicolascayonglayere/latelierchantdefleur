@@ -1,6 +1,6 @@
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Evenement } from './../model/Evenement';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse, } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 const rootUrl = 'http://localhost:8181/atelier-chant-de-fleur/evenements';
@@ -41,5 +41,9 @@ export class EvenementService {
 
   delete(id: number): Observable<string>{
     return this.httpClient.delete<string>(rootUrl + '/' + id);
+  }
+
+  downloadDevis(id: number): any {
+    return this.httpClient.get(rootUrl + '/' + id + '/devis', {responseType: 'blob'});
   }
 }

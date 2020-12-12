@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header d-flex" id="evt-header">
-    {{evenement.nom}} prévu le {{evenement.datePrevue | date: 'dd/MM/yyyy'}}
-    <button mat-icon-button color="primary" routerLink="/atelier-chant-de-fleur/evenements/{{evenement.id}}/edit" matTooltip="Modifier l'évènement" class="ml-auto">
+    {{evenement?.nom}} prévu le {{evenement?.datePrevue | date: 'dd/MM/yyyy'}}
+    <button mat-icon-button color="primary" routerLink="/atelier-chant-de-fleur/evenements/{{evenement?.id}}/edit" matTooltip="Modifier l'évènement" class="ml-auto">
       <fa-icon [icon]="faEdit" id="iconPlus" ></fa-icon>
     </button>
     <button mat-icon-button color="primary" matTooltip="Supprimer l'évènement">
@@ -35,7 +35,7 @@
     <div class="card-footer">Cout total des matières premieres : {{mntTigesTot + mntMatTot |number}} €</div>
   </div>
 
-  <div class="card flex-fill">
+  <div class="card flex-fill" >
     <div class="card-header">Facturation client</div>
     <div class="card-body">
       <div class="card-title">Composition : </div>
@@ -53,21 +53,11 @@
       <div class="card-title">Temps de travail total : {{tpstravailCompo * 60 * 60 * 1000 | date:'HH:mm' : 'UTC' }}
       </div>
       <br/><mat-divider></mat-divider><br/>
-      <div class="card-title">Main d'oeuvre supplémentaire : {{evenement.forfaitMo}} €</div>
+      <div class="card-title">Main d'oeuvre supplémentaire : {{evenement?.forfaitMo}} €</div>
       <br/><mat-divider></mat-divider><br/>
-      <div class="card-title">Forfait déplacement : {{evenement.forfaitDplct}} €</div>
-      <!-- <br/><mat-divider></mat-divider><br/> -->
-      <!-- <div id="cplt-prix">
-        <mat-form-field appearance="fill" >
-          <mat-label>Main d'oeuvre supplémentaire en €</mat-label>
-          <input matInput type="number" [(ngModel)]="mainOeuvre" placeholder="00" (change)="onChangeAddComplementMo()"/>
-        </mat-form-field>
-        <mat-form-field appearance="fill" >
-          <mat-label>Forfait déplacement en €</mat-label>
-          <input matInput type="number" [(ngModel)]="forfait" placeholder="00" (change)="onChangeAddComplementForfait()"/>
-        </mat-form-field>
-      </div> -->
+      <div class="card-title">Forfait déplacement : {{evenement?.forfaitDplct}} €</div>
     </div>
     <div class="card-footer">Montant total facturé : {{mntCompoTot | number }} € dont {{mntCompoTva | number }} € de TVA</div>
   </div>
 </div>
+<button mat-raised-button color="primary" type="button" (click)="captureScreen()">Editer</button>

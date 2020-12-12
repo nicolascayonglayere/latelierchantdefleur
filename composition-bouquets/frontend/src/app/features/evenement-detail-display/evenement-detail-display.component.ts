@@ -63,13 +63,14 @@ export class EvenementDetailDisplayComponent implements OnInit {
         const tigesEvt: ElementComposition[] = [];
         const matEvt: ElementComposition[] = [];
         this.evenement.compositions.forEach(c => {
+
           this.mntCompoTot = this.mntCompoTot + c.prixUnitaire;
-          this.mntCompoTva = this.mntCompoTva + c.prixUnitaire * c.tva;
+          this.mntCompoTva = this.mntCompoTva + c.prixUnitaire * (c.tva / 100);
           this.tpstravailCompo = this.tpstravailCompo + c.dureeCreation;
           if (! this.compoDisplay.find(cd => cd.compo.id === c.id)){
             const compDisp = new CompoElt();
             compDisp.compo = c;
-            if(c.nom === null){
+            if (c.nom === null){
               compDisp.compo.nom = 'Composition sans nom';
             }
             compDisp.qte = this.calculQteCompo(this.evenement.compositions, c.id);
@@ -82,61 +83,65 @@ export class EvenementDetailDisplayComponent implements OnInit {
             if (e.type === 'MATERIAU'){
               matEvt.push(e);
             }
-        });
-          tigesEvt.forEach(e => {
-            if (!this.tiges.find(t => t.id === e.id)){
-              e.quantite = this.calculQte(tigesEvt, e.id);
-              this.tiges.push(e);
-              }
-        });
-          matEvt.forEach(e => {
-            if (!this.materiaux.find(m => m.id === e.id)){
-              e.quantite = this.calculQte(matEvt, e.id);
-              this.materiaux.push(e);
-            }
-          });
-          this.tiges.forEach(t => {
-            this.tigeService.getById(t.id).subscribe(tige => {
-              if (!this.fournisseurs.find(f => f.fournisseur.id === tige.fournisseurRest.id)){
-                const fournisseurElt = new FournisseurElement();
-                fournisseurElt.tiges = [];
-                fournisseurElt.tiges.push(t);
-                fournisseurElt.fournisseur = tige.fournisseurRest;
-                fournisseurElt.materiaux = [];
-                this.fournisseurs.push(fournisseurElt);
-              }else{
-                const fournElet = this.fournisseurs.filter(f => f.fournisseur.id === tige.fournisseurRest.id)[0];
-                if (! fournElet.tiges.find(tg => tg.id === t.id)){
-                  fournElet.tiges.push(t);
-                }else {
-                  fournElet.tiges.find(tg => tg.id === t.id).quantite = fournElet.tiges.find(tg => tg.id === t.id).quantite + t.quantite;
-                }
-              }
-            });
-            this.mntTigesTot = this.mntTigesTot + t.quantite * t.prixUnitaire;
           });
 
-          this.materiaux.forEach(m => {
-            this.matService.getById(m.id).subscribe(mat => {
-              if (!this.fournisseurs.find(f => f.fournisseur.id === mat.fournisseurRest.id)){
-                const fournisseurElt = new FournisseurElement();
-                fournisseurElt.materiaux = [];
-                fournisseurElt.materiaux.push(m);
-                fournisseurElt.tiges = [];
-                fournisseurElt.fournisseur = mat.fournisseurRest;
-                this.fournisseurs.push(fournisseurElt);
-              }else{
-                const fournElet = this.fournisseurs.filter(f => f.fournisseur.id === mat.fournisseurRest.id)[0];
-                if (! fournElet.materiaux.find(tg => tg.id === m.id)){
-                  fournElet.materiaux.push(m);
-                }else {
-                  fournElet.materiaux.find(tg => tg.id === m.id).quantite =
-                  fournElet.materiaux.find(tg => tg.id === m.id).quantite + m.quantite;
-                }
-              }
-            });
-            this.mntMatTot = this.mntMatTot + m.quantite * m.prixUnitaire;
-          });
+
+      });
+      tigesEvt.forEach(e => {
+        if (!this.tiges.find(t => t.id === e.id)){
+          e.quantite = this.calculQte(tigesEvt, e.id);
+          this.tiges.push(e);
+        }
+      });
+
+      matEvt.forEach(e => {
+        if (!this.materiaux.find(m => m.id === e.id)){
+          e.quantite = this.calculQte(matEvt, e.id);
+          this.materiaux.push(e);
+        }
+      });
+      this.tiges.forEach(t => {
+        this.tigeService.getById(t.id).subscribe(tige => {
+          if (!this.fournisseurs.find(f => f.fournisseur.id === tige.fournisseurRest.id)){
+            const fournisseurElt = new FournisseurElement();
+            fournisseurElt.tiges = [];
+            fournisseurElt.tiges.push(t);
+            fournisseurElt.fournisseur = tige.fournisseurRest;
+            fournisseurElt.materiaux = [];
+            this.fournisseurs.push(fournisseurElt);
+          }
+          else{
+            const fournElet = this.fournisseurs.filter(f => f.fournisseur.id === tige.fournisseurRest.id)[0];
+            if (! fournElet.tiges.find(tg => tg.id === t.id)){
+              fournElet.tiges.push(t);
+            }else {
+              fournElet.tiges.find(tg => tg.id === t.id).quantite = fournElet.tiges.find(tg => tg.id === t.id).quantite + t.quantite;
+            }
+          }
+        });
+        this.mntTigesTot = this.mntTigesTot + t.quantite * t.prixUnitaire;
+      });
+
+      this.materiaux.forEach(m => {
+        this.matService.getById(m.id).subscribe(mat => {
+          if (!this.fournisseurs.find(f => f.fournisseur.id === mat.fournisseurRest.id)){
+            const fournisseurElt = new FournisseurElement();
+            fournisseurElt.materiaux = [];
+            fournisseurElt.materiaux.push(m);
+            fournisseurElt.tiges = [];
+            fournisseurElt.fournisseur = mat.fournisseurRest;
+            this.fournisseurs.push(fournisseurElt);
+          }else{
+            const fournElet = this.fournisseurs.filter(f => f.fournisseur.id === mat.fournisseurRest.id)[0];
+            if (! fournElet.materiaux.find(tg => tg.id === m.id)){
+              fournElet.materiaux.push(m);
+            }else {
+              fournElet.materiaux.find(tg => tg.id === m.id).quantite =
+              fournElet.materiaux.find(tg => tg.id === m.id).quantite + m.quantite;
+            }
+          }
+        });
+        this.mntMatTot = this.mntMatTot + m.quantite * m.prixUnitaire;
       });
     });
   });
@@ -169,6 +174,23 @@ onClikDeleteEvt(): void {
   });
 }
 
+captureScreen(): void{
+  this.evtService.downloadDevis(this.evenement.id).subscribe(resp =>{
+    let blob:any = new Blob([resp], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+    window.open(url);
+    this.snackBar.openFromComponent(SnackbarSuccessComponent, {
+      ...this.configSuccess,
+      data: 'Téléchargement réussi !'
+  });
+}, err => {
+  this.snackBar.openFromComponent(SnackbarSuccessComponent, {
+    ...this.configFailed,
+    data: 'Erreur lors du téléchargement !'
+  });
+  });
+  }
+
 private calculQte(list: any, id: number): number{
   let qte = 0;
   list.forEach((element, i) => {
@@ -179,23 +201,21 @@ private calculQte(list: any, id: number): number{
   return qte;
 }
 
-private calculQteCompo(list: Composition[], id: number): number{
-  let qte = 0;
-  list.forEach(element => {
-    if (element.id === id){
-      qte = 1 + qte;
-    }
-  });
-  return qte;
-}
+  private calculQteCompo(list: Composition[], id: number): number{
+    let qte = 0;
+    list.forEach(element => {
+      if (element.id === id){
+        qte = 1 + qte;
+      }
+    });
+    return qte;
+  }
 }
 
 export class FournisseurElement{
   fournisseur: Fournisseur;
   tiges: ElementComposition[];
   materiaux: ElementComposition[];
-
-  constructor(){}
 }
 
 export class CompoElt{

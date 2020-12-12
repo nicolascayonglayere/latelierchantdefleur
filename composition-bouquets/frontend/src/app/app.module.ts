@@ -43,6 +43,7 @@ import { CompositionDetailDisplayComponent } from './features/composition-detail
 import { CarouselModule, WavesModule } from 'angular-bootstrap-md';
 import { CompositionDelDialogComponent } from './features/composition-del-dialog/composition-del-dialog.component';
 import { EvenementEditComponent } from './features/evenement-edit/evenement-edit.component';
+import { RxStompService  } from '@stomp/ng2-stompjs';
 
 
 const appRoutes: Routes = [
@@ -111,7 +112,9 @@ const appRoutes: Routes = [
     CarouselModule,
     WavesModule
   ],
-  providers: [],
+  providers: [
+    RxStompService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

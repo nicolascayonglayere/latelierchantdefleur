@@ -38,7 +38,9 @@ highValue:number = 10;
 
 editing: boolean[] = [];
 
-  constructor(private materiauService: MateriauService, private compositionservice: CompositionService, config: NgbPaginationConfig) {
+  constructor(private materiauService: MateriauService,
+    private compositionservice: CompositionService,
+    private config: NgbPaginationConfig) {
     // config.size = 'sm';
     config.boundaryLinks = true;
    }
@@ -65,7 +67,7 @@ editing: boolean[] = [];
     elt.id = materiau.id;
     elt.nom = materiau.nom;
     elt.type = 'MATERIAU';
-    elt.prixUnitaire = materiau.prixUnitaire / 1000;
+    elt.prixUnitaire = materiau.prixUnitaire;
     elt.quantite = this.quantiteElt[index];
     console.log(elt);
     this.materiauComposition.push(elt);

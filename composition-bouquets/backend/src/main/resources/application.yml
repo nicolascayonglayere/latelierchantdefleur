@@ -35,3 +35,6 @@ logging:
       security: INFO
     org.hibernate: info
 
+modele:
+  pdfTemplate: D:\Users\nicolas.cayonglayere\Documents\projets_OC\bouquet-composer\modele_devis1.pdf
+
