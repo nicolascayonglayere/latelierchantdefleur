@@ -10,4 +10,6 @@ export class CompositionDisplay{
   materiaux: ElementComposition[];
   qteImage: number;
   tva: number;
+  marge: number;
+  tauxHoraire: number;
 }

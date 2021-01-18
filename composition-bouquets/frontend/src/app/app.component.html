@@ -1,11 +1,12 @@
 <div class="container col-md-12">
-  <div class="jumbotron jumbotron-fluid">
+  <!-- <div class="jumbotron jumbotron-fluid">
     <h1>Outil de composition de bouquets</h1>
-  </div>
+  </div> -->
   <app-menu-navigation></app-menu-navigation>
+  <app-bandeau-client *ngIf="clientSelected" [clientSelected]="clientSelected"></app-bandeau-client>
   <div class="d-flex">
     <div class="col-sm-4" id="app-bandeau-bouquet" >
-      <app-bandeau-bouquet [ngbCollapse]="isCollapsedTot"></app-bandeau-bouquet>
+      <app-bandeau-bouquet [ngbCollapse]="isCollapsedTot" (clientSelected)="selectClient($event)"></app-bandeau-bouquet>
       <!-- <button mat-icon-button color="primary" type="button" (click)="isCollapsedTot = !isCollapsedTot"
         [attr.aria-expanded]="!isCollapsedTot" aria-controls="collapseExample" id="btonExpand">
         <fa-icon [icon]="faCaretLeft"></fa-icon>

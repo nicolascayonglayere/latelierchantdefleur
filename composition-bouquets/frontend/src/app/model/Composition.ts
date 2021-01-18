@@ -9,4 +9,6 @@ export class Composition {
   elements: ElementComposition[];
   images: ImageComposition[];
   tva: number;
+  marge: number;
+  tauxHoraire: number;
 }

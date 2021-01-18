@@ -57,7 +57,7 @@
       <br/><mat-divider></mat-divider><br/>
       <div class="card-title">Forfait déplacement : {{evenement?.forfaitDplct}} €</div>
     </div>
-    <div class="card-footer">Montant total facturé : {{mntCompoTot | number }} € dont {{mntCompoTva | number }} € de TVA</div>
+    <div class="card-footer">Montant total facturé : {{mntCompoTot + evenement?.forfaitMo + evenement?.forfaitDplct | number }} € dont {{mntCompoTva | number }} € de TVA</div>
   </div>
 </div>
 <button mat-raised-button color="primary" type="button" (click)="captureScreen()">Editer</button>

@@ -1,13 +1,14 @@
 package com.atelierchantdefleur.bouquetcomposer.controller;
 
+import com.atelierchantdefleur.bouquetcomposer.model.constante.HttpUrlConstantes;
 import com.atelierchantdefleur.bouquetcomposer.service.CompositionService;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.CompositionDTO;
-import com.atelierchantdefleur.bouquetcomposer.model.domain.ElementCompositionDTO;
+import com.atelierchantdefleur.bouquetcomposer.model.domain.ElementDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.mapper.CompositionMapper;
-import com.atelierchantdefleur.bouquetcomposer.model.mapper.ElementCompositionMapper;
+import com.atelierchantdefleur.bouquetcomposer.model.mapper.ElementMapper;
 import com.atelierchantdefleur.bouquetcomposer.model.mapper.ImageCompositionMapper;
 import com.atelierchantdefleur.bouquetcomposer.model.rest.CompositionRest;
-import com.atelierchantdefleur.bouquetcomposer.model.rest.ElementCompositionRest;
+import com.atelierchantdefleur.bouquetcomposer.model.rest.ElementRest;
 import com.atelierchantdefleur.bouquetcomposer.model.rest.ImageCompositionRest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,52 +19,55 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequestMapping(CompositionController.rootUrl)
 @RestController
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(HttpUrlConstantes.CROSS_ORIGIN)
 public class CompositionController {
+
+    public static final String rootUrl = HttpUrlConstantes.ROOT_URL + "/" + HttpUrlConstantes.COMPOSITION_URL;
 
     @Autowired
     private CompositionService compositionService;
     @Autowired
     private CompositionMapper compositionMapper;
     @Autowired
-    private ElementCompositionMapper elementCompositionMapper;
+    private ElementMapper elementMapper;
     @Autowired
     private ImageCompositionMapper imageCompositionMapper;
 
-    @PostMapping("atelier-chant-de-fleur/compositions/{id}/edit")
+    @PostMapping("/"+HttpUrlConstantes.ID_PV+"/"+HttpUrlConstantes.EDIT)
     public CompositionRest save(@RequestBody CompositionRest compositionRest){
-        List<ElementCompositionDTO> elementCompositionDTOS = compositionRest.getElements().stream()
-                .map(this.elementCompositionMapper::fromRestToDomain)
+        List<ElementDTO> elementDTOS = compositionRest.getElements().stream()
+                .map(this.elementMapper::fromRestToDomain)
                 .collect(Collectors.toList());
-        CompositionDTO compositionDTOTosave = this.compositionMapper.fromRestToDomain(compositionRest, elementCompositionDTOS, new ArrayList<>());
+        CompositionDTO compositionDTOTosave = this.compositionMapper.fromRestToDomain(compositionRest, elementDTOS, new ArrayList<>());
         CompositionDTO compositionDTO = this.compositionService.save(compositionDTOTosave);
-        List<ElementCompositionRest> elementCompositionRests = new ArrayList<>(compositionDTO.getElementsComposition().stream()
-                .map(this.elementCompositionMapper::fromDomainToRest)
+        List<ElementRest> elementRests = new ArrayList<>(compositionDTO.getElementsComposition().stream()
+                .map(this.elementMapper::fromDomainToRest)
                 .collect(Collectors.toSet()));
-        elementCompositionRests.stream()
-                .sorted(Comparator.comparing(ElementCompositionRest::getNom))
+        elementRests.stream()
+                .sorted(Comparator.comparing(ElementRest::getNom))
                 .collect(Collectors.toList());
-        return this.compositionMapper.fromDomainToRest(compositionDTO, elementCompositionRests, new ArrayList<>());
+        return this.compositionMapper.fromDomainToRest(compositionDTO, elementRests, new ArrayList<>());
     }
 
-    @PostMapping(value="atelier-chant-de-fleur/compositions/{id}/edit", params = {"id-evenement"})
+    @PostMapping(value="/"+HttpUrlConstantes.ID_PV+"/"+HttpUrlConstantes.EDIT, params = {HttpUrlConstantes.ID_EVT_PARAM})
     public CompositionRest saveInEvt(@RequestBody CompositionRest compositionRest, @RequestParam(name="id-evenement")Long idEvt){
-        List<ElementCompositionDTO> elementCompositionDTOS = compositionRest.getElements().stream()
-                .map(this.elementCompositionMapper::fromRestToDomain)
+        List<ElementDTO> elementDTOS = compositionRest.getElements().stream()
+                .map(this.elementMapper::fromRestToDomain)
                 .collect(Collectors.toList());
-        CompositionDTO compositionDTOTosave = this.compositionMapper.fromRestToDomain(compositionRest, elementCompositionDTOS, new ArrayList<>());
+        CompositionDTO compositionDTOTosave = this.compositionMapper.fromRestToDomain(compositionRest, elementDTOS, new ArrayList<>());
         CompositionDTO compositionDTO = this.compositionService.saveInEvt(compositionDTOTosave, idEvt);
-        List<ElementCompositionRest> elementCompositionRests = new ArrayList<>(compositionDTO.getElementsComposition().stream()
-                .map(this.elementCompositionMapper::fromDomainToRest)
+        List<ElementRest> elementRests = new ArrayList<>(compositionDTO.getElementsComposition().stream()
+                .map(this.elementMapper::fromDomainToRest)
                 .collect(Collectors.toSet()));
-        elementCompositionRests.stream()
-                .sorted(Comparator.comparing(ElementCompositionRest::getNom))
+        elementRests.stream()
+                .sorted(Comparator.comparing(ElementRest::getNom))
                 .collect(Collectors.toList());
-        return this.compositionMapper.fromDomainToRest(compositionDTO, elementCompositionRests, new ArrayList<>());
+        return this.compositionMapper.fromDomainToRest(compositionDTO, elementRests, new ArrayList<>());
     }
 
-    @GetMapping("atelier-chant-de-fleur/compositions/")
+    @GetMapping("/")
     public List<CompositionRest> getAll(){
         List<CompositionDTO> compositionDTOS = this.compositionService.getAll();
         return compositionDTOS.stream()
@@ -71,7 +75,7 @@ public class CompositionController {
                 .map(c -> this.compositionMapper.fromDomainToRest(
                         c,
                         new ArrayList<>(c.getElementsComposition().stream()
-                                .map(this.elementCompositionMapper::fromDomainToRest)
+                                .map(this.elementMapper::fromDomainToRest)
                                 .collect(Collectors.toSet())),
                         c.getImagesComposition().stream()
                                 .map(this.imageCompositionMapper::fromDomainToRest)
@@ -79,25 +83,25 @@ public class CompositionController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("atelier-chant-de-fleur/compositions/{id}")
+    @GetMapping("/"+HttpUrlConstantes.ID_PV)
     public CompositionRest getById(@PathVariable Long id){
         CompositionDTO compositionDTO = this.compositionService.getById(id);
-        List<ElementCompositionRest> elementCompositionRests = new ArrayList<>(compositionDTO.getElementsComposition().stream()
-                .map(this.elementCompositionMapper::fromDomainToRest)
+        List<ElementRest> elementRests = new ArrayList<>(compositionDTO.getElementsComposition().stream()
+                .map(this.elementMapper::fromDomainToRest)
                 .collect(Collectors.toSet()));
         List<ImageCompositionRest> imageCompositionRests = compositionDTO.getImagesComposition().stream()
                 .map(this.imageCompositionMapper::fromDomainToRest)
                 .collect(Collectors.toList());
-        return this.compositionMapper.fromDomainToRest(compositionDTO, elementCompositionRests, imageCompositionRests);
+        return this.compositionMapper.fromDomainToRest(compositionDTO, elementRests, imageCompositionRests);
     }
 
-    @DeleteMapping("atelier-chant-de-fleur/compositions/{id}")
+    @DeleteMapping("/"+HttpUrlConstantes.ID_PV)
     public ResponseEntity<String> deleteById(@PathVariable Long id){
         this.compositionService.deleteById(id);
         return ResponseEntity.ok(null);
     }
 
-    @DeleteMapping("atelier-chant-de-fleur/compositions/evenements/{id}")
+    @DeleteMapping("/"+HttpUrlConstantes.EVENEMENT_URL+"/"+HttpUrlConstantes.ID_PV)
     public ResponseEntity<String> deleteByIdFromEvt(@PathVariable Long id){
         this.compositionService.deleteByIdFromEvt(id);
         return ResponseEntity.ok(null);

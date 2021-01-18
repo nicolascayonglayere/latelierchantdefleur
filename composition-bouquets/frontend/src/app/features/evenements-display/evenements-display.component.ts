@@ -69,7 +69,12 @@ onClikDeleteEvt(id: number): void {
         ...this.configSuccess,
         data: 'Suppression effectuée !'
     });
-    this.router.navigate(['atelier-chant-de-fleur', 'evenements']);
+    this.evtService.getAll();
+    this.evtService.currentAllEvenement.subscribe(evt => {
+      this.tsEvt = evt;
+      this.length = this.tsEvt.length;
+      this.evtResearch = this.tsEvt;
+    });
   }, err => {
     this.snackBar.openFromComponent(SnackbarSuccessComponent, {
       ...this.configFailed,

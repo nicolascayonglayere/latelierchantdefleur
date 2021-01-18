@@ -7,6 +7,6 @@ public class MateriauRest {
 
     private Long id;
     private String nom;
-    private float prixUnitaire;
+    private Double prixUnitaire;
     private FournisseurRest fournisseurRest;
 }

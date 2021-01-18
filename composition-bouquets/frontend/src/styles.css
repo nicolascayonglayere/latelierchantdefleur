@@ -7,30 +7,30 @@
   }
 
   body{
-    background-color: #edafb7;
-    color: #2e669e;
+    background-color: #fff8ee;/*#edafb7;*/
+    color: #8c423b;/*#2e669e;*/
   }
 
 .list-group-item{
-  background-color: #edafb7;
+  background-color: #fff8ee;/*#edafb7;*/
 }
 
 .card-body {
-  background-color: #edafb7;
-  color: #2e669e;
+  background-color: #fff8ee;/*#edafb7;*/
+  color: #8c423b;/*#2e669e;*/
 }
 
 .card-header {
-  background-color: #D49DA4;
+  background-color: #feefd0;/*#D49DA4;*/
 }
 
 .card {
-  border-color: #D49DA4;
+  border-color: #d99d8f;/*#D49DA4;*/
   margin-top: 5px;
 }
 
 .card-footer {
-  background-color: #FAB9C2;
+  background-color: #d99d8f/*#FAB9C2;*/
 }
 
 #iconPlus {
@@ -57,7 +57,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .mat-paginator{
-  background: #edafb7;
+  background: #fff8ee;/*#edafb7;*/
 }
 
 .titre-form{

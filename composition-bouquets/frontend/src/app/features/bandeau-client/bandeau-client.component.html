@@ -1,0 +1,32 @@
+<div class="card-group">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{clientSelected.nom1}} {{clientSelected.prenom1}}</h5>
+      <h5 class="card-title" *ngIf="clientSelected.nom2">{{clientSelected.nom2}} {{clientSelected.prenom2}}</h5>
+      <div class="card-subtitle">{{clientSelected.email}}</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body" *ngIf="derniereCommandeEnCours">
+      <h5 class="card-title">{{clientSelected.evenementsRest[0].nom}}</h5>
+      <h5 class="card-title">Evenement prévu : {{clientSelected.evenementsRest[0].datePrevue | date : 'dd/MM/yyyy'}} </h5>
+      <h5 class="card-title">Budget : {{clientSelected.evenementsRest[0].budget | number}} €</h5>
+    </div>
+    <div class="card-body" *ngIf="!derniereCommandeEnCours">
+      <h5 class="card-title">Aucun évènement prévu</h5>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body" *ngIf="clientSelected.evenementsRest">
+      <h5 class="card-title"> Historique des evenements : </h5>
+      <div class="card-content">
+        Dernière commande acquitee: {{derniereCommandeAcquittee.nom}} prévu le {{derniereCommandeAcquittee.datePrevue | date : 'dd/MM/yyyy'}}. Montant : {{montantDerniereCommandeAcquittee | number}} €
+        Nombre total de commandes : {{clientSelected.evenementsRest.length}} <br/>
+        Total : {{totTtesCommandes | number}} €
+      </div>
+    </div>
+    <div class="card-body" *ngIf="!clientSelected.evenementsRest" id="card-premiere-evenement">
+      <h5 class="card-title"> Première evenement ! </h5>
+    </div>
+  </div>
+</div>

@@ -27,7 +27,7 @@ public class TigeMapper {
         tigeRest.setId(tigeDTO.getId());
         tigeRest.setNom(tigeDTO.getNom());
         tigeRest.setNomLatin(tigeDTO.getNomLatin());
-        tigeRest.setPrixUnitaire(tigeDTO.getPrixUnitaire() / 100f);
+        tigeRest.setPrixUnitaire(tigeDTO.getPrixUnitaire());
         tigeRest.setFournisseurRest(fournisseurRest);
         return tigeRest;
     }
@@ -46,7 +46,7 @@ public class TigeMapper {
                 tigeRest.getId(),
                 tigeRest.getNom(),
                 Objects.isNull(tigeRest.getNomLatin()) ? "" : tigeRest.getNomLatin(),
-                (int)tigeRest.getPrixUnitaire() * 100,
+                tigeRest.getPrixUnitaire(),
                 null
         );
     }
@@ -56,7 +56,7 @@ public class TigeMapper {
                 tigeRest.getId(),
                 tigeRest.getNom(),
                 Objects.isNull(tigeRest.getNomLatin()) ? "" : tigeRest.getNomLatin(),
-                (int)tigeRest.getPrixUnitaire() * 100,
+                tigeRest.getPrixUnitaire(),
                 fournisseurDTO
         );
     }

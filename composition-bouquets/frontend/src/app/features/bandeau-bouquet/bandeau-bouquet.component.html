@@ -6,8 +6,22 @@
 <div >
   <div class="card">
     <div class="card-header d-flex justify-content-between">
-      <mat-checkbox [(ngModel)]="bouquet" [disabled]="bouquet" (change)="!bouquet = bouquet" (click)="onClikResetCompo()">Composition</mat-checkbox>
-      <mat-checkbox [(ngModel)]="!bouquet" [disabled]="!bouquet" (change)="bouquet = !bouquet" (click)="onClikResetCompo()">Evenement</mat-checkbox>
+      <mat-form-field appearance="fill" id="select-mat-form-field-client">
+        <mat-label>Sélectionnez un client</mat-label>
+        <mat-select id="fournisseurId" (selectionChange)="onChangeSelectClient($event)">
+          <mat-option>Aucun</mat-option>
+          <mat-option *ngFor="let client of clients" value="{{client.id}}">
+            {{client.nom1}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <ui-switch uncheckedLabel="Evenement"
+        checkedLabel="Composition"
+        [(ngModel)]="bouquet"
+        (change)="!bouquet = bouquet"
+        (click)="onClikResetCompo()">
+      </ui-switch>
+      <!-- <mat-checkbox [(ngModel)]="bouquet" [disabled]="bouquet" (change)="!bouquet = bouquet" (click)="onClikResetCompo()">Composition</mat-checkbox>
+      <mat-checkbox [(ngModel)]="!bouquet" [disabled]="!bouquet" (change)="bouquet = !bouquet" (click)="onClikResetCompo()">Evenement</mat-checkbox> -->
     </div>
   </div>
 
@@ -71,12 +85,12 @@
     <div class="card-body">
       <form class="form-inline d-flex" [formGroup]="timePicker" (ngSubmit)="onSubmitTempsTravail()">
         <div class="form-group">
-          <mat-form-field appearance="fill" id="select-mat-form-field">
+          <mat-form-field appearance="fill" class="select-mat-form-field">
             <mat-label>Heure</mat-label>
             <input matInput type="number" formControlName="heure" placeholder="00" required />
           </mat-form-field>
           :
-          <mat-form-field appearance="fill" id="select-mat-form-field">
+          <mat-form-field appearance="fill" class="select-mat-form-field">
             <mat-label>Minute</mat-label>
             <input matInput type="number" formControlName="minute" placeholder="00" required />
           </mat-form-field>
@@ -125,11 +139,15 @@
 
   <div *ngIf="bouquet">
     <button mat-raised-button color="primary" type="button" (click)="onClickSaveComposition()"
-    [disabled]="qteTigeTot === 0">Enregistrer la composition</button>
+      [disabled]="qteTigeTot === 0 || tvaActuelle === 0 || margeActuelle === 0 || tauxHoraire === 0">
+      Enregistrer la composition
+    </button>
   </div>
   <div *ngIf="!bouquet">
     <button mat-raised-button color="primary" type="button" (click)="onClickSaveEvenement()"
-    [disabled]="elementCompo.length === 0">Enregistrer l'évènement</button>
+      [disabled]="elementCompo.length === 0 ">
+      Enregistrer l'évènement
+    </button>
   </div>
 </div>
 

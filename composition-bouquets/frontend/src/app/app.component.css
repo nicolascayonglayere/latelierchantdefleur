@@ -7,8 +7,8 @@ h1, .h1 {
 }
 
 .container {
-    background-color: #edafb7;
-    color: #2e669e;
+    background-color:#fff8ee;/*#edafb7;*/
+    color: #8c423b;/*#2e669e;*/
 }
 
 #app-bandeau-bouquet{

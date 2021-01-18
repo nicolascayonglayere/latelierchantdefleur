@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EvenementAddDialogComponent } from './evenement-add-dialog.component';
+import { EvenementAddDialogComponent } from './commande-add-dialog.component';
 
 describe('EvenementAddDialogComponent', () => {
   let component: EvenementAddDialogComponent;

@@ -85,7 +85,6 @@ editing: boolean[] = [];
   }
 
   getPaginatorData(event: PageEvent): PageEvent{
-    console.log(event);
     this.lowValue = event.pageIndex * event.pageSize;
     this.highValue = this.lowValue + event.pageSize;
     return event;

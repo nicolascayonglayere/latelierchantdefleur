@@ -1,0 +1,22 @@
+<div class="row justify-content-between" id="researchBarClient">
+  <button mat-raised-button color="primary" type="button" routerLink="/atelier-chant-de-fleur/clients/0/edit">Ajouter un nouveau client</button>
+  <input type="text" class="form-control form-control-sm" name="searchBar" placeholder="Rechercher" (change)="onChangeResearch($event)" />
+  <mat-paginator [length]="length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="page = getPaginatorData($event)">
+  </mat-paginator>
+</div>
+
+<div *ngIf="clients.length > 0">
+  <ul class="list-group" *ngFor="let client of clientsResearch | slice: lowValue : highValue; let i = index">
+    <li class="list-group-item d-flex justify-content-between">
+      <div class="flex-grow-1">{{ client.nom1 }} -- {{ client.email }} -- {{ client.budget }} €</div>
+      <div class="ml-auto">
+        <button mat-icon-button color="primary" routerLink="/atelier-chant-de-fleur/clients/{{client.id}}/edit" matTooltip="Modifier le client"><fa-icon [icon]="faEdit"></fa-icon></button>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="clients.length === 0" class="alert alert-danger">Aucun client enregistré en base.</div>

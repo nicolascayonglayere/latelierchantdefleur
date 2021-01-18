@@ -6,8 +6,12 @@
     margin-right: 10px;
   }
 
-#select-mat-form-field {
+.select-mat-form-field {
   width: 30%;
+}
+
+#select-mat-form-field-client {
+  width: 50%;
 }
 
 #btonExpand{

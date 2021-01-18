@@ -1,5 +1,6 @@
 package com.atelierchantdefleur.bouquetcomposer.controller;
 
+import com.atelierchantdefleur.bouquetcomposer.model.constante.HttpUrlConstantes;
 import com.atelierchantdefleur.bouquetcomposer.service.TigeService;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.FournisseurDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.TigeDTO;
@@ -14,9 +15,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequestMapping(TigeController.rootUrl)
 @RestController
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(HttpUrlConstantes.CROSS_ORIGIN)
 public class TigeController {
+
+    public static final String rootUrl = HttpUrlConstantes.ROOT_URL + "/" + HttpUrlConstantes.TIGE_URL;
 
     @Autowired
     private TigeMapper tigeMapper;
@@ -25,7 +29,7 @@ public class TigeController {
     @Autowired
     private FournisseurMapper fournisseurMapper;
 
-    @GetMapping("atelier-chant-de-fleur/tiges/")
+    @GetMapping("/")
     public List<TigeRest> getAllTiges(){
         List<TigeDTO> tigeDTOS = this.tigeService.getAll();
         return tigeDTOS.stream()
@@ -34,14 +38,14 @@ public class TigeController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("atelier-chant-de-fleur/tiges/{id}")
+    @GetMapping("/"+HttpUrlConstantes.ID_PV)
     public TigeRest getById(@PathVariable(name="id") Integer id){
         TigeDTO tigeDTO = this.tigeService.getByID(id);
         FournisseurRest fournisseurRest = this.fournisseurMapper.fromDomainToRest(tigeDTO.getFournisseurDTO());
         return this.tigeMapper.fromDomainToRest(tigeDTO, fournisseurRest);
     }
 
-    @PostMapping("atelier-chant-de-fleur/tiges/{id}/edit")
+    @PostMapping("/"+HttpUrlConstantes.ID_PV+"/"+HttpUrlConstantes.EDIT)
     public TigeRest save(@RequestBody TigeRest tige){
         FournisseurDTO fournisseurDTO = this.fournisseurMapper.fromRestToDomain(tige.getFournisseurRest());
         TigeDTO tigeToSave = this.tigeMapper.fromRestToDomainWithFournisseur(tige, fournisseurDTO);
@@ -50,7 +54,7 @@ public class TigeController {
         return this.tigeMapper.fromDomainToRest(tigeDTO, fournisseurRest);
     }
 
-    @PutMapping("atelier-chant-de-fleur/tiges/{id}/edit")
+    @PutMapping("/"+HttpUrlConstantes.ID_PV+"/"+HttpUrlConstantes.EDIT)
     public TigeRest update(@RequestBody TigeRest tige, @PathVariable(name="id") Integer id){
         FournisseurDTO fournisseurDTO = this.fournisseurMapper.fromRestToDomain(tige.getFournisseurRest());
         TigeDTO tigeToUpdate = this.tigeMapper.fromRestToDomainWithFournisseur(tige, fournisseurDTO);

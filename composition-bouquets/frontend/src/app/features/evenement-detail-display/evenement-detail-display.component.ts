@@ -37,12 +37,12 @@ export class EvenementDetailDisplayComponent implements OnInit {
   tiges: ElementComposition[] = [];
   materiaux: ElementComposition[] = [];
 
-  mntTigesTot: number = 0;
-  mntMatTot: number = 0;
-  mntCompoTot: number = 0;
-  mntCompoTva: number = 0;
+  mntTigesTot = 0;
+  mntMatTot = 0;
+  mntCompoTot = 0;
+  mntCompoTva = 0;
 
-  tpstravailCompo: number = 0;
+  tpstravailCompo = 0;
 
   compoDisplay: CompoElt[] = [];
 
@@ -63,20 +63,20 @@ export class EvenementDetailDisplayComponent implements OnInit {
         const tigesEvt: ElementComposition[] = [];
         const matEvt: ElementComposition[] = [];
         this.evenement.compositions.forEach(c => {
-
-          this.mntCompoTot = this.mntCompoTot + c.prixUnitaire;
-          this.mntCompoTva = this.mntCompoTva + c.prixUnitaire * (c.tva / 100);
-          this.tpstravailCompo = this.tpstravailCompo + c.dureeCreation;
+          // this.m
+          this.mntCompoTot = this.mntCompoTot + c.composition.prixUnitaire * c.quantite;
+          this.mntCompoTva = this.mntCompoTva + (c.composition.prixUnitaire * c.quantite) * (c.composition.tva / 100);
+          this.tpstravailCompo = this.tpstravailCompo + c.composition.dureeCreation;
           if (! this.compoDisplay.find(cd => cd.compo.id === c.id)){
             const compDisp = new CompoElt();
-            compDisp.compo = c;
-            if (c.nom === null){
+            compDisp.compo = c.composition;
+            if (c.composition.nom === null){
               compDisp.compo.nom = 'Composition sans nom';
             }
-            compDisp.qte = this.calculQteCompo(this.evenement.compositions, c.id);
+            compDisp.qte = c.quantite; // this.calculQteCompo(this.evenement.compositions, c.id);
             this.compoDisplay.push(compDisp);
           }
-          c.elements.forEach(e => {
+          c.composition.elements.forEach(e => {
             if (e.type === 'TIGE'){
               tigesEvt.push(e);
             }
@@ -87,20 +87,20 @@ export class EvenementDetailDisplayComponent implements OnInit {
 
 
       });
-      tigesEvt.forEach(e => {
+        tigesEvt.forEach(e => {
         if (!this.tiges.find(t => t.id === e.id)){
           e.quantite = this.calculQte(tigesEvt, e.id);
           this.tiges.push(e);
         }
       });
 
-      matEvt.forEach(e => {
+        matEvt.forEach(e => {
         if (!this.materiaux.find(m => m.id === e.id)){
           e.quantite = this.calculQte(matEvt, e.id);
           this.materiaux.push(e);
         }
       });
-      this.tiges.forEach(t => {
+        this.tiges.forEach(t => {
         this.tigeService.getById(t.id).subscribe(tige => {
           if (!this.fournisseurs.find(f => f.fournisseur.id === tige.fournisseurRest.id)){
             const fournisseurElt = new FournisseurElement();
@@ -122,7 +122,7 @@ export class EvenementDetailDisplayComponent implements OnInit {
         this.mntTigesTot = this.mntTigesTot + t.quantite * t.prixUnitaire;
       });
 
-      this.materiaux.forEach(m => {
+        this.materiaux.forEach(m => {
         this.matService.getById(m.id).subscribe(mat => {
           if (!this.fournisseurs.find(f => f.fournisseur.id === mat.fournisseurRest.id)){
             const fournisseurElt = new FournisseurElement();
@@ -175,8 +175,8 @@ onClikDeleteEvt(): void {
 }
 
 captureScreen(): void{
-  this.evtService.downloadDevis(this.evenement.id).subscribe(resp =>{
-    let blob:any = new Blob([resp], { type: 'application/pdf' });
+  this.evtService.downloadDevis(this.evenement.id).subscribe(resp => {
+    const blob: any = new Blob([resp], { type: 'application/pdf' });
     const url = window.URL.createObjectURL(blob);
     window.open(url);
     this.snackBar.openFromComponent(SnackbarSuccessComponent, {

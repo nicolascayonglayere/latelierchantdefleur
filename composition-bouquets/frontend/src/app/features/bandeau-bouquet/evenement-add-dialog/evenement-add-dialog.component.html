@@ -20,10 +20,13 @@
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
+  <mat-form-field appearance="fill" id="nom-compo">
+    <input matInput type="number" name="budget" placeholder="budget prévu pour l'évènement" [(ngModel)]="data.budget" [disabled]="nouveau === false"/>
+  </mat-form-field>
   <div >
     <ul *ngFor="let element of data.compositions">
       <li class="">
-        {{element.nom}} -- {{element.prixUnitaire | number}} €
+        {{element.composition.nom}} -- {{element.composition.prixUnitaire | number}} €
       </li>
     </ul>
   </div>
@@ -36,16 +39,14 @@
     class="ripple"
     [mat-dialog-close]="data"
     [aria-label]="'Ajouter'"
-    cdkFocusInitial
-  >
+    cdkFocusInitial>
     Ajouter
   </button>
   <button
     mat-stroked-button
     class="ripple"
     [mat-dialog-close]="'Cancel'"
-    [aria-label]="'Annuler'"
-  >
+    [aria-label]="'Annuler'">
     Annuler
   </button>
 </mat-dialog-actions>

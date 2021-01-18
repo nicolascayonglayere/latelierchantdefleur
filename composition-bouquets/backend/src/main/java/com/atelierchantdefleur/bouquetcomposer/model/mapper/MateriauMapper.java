@@ -23,7 +23,7 @@ public class MateriauMapper {
         MateriauRest materiauRest = new MateriauRest();
         materiauRest.setId(materiauDTO.getId());
         materiauRest.setNom(materiauDTO.getNom());
-        materiauRest.setPrixUnitaire(materiauDTO.getPrixUnitaire() / 100f);
+        materiauRest.setPrixUnitaire(materiauDTO.getPrixUnitaire());
         materiauRest.setFournisseurRest(fournisseurRest);
         return materiauRest;
     }
@@ -40,7 +40,7 @@ public class MateriauMapper {
         return new MateriauDTO(
                 materiauRest.getId(),
                 materiauRest.getNom(),
-                (int)materiauRest.getPrixUnitaire() *100,
+                materiauRest.getPrixUnitaire(),
                 fournisseurDTO
         );
     }
@@ -49,7 +49,7 @@ public class MateriauMapper {
         return new MateriauDTO(
                 materiauRest.getId(),
                 materiauRest.getNom(),
-                (int)materiauRest.getPrixUnitaire() * 100,
+                materiauRest.getPrixUnitaire(),
                 null
         );
     }

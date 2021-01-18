@@ -1,5 +1,6 @@
 package com.atelierchantdefleur.bouquetcomposer.controller;
 
+import com.atelierchantdefleur.bouquetcomposer.model.constante.HttpUrlConstantes;
 import com.atelierchantdefleur.bouquetcomposer.service.MateriauService;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.FournisseurDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.MateriauDTO;
@@ -14,9 +15,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequestMapping(MateriauController.rootUrl)
 @RestController
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(HttpUrlConstantes.CROSS_ORIGIN)
 public class MateriauController {
+
+    public static final String rootUrl = HttpUrlConstantes.ROOT_URL + "/" + HttpUrlConstantes.MATERIAU_URL;
 
     @Autowired
     private MateriauMapper materiauMapper;
@@ -25,7 +29,7 @@ public class MateriauController {
     @Autowired
     private FournisseurMapper fournisseurMapper;
 
-    @GetMapping("atelier-chant-de-fleur/materiaux/")
+    @GetMapping("/")
     public List<MateriauRest> getAll(){
         return this.materiauService.getAll().stream()
                 .sorted(Comparator.comparing(MateriauDTO::getNom))
@@ -33,14 +37,14 @@ public class MateriauController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("atelier-chant-de-fleur/materiaux/{id}")
+    @GetMapping("/"+HttpUrlConstantes.ID_PV)
     public MateriauRest getById(@PathVariable(name="id") Integer id){
         MateriauDTO materiauDTO = this.materiauService.getById(id);
         FournisseurRest fournisseurRest = this.fournisseurMapper.fromDomainToRest(materiauDTO.getFournisseurDTO());
         return this.materiauMapper.fromDomainToRest(materiauDTO, fournisseurRest);
     }
 
-    @PostMapping("atelier-chant-de-fleur/materiaux/{id}/edit")
+    @PostMapping("/"+HttpUrlConstantes.ID_PV+"/"+HttpUrlConstantes.EDIT)
     public MateriauRest save(@RequestBody MateriauRest materiauRest){
         FournisseurDTO fournisseurDTO = this.fournisseurMapper.fromRestToDomain(materiauRest.getFournisseurRest());
         MateriauDTO materiauDTO = this.materiauService.save(this.materiauMapper.fromRestToDomainWithFournisseur(materiauRest, fournisseurDTO));
@@ -48,7 +52,7 @@ public class MateriauController {
         return this.materiauMapper.fromDomainToRest(materiauDTO, fournisseurRest);
     }
 
-    @PutMapping("atelier-chant-de-fleur/materiaux/{id}/edit")
+    @PutMapping("/"+HttpUrlConstantes.ID_PV+"/"+HttpUrlConstantes.EDIT)
     public MateriauRest update(@RequestBody MateriauRest materiauRest){
         FournisseurDTO fournisseurDTO = this.fournisseurMapper.fromRestToDomain(materiauRest.getFournisseurRest());
         MateriauDTO materiauDTO = this.materiauService.save(this.materiauMapper.fromRestToDomainWithFournisseur(materiauRest, fournisseurDTO));

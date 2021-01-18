@@ -4,13 +4,12 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name="tige")
 @Data
 @PrimaryKeyJoinColumn(name = "element_id")
-public class Tige extends ElementComposition implements Serializable{
+public class Tige extends Element implements Serializable{
 
     @Column(name = "nom_latin")
     private String nomLatin;

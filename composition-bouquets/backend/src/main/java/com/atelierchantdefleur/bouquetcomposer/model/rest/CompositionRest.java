@@ -11,9 +11,11 @@ public class CompositionRest {
     private Long id;
     private String nom;
     private LocalDate dateCreation;
-    private float dureeCreation;
-    private float prixUnitaire;
-    private List<ElementCompositionRest> elements;
+    private Double dureeCreation;
+    private Double prixUnitaire;
+    private List<ElementRest> elements;
     private List<ImageCompositionRest> images;
     private Integer tva;
+    private Integer marge;
+    private Double tauxHoraire;
 }

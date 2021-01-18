@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EvenementsDisplayComponent } from './evenements-display.component';
+import { EvenementsDisplayComponent } from './commandes-display.component';
 
 describe('EvenementsDisplayComponent', () => {
   let component: EvenementsDisplayComponent;

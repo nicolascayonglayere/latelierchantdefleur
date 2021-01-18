@@ -16,7 +16,7 @@ export class CompositionAddDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: CompositionEvenement, private evtService: EvenementService
   ) {
     this.evtService.getAll();
-    this.evtService.allEvenementSource.subscribe(resp =>{
+    this.evtService.allEvenementSource.subscribe(resp => {
       this.evenements = resp;
     });
    }

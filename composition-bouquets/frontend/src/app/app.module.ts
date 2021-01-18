@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Component } from '@angular/core';
-
+import { UiSwitchModule } from 'ngx-ui-switch';
 import { AppComponent } from './app.component';
 import { MenuNavigationComponent } from './layout/menu-navigation/menu-navigation.component';
 import { TigesDisplayComponent } from './features/tiges-display/tiges-display.component';
@@ -44,6 +44,9 @@ import { CarouselModule, WavesModule } from 'angular-bootstrap-md';
 import { CompositionDelDialogComponent } from './features/composition-del-dialog/composition-del-dialog.component';
 import { EvenementEditComponent } from './features/evenement-edit/evenement-edit.component';
 import { RxStompService  } from '@stomp/ng2-stompjs';
+import { ClientEditComponent } from './features/client-edit/client-edit.component';
+import { ClientsDisplayComponent } from './features/clients-display/clients-display.component';
+import { BandeauClientComponent } from './features/bandeau-client/bandeau-client.component';
 
 
 const appRoutes: Routes = [
@@ -59,6 +62,8 @@ const appRoutes: Routes = [
   { path: 'atelier-chant-de-fleur/evenements/:id', component: EvenementDetailDisplayComponent },
   { path: 'atelier-chant-de-fleur/evenements', component: EvenementsDisplayComponent},
   { path: 'atelier-chant-de-fleur/evenements/:id/edit', component: EvenementEditComponent },
+  { path: 'atelier-chant-de-fleur/clients', component: ClientsDisplayComponent },
+  { path: 'atelier-chant-de-fleur/clients/:id/edit', component: ClientEditComponent },
   // { path: '', redirectTo: 'atelier-chant-de-fleur/tiges', pathMatch: 'full' },
 ];
 
@@ -82,7 +87,10 @@ const appRoutes: Routes = [
     EvenementsDisplayComponent,
     CompositionDetailDisplayComponent,
     CompositionDelDialogComponent,
-    EvenementEditComponent
+    EvenementEditComponent,
+    ClientEditComponent,
+    ClientsDisplayComponent,
+    BandeauClientComponent
   ],
   imports: [
     BrowserModule,
@@ -110,7 +118,8 @@ const appRoutes: Routes = [
     MatDividerModule,
     NgxMaterialTimepickerModule.setLocale('fr-FR'),
     CarouselModule,
-    WavesModule
+    WavesModule,
+    UiSwitchModule
   ],
   providers: [
     RxStompService

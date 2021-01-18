@@ -1,16 +1,14 @@
 package com.atelierchantdefleur.bouquetcomposer.service;
 
-import com.atelierchantdefleur.bouquetcomposer.model.domain.CompositionDTO;
-import com.atelierchantdefleur.bouquetcomposer.model.domain.ElementCompositionDTO;
-import com.atelierchantdefleur.bouquetcomposer.model.domain.EvenementDTO;
-import com.atelierchantdefleur.bouquetcomposer.model.domain.ImageCompositionDTO;
+import com.atelierchantdefleur.bouquetcomposer.model.domain.*;
 import com.atelierchantdefleur.bouquetcomposer.model.entity.Composition;
-import com.atelierchantdefleur.bouquetcomposer.model.entity.ElementComposition;
 import com.atelierchantdefleur.bouquetcomposer.model.entity.ImageComposition;
+import com.atelierchantdefleur.bouquetcomposer.model.entity.ElementComposition;
 import com.atelierchantdefleur.bouquetcomposer.model.mapper.CompositionMapper;
-import com.atelierchantdefleur.bouquetcomposer.model.mapper.ElementCompositionMapper;
+import com.atelierchantdefleur.bouquetcomposer.model.mapper.ElementMapper;
 import com.atelierchantdefleur.bouquetcomposer.model.mapper.ImageCompositionMapper;
 import com.atelierchantdefleur.bouquetcomposer.repository.CompositionRepository;
+import com.atelierchantdefleur.bouquetcomposer.repository.ElementCompositionRepository;
 import com.atelierchantdefleur.bouquetcomposer.repository.ImageCompositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,61 +17,83 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 public class CompositionService {
 
-    private final EvenementService evenementService;
+    private final CommandeService commandeService;
     private final CompositionRepository compositionRepository;
     private final ImageCompositionRepository imageCompositionRepository;
+    private final ElementCompositionRepository elementCompositionRepository;
     private final CompositionMapper compositionMapper;
-    private final ElementCompositionMapper elementCompositionMapper;
+    private final ElementMapper elementMapper;
     private final ImageCompositionMapper imageCompositionMapper;
+    private final ElementService elementService;
 
     @Autowired
     public CompositionService (CompositionRepository compositionRepository, CompositionMapper compositionMapper,
-                               ElementCompositionMapper elementCompositionMapper, ImageCompositionMapper imageCompositionMapper,
-                               ImageCompositionRepository imageCompositionRepository, EvenementService evenementService){
+                               ElementMapper elementMapper, ImageCompositionMapper imageCompositionMapper,
+                               ImageCompositionRepository imageCompositionRepository, CommandeService commandeService,
+                               ElementService elementService, ElementCompositionRepository elementCompositionRepository){
         this.compositionRepository = compositionRepository;
         this.compositionMapper = compositionMapper;
-        this.elementCompositionMapper = elementCompositionMapper;
+        this.elementMapper = elementMapper;
         this.imageCompositionMapper = imageCompositionMapper;
         this.imageCompositionRepository = imageCompositionRepository;
-        this.evenementService = evenementService;
+        this.commandeService = commandeService;
+        this.elementService = elementService;
+        this.elementCompositionRepository = elementCompositionRepository;
     }
 
     public CompositionDTO save(CompositionDTO compositionDTO){
-        List<ElementComposition> elementCompositions = new ArrayList<>();
-        compositionDTO.getElementsComposition().forEach(e ->{
-            IntStream.range(0, e.getQuantite()).forEach(i ->{
-                elementCompositions.add(this.elementCompositionMapper.fromDomainToEntity(e));
-            });
-        });
+        List<ElementComposition> elementCompositions = compositionDTO.getElementsComposition()
+                .stream()
+                .map(this.elementMapper::fromDomainToEntityQteEltCompo)
+                .collect(Collectors.toList());
+
+//                .forEach(e ->{
+//            IntStream.range(0, e.getQuantite()).forEach(i ->{
+//                elementCompositions.add(this.elementCompositionMapper.fromDomainToEntity(e));
+//            });
+//        });
         List<ImageComposition> imageCompositions = compositionDTO.getImagesComposition().stream()
                 .map(this.imageCompositionMapper::fromDomainToEntity)
                 .collect(Collectors.toList());
         Composition compositionToSave = this.compositionMapper.fromDomainToEntity(compositionDTO, elementCompositions, imageCompositions);
         Composition composition = this.compositionRepository.save(compositionToSave);
+        compositionToSave.getElements().stream().forEach(e -> {
+            e.setComposition(composition);
+            this.elementCompositionRepository.save(e);
+        });
         return this.compositionMapper.fromEntityToDomain(composition, compositionDTO.getElementsComposition(), new ArrayList<>());
     }
 
     public CompositionDTO saveInEvt(CompositionDTO compositionDTO, Long idEvt){
-        List<ElementComposition> elementCompositions = new ArrayList<>();
-        compositionDTO.getElementsComposition().forEach(e ->{
-            IntStream.range(0, e.getQuantite()).forEach(i ->{
-                elementCompositions.add(this.elementCompositionMapper.fromDomainToEntity(e));
-            });
-        });
+        List<ElementComposition> elementCompositions = compositionDTO.getElementsComposition().stream()
+                .map(this.elementMapper::fromDomainToEntityQteEltCompo)
+                .collect(Collectors.toList());
+
+
+
+//                .forEach(e ->{
+//            IntStream.range(0, e.getQuantite()).forEach(i ->{
+//                elementCompositions.add(this.elementCompositionMapper.fromDomainToEntity(e));
+//            });
+//        });
         List<ImageComposition> imageCompositions = compositionDTO.getImagesComposition().stream()
                 .map(this.imageCompositionMapper::fromDomainToEntity)
                 .collect(Collectors.toList());
         Composition compositionToSave = this.compositionMapper.fromDomainToEntity(compositionDTO, elementCompositions, imageCompositions);
+        elementCompositions.stream().forEach(e -> e.setComposition(compositionToSave));
         Composition composition = this.compositionRepository.save(compositionToSave);
-        EvenementDTO evenementDTO = this.evenementService.getById(idEvt);
+        CommandeDTO commandeDTO = this.commandeService.getById(idEvt);
         CompositionDTO compoDTOSaved = this.compositionMapper.fromEntityToDomain(composition, compositionDTO.getElementsComposition(), new ArrayList<>());
-        evenementDTO.addComposition(compoDTOSaved);
-        this.evenementService.save(evenementDTO);
+        commandeDTO.addComposition(new CompositionCommandeDTO(
+                compoDTOSaved.getId(),
+                compositionDTO,
+                1
+        ));
+        this.commandeService.save(commandeDTO);
         return compoDTOSaved;
     }
 
@@ -83,7 +103,7 @@ public class CompositionService {
                 .map(c -> this.compositionMapper
                         .fromEntityToDomain(c,
                                 c.getElements().stream()
-                                        .map(elt -> this.elementCompositionMapper.fromEntityToDomain(elt, this.calculQuantiteElement(c.getElements(), elt.getId())))
+                                        .map(elt -> this.elementService.getByIdWithQuantite(elt.getElement().getId(), elt.getQuantite()))
                                         .collect(Collectors.toList()),
                                 c.getImages().stream()
                                         .map(this.imageCompositionMapper::fromEntityToDomain)
@@ -93,19 +113,19 @@ public class CompositionService {
 
     public CompositionDTO getById(Long id){
         Composition composition = this.compositionRepository.findById(id).orElseThrow(() -> new RuntimeException("La composition n'existe pas"));
-        List<ElementCompositionDTO> elementCompositionDTO = composition.getElements().stream()
-                .map(elt ->this.elementCompositionMapper.fromEntityToDomain(elt, this.calculQuantiteElement(composition.getElements(), elt.getId())))
+        List<ElementDTO> elementDTO = composition.getElements().stream()
+                .map(elt -> this.elementService.getByIdWithQuantite(elt.getElement().getId(), elt.getQuantite()))
                 .collect(Collectors.toList());
         List<ImageCompositionDTO> imageCompositionDTOS = composition.getImages().stream().map(this.imageCompositionMapper::fromEntityToDomain)
                 .collect(Collectors.toList());
-        return this.compositionMapper.fromEntityToDomain(composition, elementCompositionDTO, imageCompositionDTOS);
+        return this.compositionMapper.fromEntityToDomain(composition, elementDTO, imageCompositionDTOS);
     }
 
     public CompositionDTO updateImage(Long id, ImageCompositionDTO imageCompositionDTO){
         CompositionDTO compositionDTO = this.getById(id);
         compositionDTO.addImageComposition(imageCompositionDTO);
         List<ElementComposition> elementCompositions = compositionDTO.getElementsComposition().stream()
-                .map(this.elementCompositionMapper::fromDomainToEntity)
+                .map(this.elementMapper::fromDomainToEntityQteEltCompo)
                 .collect(Collectors.toList());
         List<ImageComposition> imageCompositions = compositionDTO.getImagesComposition().stream()
                 .map(this.imageCompositionMapper::fromDomainToEntity)
@@ -125,16 +145,16 @@ public class CompositionService {
 
     public void deleteByIdFromEvt(Long id){
         CompositionDTO compositionDTO = this.getById(id);
-        List<EvenementDTO> evenementDTOList = this.evenementService.getByIdCompo(id);
-        evenementDTOList.forEach(e ->{
+        List<CommandeDTO> commandeDTOList = this.commandeService.getByIdCompo(id);
+        commandeDTOList.forEach(e ->{
             e.setCompositions(e.getCompositions().stream().filter(c -> !Objects.equals(c.getId(), id)).collect(Collectors.toList()));
-            this.evenementService.save(e);
+            this.commandeService.save(e);
         });
         compositionDTO.getImagesComposition().forEach(i -> this.imageCompositionRepository.deleteById(i.getId()));
         this.compositionRepository.deleteById(id);
     }
 
-    private Long calculQuantiteElement(List<ElementComposition> eltComposition, Long id){
-        return eltComposition.stream().filter(e -> Objects.equals(e.getId(), id)).count();
-    }
+//    private Long calculQuantiteElement(List<ElementComposition> eltComposition, Long id){
+//        return eltComposition.stream().filter(e -> Objects.equals(e.getId(), id)).count();
+//    }
 }

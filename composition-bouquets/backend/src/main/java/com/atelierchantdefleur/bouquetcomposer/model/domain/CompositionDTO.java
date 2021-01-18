@@ -19,16 +19,18 @@ public class CompositionDTO {
     private String nom;
     private LocalDate dateCreation;
     private LocalTime dureeCreation;
-    private Integer prixUnitaire;
-    private List<ElementCompositionDTO> elementsComposition;
+    private Double prixUnitaire;
+    private List<ElementDTO> elementsComposition;
     private List<ImageCompositionDTO> imagesComposition;
     private Integer tva;
+    private Integer marge;
+    private Double tauxHoraire;
 
-    public void addElement(ElementCompositionDTO elementCompositionDTO){
+    public void addElement(ElementDTO elementDTO){
         if(Objects.isNull(this.elementsComposition)){
             this.elementsComposition = new ArrayList<>();
         }
-        this.elementsComposition.add(elementCompositionDTO);
+        this.elementsComposition.add(elementDTO);
     }
 
     public void addImageComposition(ImageCompositionDTO imageCompositionDTO){

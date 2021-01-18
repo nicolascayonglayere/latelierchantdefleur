@@ -50,7 +50,7 @@ export class FournisseurEditComponent implements OnInit {
   }
 
   initFormCreate(): void{
-    this.formTitle = 'Creation d\'un nouveau fournisseur',
+    this.formTitle = 'Creation d\'un nouveau fournisseur';
     this.fournisseurForm = this.formBuilder.group({
       nom: new FormControl('', Validators.required),
       siret: new FormControl(''),
@@ -63,7 +63,7 @@ export class FournisseurEditComponent implements OnInit {
   }
 
   initFormUpdate(): void{
-    this.formTitle = 'Modification d\'un fournisseur existant : ' + this.fournisseurEdit.nom,
+    this.formTitle = 'Modification d\'un fournisseur existant : ' + this.fournisseurEdit.nom;
     this.fournisseurForm = this.formBuilder.group({
       nom: new FormControl(this.fournisseurEdit.nom, Validators.required),
       siret: new FormControl(this.fournisseurEdit.numeroSiret),

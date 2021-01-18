@@ -1,5 +1,6 @@
 package com.atelierchantdefleur.bouquetcomposer.controller;
 
+import com.atelierchantdefleur.bouquetcomposer.model.constante.HttpUrlConstantes;
 import com.atelierchantdefleur.bouquetcomposer.service.FournisseurService;
 import com.atelierchantdefleur.bouquetcomposer.model.domain.FournisseurDTO;
 import com.atelierchantdefleur.bouquetcomposer.model.mapper.FournisseurMapper;
@@ -13,9 +14,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequestMapping(FournisseurController.rootUrl)
 @RestController
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(HttpUrlConstantes.CROSS_ORIGIN)
 public class FournisseurController {
+
+    public static final String rootUrl = HttpUrlConstantes.ROOT_URL + "/" + HttpUrlConstantes.FOURNISSEUR_URL;
 
     @Autowired
     private FournisseurService fournisseurService;
@@ -26,7 +30,7 @@ public class FournisseurController {
     @Autowired
     private MateriauMapper materiauMapper;
 
-    @GetMapping("atelier-chant-de-fleur/fournisseurs/")
+    @GetMapping("/")
     public List<FournisseurRest> getAll(){
         return this.fournisseurService.getAll().stream()
                 .sorted(Comparator.comparing(FournisseurDTO::getNom))
@@ -34,7 +38,7 @@ public class FournisseurController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("atelier-chant-de-fleur/fournisseurs/{id}")
+    @GetMapping("/"+HttpUrlConstantes.ID_PV)
     public FournisseurRest getById(@PathVariable(name="id") Integer id){
         FournisseurDTO fournisseurDTO = this.fournisseurService.getById(id);
         FournisseurRest fournisseurRest = this.fournisseurMapper.fromDomainToRest(fournisseurDTO);
@@ -53,13 +57,13 @@ public class FournisseurController {
         return fournisseurRest;
     }
 
-    @PostMapping("atelier-chant-de-fleur/fournisseurs/{id}/edit")
+    @PostMapping("/"+HttpUrlConstantes.ID_PV+"/"+HttpUrlConstantes.EDIT)
     public FournisseurRest save(@RequestBody FournisseurRest fournisseurRest){
         FournisseurDTO fournisseurDTO = this.fournisseurService.save(this.fournisseurMapper.fromRestToDomain(fournisseurRest));
         return this.fournisseurMapper.fromDomainToRest(fournisseurDTO);
     }
 
-    @PutMapping("atelier-chant-de-fleur/fournisseurs/{id}/edit")
+    @PutMapping("/"+HttpUrlConstantes.ID_PV+"/"+HttpUrlConstantes.EDIT)
     public FournisseurRest update(@RequestBody FournisseurRest fournisseurRest){
         FournisseurDTO fournisseurDTO = this.fournisseurService.save(this.fournisseurMapper.fromRestToDomain(fournisseurRest));
         FournisseurRest fournisseurRestUpdate = this.fournisseurMapper.fromDomainToRest(fournisseurDTO);

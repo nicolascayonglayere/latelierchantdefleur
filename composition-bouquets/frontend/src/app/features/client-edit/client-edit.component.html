@@ -1,0 +1,77 @@
+<h3 class="titre-form">{{formTitle}}</h3>
+<form [formGroup]="clientForm" (ngSubmit)="onSubmitForm()" class="form">
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <mat-form-field appearance="fill" id="select-mat-form-field">
+        <mat-label>Nom</mat-label>
+        <input matInput type="text" id="nom" formControlName="nom1" placeholder="Nom du client" required>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <mat-form-field appearance="fill" id="select-mat-form-field">
+        <mat-label>Prénom</mat-label>
+        <input matInput type="text" id="prenom" formControlName="prenom1" placeholder="Prénom du client">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <mat-form-field appearance="fill" id="select-mat-form-field">
+        <mat-label>Nom</mat-label>
+        <input matInput type="text" id="nom" formControlName="nom2" placeholder="Nom du client">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <mat-form-field appearance="fill" id="select-mat-form-field">
+        <mat-label>Prénom</mat-label>
+        <input matInput type="text" id="prenom" formControlName="prenom2" placeholder="Prénom du client">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <mat-form-field appearance="fill" id="select-mat-form-field">
+        <mat-label>Adresse postale</mat-label>
+        <input matInput type="text" id="adresse" formControlName="adresse" placeholder="Adresse du client">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <mat-form-field appearance="fill" id="select-mat-form-field">
+        <mat-label>Code postal</mat-label>
+        <input matInput type="text" id="codePostal" formControlName="codePostal" placeholder="12345">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <mat-form-field appearance="fill" id="select-mat-form-field">
+        <mat-label>Ville</mat-label>
+        <input matInput type="text" id="ville" formControlName="ville" placeholder="Ville">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <mat-form-field appearance="fill" id="select-mat-form-field">
+        <mat-label>Adresse mail</mat-label>
+        <input matInput type="email" id="email" formControlName="email" placeholder="email@mail.fr" required>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <mat-form-field appearance="fill" id="select-mat-form-field">
+        <mat-label>Numéro de téléphone</mat-label>
+        <input matInput type="text" id="telephone" formControlName="telephone" placeholder="0123456789">
+      </mat-form-field>
+    </div>
+  </div>
+  <button mat-raised-button color="primary" type="submit" [disabled]="clientForm.invalid">Soumettre</button>
+</form>
+

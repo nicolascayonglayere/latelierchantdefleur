@@ -20,6 +20,6 @@ public class TigeDTO {
     private String nom;
     private String nomLatin;
     @Digits(integer = 6, message = "Format du prix unitaire invalide", fraction = 0)
-    private Integer prixUnitaire;
+    private Double prixUnitaire;
     private FournisseurDTO fournisseurDTO;
 }

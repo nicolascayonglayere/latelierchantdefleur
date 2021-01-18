@@ -1,5 +1,5 @@
-import { Composition } from './../../model/Composition';
-import { EvenementService } from './../../services/evenement.service';
+import { Composition } from '../../model/Composition';
+import { EvenementService } from '../../services/evenement.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { Evenement } from 'src/app/model/Evenement';
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { SnackbarSuccessComponent } from 'src/app/layout/snackbar/snackbar-success/snackbar-success.component';
+import {CompositionCommande} from '../../model/CompositionCommande';
 
 @Component({
   selector: 'app-evenement-edit',
@@ -35,19 +36,19 @@ export class EvenementEditComponent implements OnInit {
   forfaitMo: number = 0;
   forfaitDplct: number = 0;
 
-  compositionsEdit: Composition[] = [];
+  compositionsEdit: CompositionCommande[] = [];
 
   constructor(private evtService: EvenementService, private route: ActivatedRoute,
-    private formBuilder: FormBuilder, private snackBar: MatSnackBar, private router: Router) { }
+              private formBuilder: FormBuilder, private snackBar: MatSnackBar, private router: Router) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(resp =>{
+    this.route.paramMap.subscribe(resp => {
       this.evtService.getById(+resp.get('id')).subscribe(evt => {
         this.evenement = evt;
         this.initFormUpdate();
-        this.evenement.compositions.forEach(c =>{
-          this.mntCompoTot = this.mntCompoTot + c.prixUnitaire;
-          this.mntCompoTva = this.mntCompoTva + c.prixUnitaire * (c.tva / 100);
+        this.evenement.compositions.forEach(c => {
+          this.mntCompoTot = this.mntCompoTot + c.composition.prixUnitaire;
+          this.mntCompoTva = this.mntCompoTva + c.composition.prixUnitaire * (c.composition.tva / 100);
           this.compositionsEdit.push(c);
         });
       });
@@ -59,14 +60,14 @@ export class EvenementEditComponent implements OnInit {
   initFormUpdate(): void{
     this.formTitle = 'Modification de l\'évènement ' + this.evenement.nom + ' crée le ' + this.evenement.dateCreation;
     this.evtForm = this.formBuilder.group({
-      nom: new FormControl(this.evenement.nom, Validators.required),
+      nom: new FormControl(this.evenement.nom ? this.evenement.nom : '', Validators.required),
       datePrevue: new FormControl(this.evenement.datePrevue, Validators.required),
       forfaitDplct: new FormControl(this.evenement.forfaitDplct, Validators.min(0)),
       forfaitMo: new FormControl(this.evenement.forfaitMo,  Validators.min(0))
     });
   }
 
-  onSubmitForm(){
+  onSubmitForm(): void{
     const formValue = this.evtForm.value;
     const newEvt = new Evenement();
     newEvt.id = this.evenement.id;
@@ -76,7 +77,7 @@ export class EvenementEditComponent implements OnInit {
     newEvt.forfaitDplct = formValue.forfaitDplct;
     newEvt.forfaitMo = formValue.forfaitMo;
     newEvt.compositions = this.compositionsEdit;
-    this.evtService.update(newEvt).subscribe(resp =>{
+    this.evtService.update(newEvt).subscribe(resp => {
       this.snackBar.openFromComponent(SnackbarSuccessComponent, {
         ...this.configSuccess,
         data: 'Enregistrement effectué !'

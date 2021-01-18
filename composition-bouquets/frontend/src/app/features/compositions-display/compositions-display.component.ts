@@ -158,6 +158,8 @@ private constructCompoDisplay(compo: Composition): CompositionDisplay {
   compoDisplay.materiaux = compo.elements.filter(e => e.type === 'MATERIAU');
   compoDisplay.qteImage = compo.images.length;
   compoDisplay.tva = compo.tva;
+  compoDisplay.marge = compo.marge;
+  compoDisplay.tauxHoraire = compo.tauxHoraire;
   return compoDisplay;
 }
 
