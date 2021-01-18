@@ -51,12 +51,12 @@ public class CommandeService {
         Client client = this.clientRepository.findById(commandeDTO.getClientDTO().getId())
                 .orElseThrow(() -> new RuntimeException("Le client n'existe pas"));
         Commande commandeToSave = this.commandeMapper.fromDomainToEntity(commandeDTO, new ArrayList<>(), client);
-        Commande commande = this.commandeRepository.saveAndFlush(commandeToSave);
+        Commande commande = this.commandeRepository.save(commandeToSave);
         List<CompositionsCommande> compositions = commandeDTO.getCompositions().stream()
                 .map(c -> this.commandeCompositionMapper.fromDomainToEntity(c, this.compositionMapper.fromDomainToEntity(c.getCompositionDTO(), new ArrayList<>(), new ArrayList<>()), commande))
                 .collect(Collectors.toList());
         client.addCommande(commande);
-        client = this.clientRepository.saveAndFlush(client);
+        client = this.clientRepository.save(client);
         this.compositionCommandeRepository.saveAll(compositions);
         ClientDTO clientSaved = this.clientMapper.fromEntityToDomain(client, new ArrayList<>());
         return this.commandeMapper.fromEntityToDomain(commande, commandeDTO.getCompositions(), clientSaved);

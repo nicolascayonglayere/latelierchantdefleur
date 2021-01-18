@@ -20,6 +20,24 @@ export class BandeauClientComponent implements OnInit, OnChanges {
   constructor(private evtService: EvenementService) { }
 
   ngOnInit(): void {
+    // console.log('INIT', this.clientSelected);
+    // this.derniereCommandeAcquittee = new Evenement();
+    // if(this.clientSelected.evenementsRest.length > 0){
+    //   this.calculMontantToutesCommandes(this.clientSelected.evenementsRest);
+    //   this.derniereCommandeEnCours = this.isDerniereCommandeEnCours(this.clientSelected.evenementsRest[0]);
+    //   const derniereCommandeAcquitteeVide = this.clientSelected.evenementsRest.filter(e => this.isCommandeAcquittee(e))[0];
+    //   this.calculMontantDerniereCommandeAcquittee(derniereCommandeAcquitteeVide);
+    // }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['clientSelected']){
+      console.log('CHANGES', this.clientSelected);
+      this.init();
+    }
+  }
+
+  private init(): void {
     console.log('INIT', this.clientSelected);
     this.derniereCommandeAcquittee = new Evenement();
     if(this.clientSelected.evenementsRest.length > 0){
@@ -29,24 +47,6 @@ export class BandeauClientComponent implements OnInit, OnChanges {
       this.calculMontantDerniereCommandeAcquittee(derniereCommandeAcquitteeVide);
     }
   }
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   if(changes['clientSelected']){
-  //     console.log('CHANGES', this.clientSelected);
-  //     this.init();
-  //   }
-  // }
-  //
-  // private init(): void {
-  //   console.log('INIT', this.clientSelected);
-  //   this.derniereCommandeAcquittee = new Evenement();
-  //   if(this.clientSelected.evenementsRest.length > 0){
-  //     this.calculMontantToutesCommandes(this.clientSelected.evenementsRest);
-  //     this.derniereCommandeEnCours = this.isDerniereCommandeEnCours(this.clientSelected.evenementsRest[0]);
-  //     const derniereCommandeAcquitteeVide = this.clientSelected.evenementsRest.filter(e => this.isCommandeAcquittee(e))[0];
-  //     this.calculMontantDerniereCommandeAcquittee(derniereCommandeAcquitteeVide);
-  //   }
-  // }
 
   private calculMontantToutesCommandes(evts: Evenement[]): void{
     evts.forEach(e => {

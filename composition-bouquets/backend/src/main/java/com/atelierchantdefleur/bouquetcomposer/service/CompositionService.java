@@ -85,14 +85,14 @@ public class CompositionService {
                 .collect(Collectors.toList());
         Composition compositionToSave = this.compositionMapper.fromDomainToEntity(compositionDTO, elementCompositions, imageCompositions);
         elementCompositions.stream().forEach(e -> e.setComposition(compositionToSave));
-        Composition composition = this.compositionRepository.save(compositionToSave);
+        Composition composition = this.compositionRepository.saveAndFlush(compositionToSave);
         CommandeDTO commandeDTO = this.commandeService.getById(idEvt);
         CompositionDTO compoDTOSaved = this.compositionMapper.fromEntityToDomain(composition, compositionDTO.getElementsComposition(), new ArrayList<>());
-        commandeDTO.addComposition(new CompositionCommandeDTO(
-                compoDTOSaved.getId(),
-                compositionDTO,
-                1
-        ));
+//        commandeDTO.addComposition(new CompositionCommandeDTO(
+//                compoDTOSaved.getId(),
+//                compositionDTO,
+//                1
+//        ));
         this.commandeService.save(commandeDTO);
         return compoDTOSaved;
     }
