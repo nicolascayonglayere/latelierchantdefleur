@@ -7,17 +7,17 @@
     </div>
   </div>
   <div class="card">
-    <div class="card-body" *ngIf="derniereCommandeEnCours">
+    <div class="card-body" *ngIf="clientSelected.evenementsRest.length > 0 && derniereCommandeEnCours">
       <h5 class="card-title">{{clientSelected.evenementsRest[0].nom}}</h5>
       <h5 class="card-title">Evenement prévu : {{clientSelected.evenementsRest[0].datePrevue | date : 'dd/MM/yyyy'}} </h5>
       <h5 class="card-title">Budget : {{clientSelected.evenementsRest[0].budget | number}} €</h5>
     </div>
-    <div class="card-body" *ngIf="!derniereCommandeEnCours">
+    <div class="card-body" *ngIf="!derniereCommandeEnCours || clientSelected.evenementsRest.length === 0">
       <h5 class="card-title">Aucun évènement prévu</h5>
     </div>
   </div>
   <div class="card">
-    <div class="card-body" *ngIf="clientSelected.evenementsRest">
+    <div class="card-body" *ngIf="clientSelected.evenementsRest.length > 0">
       <h5 class="card-title"> Historique des evenements : </h5>
       <div class="card-content">
         Dernière commande acquitee: {{derniereCommandeAcquittee.nom}} prévu le {{derniereCommandeAcquittee.datePrevue | date : 'dd/MM/yyyy'}}. Montant : {{montantDerniereCommandeAcquittee | number}} €
@@ -25,7 +25,7 @@
         Total : {{totTtesCommandes | number}} €
       </div>
     </div>
-    <div class="card-body" *ngIf="!clientSelected.evenementsRest" id="card-premiere-evenement">
+    <div class="card-body" *ngIf="clientSelected.evenementsRest.length === 0" id="card-premiere-evenement">
       <h5 class="card-title"> Première evenement ! </h5>
     </div>
   </div>
