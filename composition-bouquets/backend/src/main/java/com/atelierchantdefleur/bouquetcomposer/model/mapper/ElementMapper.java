@@ -43,8 +43,8 @@ public class ElementMapper {
         Element element = new Element();
         element.setId(Objects.isNull(elementDTO.getId()) ? null : elementDTO.getId());
         element.setNom(elementDTO.getNom());
-        element.setType(element.getType());
-        element.setPrixUnitaire(element.getPrixUnitaire());
+        element.setType(elementDTO.getType());
+        element.setPrixUnitaire(elementDTO.getPrixUnitaire());
         return element;
     }
 

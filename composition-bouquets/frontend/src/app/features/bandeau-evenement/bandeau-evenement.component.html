@@ -1,0 +1,100 @@
+<div >
+  <div class="card">
+    <div class="card-header d-flex justify-content-between">
+      {{titre}}
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">CLIENT</div>
+    <div class="card-body">
+      <mat-form-field appearance="fill" id="select-mat-form-field-client">
+        <mat-label>Sélectionnez un client</mat-label>
+        <mat-select id="fournisseurId" (selectionChange)="onChangeSelectClient($event)">
+          <mat-option>Aucun</mat-option>
+          <mat-option *ngFor="let client of clients" value="{{client.id}}">
+            {{client.nom1}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex justify-content-between">
+      COMPOSANTS
+      <div class="ml-auto">
+        <button mat-icon-button color="primary" type="button" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample" id="btonExpand">
+          <fa-icon [icon]="faAngleDoubleDown" *ngIf="isCollapsed" matTooltip="Afficher la liste"></fa-icon>
+          <fa-icon [icon]="faAngleDoubleUp" *ngIf="!isCollapsed" matTooltip="Masquer la liste"></fa-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="Remise à zéro">
+          <fa-icon [icon]="faTrash" (click)="onClikResetCompo()"></fa-icon>
+        </button>
+      </div>
+    </div>
+
+    <div id="collapseExample" [ngbCollapse]="isCollapsed">
+      <div class="card-body" *ngIf="evtDetail?.compositions?.length > 0">
+        <ul class="list-group list-group-flush" *ngFor="let compo of evtDetail?.compositions">
+          <li class="list-group-item d-flex">
+            <span class="textCompo">{{compo.quantite}} {{compo.composition.nom}} -- prix unitaire : {{compo.composition.prixUnitaire | number}} €</span>
+            <fa-icon [icon]="faMinusCircle" (click)="onClickRemoveElt(compo)" class="ml-auto" matTooltip="Retirer l'élément"></fa-icon>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card-footer text-muted">
+      <div>Nombre total de compositions : {{elementCompo?.length}}</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">COUT TOTAL ELEMENTS</div>
+    <div class="card-body">
+      <div class="card-title">{{coutIntrant | number}}</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">FORFAITS</div>
+    <div class="card-body">
+      <div id="forfaits">
+        <mat-form-field appearance="fill">
+          <mat-label>Forfait main d'oeuvre</mat-label>
+          <input matInput type="number" name="forfaitMo" placeholder="0 € TTC" [(ngModel)]="forfaitMo" min=0 (change)="onChangeCalculMo()"/>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Forfait déplacement</mat-label>
+          <input matInput type="number" name="forfaitDplct" placeholder="0 € TTC" [(ngModel)]="forfaitDplct" min=0 (change)="onChangeCalculDplct()"/>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card bg-danger border-danger" id="card-tva">
+    <div class="card-header d-flex">COUT AVEC TVA - PRIX DE VENTE :
+      <div class="ml-auto">{{coutTva | number}} €</div>
+    </div>
+  </div>
+
+
+  <div class="d-flex">
+          <button mat-raised-button color="primary" type="button" (click)="onClickSaveEvenement()"
+                  [disabled]="elementCompo?.length === 0 || !clientEvt">
+            Enregistrer l'évènement
+          </button>
+
+        <div *ngIf="evtDetail?.id" class="ml-auto">
+          <button mat-raised-button color="primary" type="button" (click)="onClickUpdateEvenement()"
+                  [disabled]="elementCompo?.length === 0 || !clientEvt || evtDetail.id === 0">
+            Modifier l'évènement
+          </button>
+        </div>
+  </div>
+</div>
+
+

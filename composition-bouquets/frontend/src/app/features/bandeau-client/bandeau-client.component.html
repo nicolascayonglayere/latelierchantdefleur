@@ -1,4 +1,4 @@
-<div class="card-group">
+<div class="card-group" *ngIf="clientSelected?.id">
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">{{clientSelected.nom1}} {{clientSelected.prenom1}}</h5>
@@ -7,7 +7,8 @@
     </div>
   </div>
   <div class="card">
-    <div class="card-body" *ngIf="clientSelected.evenementsRest.length > 0 && derniereCommandeEnCours">
+    <div class="card-body" *ngIf="clientSelected.evenementsRest.length > 0 && derniereCommandeEnCours"
+         [ngClass]="(clientSelected.evenementsRest[0].budget < montantDerniereCommandeEnCours) ? 'bg-warning' : ''">
       <h5 class="card-title">{{clientSelected.evenementsRest[0].nom}}</h5>
       <h5 class="card-title">Evenement prévu : {{clientSelected.evenementsRest[0].datePrevue | date : 'dd/MM/yyyy'}} </h5>
       <h5 class="card-title">Budget : {{clientSelected.evenementsRest[0].budget | number}} €</h5>

@@ -72,7 +72,7 @@ public class ConstructionDevis {
                     .setTextAlignment(TextAlignment.RIGHT));
             tableauComposition.addCell(cellPu);
             Cell cellMnt = new Cell().add(new Paragraph(new DecimalFormat("#.0#")
-                    .format(c.getCompositionDTO().getPrixUnitaire() * this.calculQuantiteCompo(commandeDTO.getCompositions(), c.getId())))
+                    .format(c.getCompositionDTO().getPrixUnitaire() * c.getQuantite()))
                     .setTextAlignment(TextAlignment.RIGHT));
             tableauComposition.addCell(cellMnt);
         });
@@ -82,7 +82,7 @@ public class ConstructionDevis {
                 .setTextAlignment(TextAlignment.LEFT));
         tableauComposition.addFooterCell(cellSsTot);
         tableauComposition.addFooterCell(cellVide);
-        Double sousTot = this.calculSousTotal(commandeDTO.getCompositions(), compoSansDoublon);
+        Double sousTot = this.calculSousTotal(compoSansDoublon);
         tableauComposition.addFooterCell(new DecimalFormat("#.0#").format(sousTot));
 
         Table table2 = new Table(UnitValue.createPercentArray(4)).useAllAvailableWidth();
@@ -120,16 +120,9 @@ public class ConstructionDevis {
         return Paths.get(pdfOutput);
     }
 
-    private Long calculQuantiteCompo(List<CompositionCommandeDTO> compositions, Long id){
-        return compositions.
-                stream()
-                .filter(c -> Objects.equals(c.getCompositionDTO().getId(), id))
-                .count();
-    }
-
-    private Double calculSousTotal(List<CompositionCommandeDTO> compositions, List<CompositionCommandeDTO> compoSansDoublon){
+    private Double calculSousTotal(List<CompositionCommandeDTO> compoSansDoublon){
         return compoSansDoublon.stream()
-            .mapToDouble(c -> (c.getCompositionDTO().getPrixUnitaire()) * this.calculQuantiteCompo(compositions, c.getCompositionDTO().getId()))
+            .mapToDouble(c -> (c.getCompositionDTO().getPrixUnitaire()) * c.getQuantite())
             .sum();
     }
 

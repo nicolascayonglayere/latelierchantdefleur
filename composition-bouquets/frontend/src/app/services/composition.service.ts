@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Composition } from './../model/Composition';
+import { Composition } from '../model/Composition';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ElementComposition } from '../model/ElementComposition';
@@ -30,6 +30,10 @@ export class CompositionService {
     let params = new HttpParams();
     params = params.append('id-evenement', idEvt.toString());
     return this.httpClient.post<Composition>(rootUrl + '/' + '0/edit', composition, {params});
+  }
+
+  update(composition: Composition): Observable<Composition>{
+    return this.httpClient.put<Composition>(rootUrl + '/' + composition.id + '/edit', composition);
   }
 
   getAll(): void{

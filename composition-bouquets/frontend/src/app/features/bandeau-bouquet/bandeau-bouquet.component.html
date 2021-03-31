@@ -1,27 +1,7 @@
-<!-- <button mat-icon-button color="primary" type="button" (click)="isCollapsedTot = !isCollapsedTot"
-[attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample" id="btonExpand">
-<fa-icon [icon]="faAngleDoubleDown" *ngIf="isCollapsedTot" matTooltip="Afficher le bandeau"></fa-icon>
-<fa-icon [icon]="faAngleDoubleUp" *ngIf="!isCollapsedTot" matTooltip="Masquer le bandeau"></fa-icon>
-</button> -->
 <div >
   <div class="card">
     <div class="card-header d-flex justify-content-between">
-      <mat-form-field appearance="fill" id="select-mat-form-field-client">
-        <mat-label>Sélectionnez un client</mat-label>
-        <mat-select id="fournisseurId" (selectionChange)="onChangeSelectClient($event)">
-          <mat-option>Aucun</mat-option>
-          <mat-option *ngFor="let client of clients" value="{{client.id}}">
-            {{client.nom1}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <ui-switch uncheckedLabel="Evenement"
-        checkedLabel="Composition"
-        [(ngModel)]="bouquet"
-        (change)="!bouquet = bouquet"
-        (click)="onClikResetCompo()">
-      </ui-switch>
-      <!-- <mat-checkbox [(ngModel)]="bouquet" [disabled]="bouquet" (change)="!bouquet = bouquet" (click)="onClikResetCompo()">Composition</mat-checkbox>
-      <mat-checkbox [(ngModel)]="!bouquet" [disabled]="!bouquet" (change)="bouquet = !bouquet" (click)="onClikResetCompo()">Evenement</mat-checkbox> -->
+      {{titre}}
     </div>
   </div>
 
@@ -41,8 +21,8 @@
     </div>
 
     <div id="collapseExample" [ngbCollapse]="isCollapsed">
-      <div class="card-body" *ngIf="elementCompo.length > 0">
-        <ul class="list-group list-group-flush" *ngFor="let tige of elementCompo">
+      <div class="card-body" *ngIf="compositionDetail?.elements?.length > 0">
+        <ul class="list-group list-group-flush" *ngFor="let tige of compositionDetail.elements">
           <li class="list-group-item d-flex">
             <span class="textCompo">{{tige.quantite}} {{tige.nom}} -- prix unitaire : {{tige.prixUnitaire | number}} €</span>
             <fa-icon [icon]="faMinusCircle" (click)="onClickRemoveElt(tige)" class="ml-auto" matTooltip="Retirer l'élément"></fa-icon>
@@ -52,8 +32,7 @@
     </div>
 
     <div class="card-footer text-muted">
-      <div *ngIf="bouquet">Nombre total de tiges : {{qteTigeTot}}</div>
-      <div *ngIf="!bouquet">Nombre total de compositions : {{elementCompo.length}}</div>
+      <div >Nombre total de tiges : {{qteTigeTot}}</div>
     </div>
   </div>
 
@@ -64,161 +43,67 @@
     </div>
   </div>
 
-  <div class="card" *ngIf="!bouquet">
-    <div class="card-header">FORFAITS</div>
-    <div class="card-body">
-      <div id="forfaits">
-        <mat-form-field appearance="fill">
-          <mat-label>Forfait main d'oeuvre</mat-label>
-          <input matInput type="number" name="forfaitMo" placeholder="0 € TTC" [(ngModel)]="forfaitMo" min=0 (change)="onChangeCalculMo()"/>
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Forfait déplacement</mat-label>
-          <input matInput type="number" name="forfaitDplct" placeholder="0 € TTC" [(ngModel)]="forfaitDplct" min=0 (change)="onChangeCalculDplct()"/>
-        </mat-form-field>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" *ngIf="bouquet">
+  <div class="card">
     <div class="card-header">TEMPS de TRAVAIL</div>
     <div class="card-body">
-      <form class="form-inline d-flex" [formGroup]="timePicker" (ngSubmit)="onSubmitTempsTravail()">
-        <div class="form-group">
-          <mat-form-field appearance="fill" class="select-mat-form-field">
-            <mat-label>Heure</mat-label>
-            <input matInput type="number" formControlName="heure" placeholder="00" required />
-          </mat-form-field>
-          :
-          <mat-form-field appearance="fill" class="select-mat-form-field">
-            <mat-label>Minute</mat-label>
-            <input matInput type="number" formControlName="minute" placeholder="00" required />
-          </mat-form-field>
-          <button mat-icon-button color="primary" type="submit" class="ml-auto"
-            [disabled]="timePicker.invalid && minuteTravail === 0">
-            <fa-icon [icon]="faCheckCircle"></fa-icon>
-          </button>
-        </div>
-      </form>
+      <mat-form-field appearance="fill" class="select-mat-form-field">
+        <mat-label>Heure</mat-label>
+        <input matInput type="number" name="heure" placeholder="00" (change)="onSubmitTempsTravailHeure($event)" [ngModel]="heureTravail" required />
+      </mat-form-field>
+      :
+      <mat-form-field appearance="fill" class="select-mat-form-field">
+        <mat-label>Minute</mat-label>
+        <input matInput type="number" name="minute" placeholder="00" (change)="onSubmitTempsTravailMinute($event)" [ngModel]="minuteTravail" required />
+      </mat-form-field>
     </div>
   </div>
+
   <div class="card bg-danger border-danger" id="card-tva">
-    <div class="card-header">COUT AVEC TVA - PRIX DE VENTE</div>
-    <div class="card-body">
-      <div class="card-title">{{coutTva | number}}</div>
+    <div class="card-header d-flex">COUT AVEC TVA - PRIX DE VENTE :
+      <div class="ml-auto">{{coutTva | number}} €</div>
     </div>
-    <div class="card-footer text-muted d-flex">
-      TVA actuelle : {{tvaActuelle}} %
-      <button mat-raised-button color="primary" type="button" (click)="openVerticallyCentered(contentTva)"
-        class="ml-auto" [disabled]="!bouquet">Modifier</button>
-    </div>
-  </div>
-
-  <div class="card" *ngIf="bouquet">
-    <div class="card-header">COUT DE REVIENT</div>
-    <div class="card-body">
-      <div class="card-title">{{coutRevient | number}}</div>
-    </div>
-    <div class="card-footer text-muted d-flex">
-      Taux horaire : {{tauxHoraire}} €/h
-      <button mat-raised-button color="primary" type="button" (click)="openVerticallyCentered(contentTauxHoraire)"
-        class="ml-auto">Modifier</button>
-    </div>
-  </div>
-  <div class="card" *ngIf="bouquet">
-    <div class="card-header">COUT AVEC MARGE</div>
-    <div class="card-body">
-      <div class="card-title">{{coutMarge | number}}</div>
-    </div>
-    <div class="card-footer text-muted d-flex">
-      Marge actuelle : {{margeActuelle}} %
-      <button mat-raised-button color="primary" type="button" (click)="openVerticallyCentered(contentMarge)"
-        class="ml-auto">Modifier</button>
+    <div class="card-footer text-muted">
+      <mat-form-field appearance="fill">
+        <mat-label>TVA en %</mat-label>
+        <input matInput type="number" name="tvaActuelle" placeholder="0 %" [(ngModel)]="tvaActuelle" min=0 (change)="onChangeCalcul()"/>
+      </mat-form-field>
     </div>
   </div>
 
-  <div *ngIf="bouquet">
-    <button mat-raised-button color="primary" type="button" (click)="onClickSaveComposition()"
-      [disabled]="qteTigeTot === 0 || tvaActuelle === 0 || margeActuelle === 0 || tauxHoraire === 0">
-      Enregistrer la composition
-    </button>
+  <div class="card">
+    <div class="card-header d-flex">COUT DE REVIENT :
+      <div class="ml-auto">{{coutRevient | number}} €</div>
+    </div>
+    <div class="card-footer text-muted">
+      <mat-form-field appearance="fill">
+        <mat-label>Taux horaire en €/heure</mat-label>
+        <input matInput type="number" name="tauxHoraire" placeholder="0 €/h" [(ngModel)]="tauxHoraire" min=0 (change)="onChangeCalcul()"/>
+      </mat-form-field>
+    </div>
   </div>
-  <div *ngIf="!bouquet">
-    <button mat-raised-button color="primary" type="button" (click)="onClickSaveEvenement()"
-      [disabled]="elementCompo.length === 0 ">
-      Enregistrer l'évènement
-    </button>
+  <div class="card">
+    <div class="card-header d-flex">COUT AVEC MARGE :
+      <div class="ml-auto">{{coutMarge | number}} €</div>
+    </div>
+    <div class="card-footer text-muted">
+      <mat-form-field appearance="fill">
+        <mat-label>Marge actuelle en %</mat-label>
+        <input matInput type="number" name="margeActuelle" placeholder="0 %" [(ngModel)]="margeActuelle" min=0 (change)="onChangeCalcul()"/>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="d-flex">
+      <button mat-raised-button color="primary" type="button" (click)="onClickSaveComposition()"
+              [disabled]="qteTigeTot === 0 || tvaActuelle === 0 || margeActuelle === 0 || tauxHoraire === 0">
+        Enregistrer la composition
+      </button>
+    <div *ngIf="compositionDetail?.id" class="ml-auto">
+      <button mat-raised-button color="primary" type="button" (click)="onClickUpdateComposition()"
+              [disabled]="qteTigeTot === 0 || tvaActuelle === 0 || margeActuelle === 0 || tauxHoraire === 0">
+        Modifier la composition
+      </button>
+    </div>
   </div>
 </div>
 
-
-
-
-<ng-template #contentTauxHoraire let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Modification du taux horaire</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form class="form-inline" (ngSubmit)="onSubmitTauxHoraire(f)" #f="ngForm">
-      <div class="form-group">
-        <input type="text" name="tauxHoraire" value="{{tauxHoraire}}" ngModel />
-      </div>
-      <button class="btn-primary" type="submit">
-        <fa-icon [icon]="faCheckCircle"></fa-icon>
-      </button>
-    </form>
-    <div *ngIf="messageModifOk === true"><span> Modification effectuee ! </span></div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-  </div>
-</ng-template>
-
-<ng-template #contentMarge let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Modification de la marge</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form class="form-inline" (ngSubmit)="onSubmitMarge(f)" #f="ngForm">
-      <div class="form-group">
-        <input type="text" name="marge" value="{{margeActuelle}}" ngModel />
-      </div>
-      <button class="btn-primary" type="submit">
-        <fa-icon [icon]="faCheckCircle"></fa-icon>
-      </button>
-    </form>
-    <div *ngIf="messageModifOk === true"><span> Modification effectuee ! </span></div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-  </div>
-</ng-template>
-
-<ng-template #contentTva let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Modification de la TVA</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form class="form-inline" (ngSubmit)="onSubmitTva(f)" #f="ngForm">
-      <div class="form-group">
-        <input type="text" name="tva" value="{{tvaActuelle}}" ngModel />
-      </div>
-      <button class="btn-primary" type="submit">
-        <fa-icon [icon]="faCheckCircle"></fa-icon>
-      </button>
-    </form>
-    <div *ngIf="messageModifOk === true"><span> Modification effectuee ! </span></div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-  </div>
-</ng-template>

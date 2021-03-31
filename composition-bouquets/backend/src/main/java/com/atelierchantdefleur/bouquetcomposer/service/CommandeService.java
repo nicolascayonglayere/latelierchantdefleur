@@ -92,7 +92,9 @@ public class CommandeService {
     public List<CommandeDTO> getByIdCompo(Long idCompo){
         List<Commande> commandeList = this.commandeRepository.findByCompositionsId(idCompo);
         return commandeList.stream()
-                .map(e -> this.commandeMapper.fromEntityToDomain(e, new ArrayList<>(),
+                .map(e -> this.commandeMapper.fromEntityToDomain(e, e.getCompositions().stream().map(cc ->
+                            this.commandeCompositionMapper.fromEntityToDomain(cc, this.compositionMapper.fromEntityToDomain(cc.getComposition(), new ArrayList<>(), new ArrayList<>()))
+                        ).collect(Collectors.toList()),
                         this.clientMapper.fromEntityToDomain(e.getClient(), new ArrayList<>())))
                 .collect(Collectors.toList());
     }

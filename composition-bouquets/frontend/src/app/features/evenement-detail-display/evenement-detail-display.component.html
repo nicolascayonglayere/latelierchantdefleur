@@ -1,63 +1,75 @@
-<div class="card">
-  <div class="card-header d-flex" id="evt-header">
-    {{evenement?.nom}} prévu le {{evenement?.datePrevue | date: 'dd/MM/yyyy'}}
-    <button mat-icon-button color="primary" routerLink="/atelier-chant-de-fleur/evenements/{{evenement?.id}}/edit" matTooltip="Modifier l'évènement" class="ml-auto">
-      <fa-icon [icon]="faEdit" id="iconPlus" ></fa-icon>
-    </button>
-    <button mat-icon-button color="primary" matTooltip="Supprimer l'évènement">
-      <fa-icon [icon]="faTrash" (click)="onClikDeleteEvt()"></fa-icon>
-    </button>
-  </div>
-</div>
-<div class="card-deck">
-  <div class="card flex-fill">
-    <div class="card-header">Matières premières</div>
-    <div class="card-body">
-      <ul *ngFor="let fournisseur of fournisseurs" id="fournisseur-list">
-        <div *ngIf="fournisseur.tiges.length > 0">
-          <div class="card-subtitle"> Tiges du fournisseur {{fournisseur.fournisseur.nom}}</div>
-          <ul *ngFor="let tige of fournisseur.tiges">
-            <li class="list-group-item">{{tige.quantite}} {{tige.nom}} {{tige.quantite*tige.prixUnitaire | number}} €</li>
-          </ul>
-        </div>
-        <div *ngIf="fournisseur.materiaux.length > 0">
-          <div class="card-subtitle" >Materiaux du fournisseur {{fournisseur.fournisseur.nom}} </div>
-          <ul *ngFor="let materiau of fournisseur.materiaux">
-            <li class="list-group-item">{{materiau.quantite}} {{materiau.nom}}
-              {{materiau.quantite*materiau.prixUnitaire | number}} €</li>
-          </ul>
-        </div>
-      </ul>
-      <div class="card-subtitle">Total cout tiges : {{mntTigesTot | number}} €</div>
-      <br/><mat-divider></mat-divider><br/>
-      <div class="card-subtitle">Total cout materiaux: {{mntMatTot | number}} €</div>
-    </div>
-    <div class="card-footer">Cout total des matières premieres : {{mntTigesTot + mntMatTot |number}} €</div>
-  </div>
+<!--<div class="d-flex">-->
+<!--  <div class="col-sm-12" id="app-bandeau-bouquet" >-->
+    <app-bandeau-client
+      [clientSelected]="clientSelected">
+    </app-bandeau-client>
+<!--  </div>-->
 
-  <div class="card flex-fill" >
-    <div class="card-header">Facturation client</div>
-    <div class="card-body">
-      <div class="card-title">Composition : </div>
-      <ul *ngFor="let compo of compoDisplay">
-        <li class="list-group-item d-flex">
-          {{compo.qte}} {{compo.compo.nom}} {{compo.compo.prixUnitaire}} € -- Temps de travail :
-          {{compo.compo.dureeCreation * 60 * 60 * 1000 | date:'HH:mm' : 'UTC'}} -- tva : {{compo.compo.tva}} %
-          <a routerLink="/atelier-chant-de-fleur/compositions/{{compo.compo.id}}" class="ml-auto" mat-icon-button color="primary" matTooltip="Détail de la composition">
-            <fa-icon [icon]="faInfoCircle" id="iconPlus" ></fa-icon>
-          </a>
-        </li>
-      </ul>
-      <div class="card-subtitle">Montant total composition : {{mntCompoTot | number}} €</div>
-      <br/><mat-divider></mat-divider><br/>
-      <div class="card-title">Temps de travail total : {{tpstravailCompo * 60 * 60 * 1000 | date:'HH:mm' : 'UTC' }}
+
+
+<!--  <div class="col-sm-8" id="tables-contenu">-->
+    <div class="card">
+      <div class="card-header d-flex" id="evt-header">
+        {{evenement?.nom}} prévu le {{evenement?.datePrevue | date: 'dd/MM/yyyy'}}
+        <button mat-icon-button color="primary" matTooltip="Modifier l'évènement" (click)="selectEvenement(evenement)" class="ml-auto">
+          <fa-icon [icon]="faEdit" id="iconPlus" ></fa-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="Supprimer l'évènement">
+          <fa-icon [icon]="faTrash" (click)="onClikDeleteEvt()"></fa-icon>
+        </button>
       </div>
-      <br/><mat-divider></mat-divider><br/>
-      <div class="card-title">Main d'oeuvre supplémentaire : {{evenement?.forfaitMo}} €</div>
-      <br/><mat-divider></mat-divider><br/>
-      <div class="card-title">Forfait déplacement : {{evenement?.forfaitDplct}} €</div>
     </div>
-    <div class="card-footer">Montant total facturé : {{mntCompoTot + evenement?.forfaitMo + evenement?.forfaitDplct | number }} € dont {{mntCompoTva | number }} € de TVA</div>
-  </div>
-</div>
-<button mat-raised-button color="primary" type="button" (click)="captureScreen()">Editer</button>
+    <div class="card-deck">
+      <div class="card flex-fill">
+        <div class="card-header">Matières premières</div>
+        <div class="card-body">
+          <ul *ngFor="let fournisseur of fournisseurs" id="fournisseur-list">
+            <div *ngIf="fournisseur.tiges.length > 0">
+              <div class="card-subtitle"> Tiges du fournisseur {{fournisseur.fournisseur.nom}}</div>
+              <ul *ngFor="let tige of fournisseur.tiges">
+                <li class="list-group-item">{{tige.quantite}} {{tige.nom}} {{tige.quantite*tige.prixUnitaire | number}} €</li>
+              </ul>
+            </div>
+            <div *ngIf="fournisseur.materiaux.length > 0">
+              <div class="card-subtitle" >Materiaux du fournisseur {{fournisseur.fournisseur.nom}} </div>
+              <ul *ngFor="let materiau of fournisseur.materiaux">
+                <li class="list-group-item">{{materiau.quantite}} {{materiau.nom}}
+                  {{materiau.quantite*materiau.prixUnitaire | number}} €</li>
+              </ul>
+            </div>
+          </ul>
+          <div class="card-subtitle">Total cout tiges : {{mntTigesTot | number}} €</div>
+          <br/><mat-divider></mat-divider><br/>
+          <div class="card-subtitle">Total cout materiaux: {{mntMatTot | number}} €</div>
+        </div>
+        <div class="card-footer">Cout total des matières premieres : {{mntTigesTot + mntMatTot |number}} €</div>
+      </div>
+
+      <div class="card flex-fill" >
+        <div class="card-header">Facturation client</div>
+        <div class="card-body">
+          <div class="card-title">Composition : </div>
+          <ul *ngFor="let compo of compoDisplay">
+            <li class="list-group-item d-flex">
+              {{compo.qte}} {{compo.compo.nom}} {{compo.compo.prixUnitaire | number}} € -- Temps de travail :
+              {{compo.compo.dureeCreation * 60 * 60 * 1000 | date:'HH:mm' : 'UTC'}} -- tva : {{compo.compo.tva}} %
+              <a routerLink="/atelier-chant-de-fleur/compositions/{{compo.compo.id}}" class="ml-auto" mat-icon-button color="primary" matTooltip="Détail de la composition">
+                <fa-icon [icon]="faInfoCircle" id="iconPlus" ></fa-icon>
+              </a>
+            </li>
+          </ul>
+          <div class="card-subtitle">Montant total composition : {{mntCompoTot | number}} €</div>
+          <br/><mat-divider></mat-divider><br/>
+          <div class="card-title">Temps de travail total : {{tpstravailCompo * 60 * 60 * 1000 | date:'HH:mm' : 'UTC' }}
+          </div>
+          <br/><mat-divider></mat-divider><br/>
+          <div class="card-title">Main d'oeuvre supplémentaire : {{evenement?.forfaitMo | number}} €</div>
+          <br/><mat-divider></mat-divider><br/>
+          <div class="card-title">Forfait déplacement : {{evenement?.forfaitDplct | number}} €</div>
+        </div>
+        <div class="card-footer">Montant total facturé : {{mntCompoTot + evenement?.forfaitMo + evenement?.forfaitDplct | number }} € dont {{mntCompoTva | number }} € de TVA</div>
+      </div>
+    </div>
+    <button mat-raised-button color="primary" type="button" (click)="captureScreen()">Editer</button>
+<!--  </div>-->
+<!--</div>-->

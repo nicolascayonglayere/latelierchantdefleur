@@ -1,39 +1,21 @@
 <div class="container col-md-12">
-  <!-- <div class="jumbotron jumbotron-fluid">
-    <h1>Outil de composition de bouquets</h1>
-  </div> -->
+<!--  <div class="jumbotron jumbotron-fluid">-->
+<!--    <h1>Outil de composition de bouquets</h1>-->
+<!--  </div>-->
   <app-menu-navigation></app-menu-navigation>
   <app-bandeau-client *ngIf="clientSelected" [clientSelected]="clientSelected"></app-bandeau-client>
-  <div class="d-flex">
-    <div class="col-sm-4" id="app-bandeau-bouquet" >
-      <app-bandeau-bouquet [ngbCollapse]="isCollapsedTot" (clientSelected)="selectClient($event)"></app-bandeau-bouquet>
-      <!-- <button mat-icon-button color="primary" type="button" (click)="isCollapsedTot = !isCollapsedTot"
-        [attr.aria-expanded]="!isCollapsedTot" aria-controls="collapseExample" id="btonExpand">
-        <fa-icon [icon]="faCaretLeft"></fa-icon>
-      </button> -->
-    </div>
-    <div class="col-sm-8" id="tables-contenu">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-
-  <!-- <div class="d-flex"*ngIf="isCollapsed">
-    <div id="app-bandeau-bouquet" >
-      <app-bandeau-bouquet [ngbCollapse]="isCollapsed"></app-bandeau-bouquet>
-      <button mat-icon-button color="primary" type="button" (click)="isCollapsed = !isCollapsed"
-      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample" id="btonExpand">
-      <fa-icon [icon]="faCaretRight"></fa-icon>
-    </button>
-    </div>
-    <div class="col-sm-12">
-      <router-outlet></router-outlet>
-    </div>
-  </div> -->
-</div>
-
-
-
-<!-- <div *ngIf="isCollapsed">
   <router-outlet></router-outlet>
+<!--  <div class="d-flex">-->
+<!--    <div class="col-sm-4" id="app-bandeau-bouquet" >-->
+<!--      <app-bandeau-bouquet [ngbCollapse]="isCollapsedTot" (clientSelected)="selectClient($event)"></app-bandeau-bouquet>-->
+<!--      &lt;!&ndash; <button mat-icon-button color="primary" type="button" (click)="isCollapsedTot = !isCollapsedTot"-->
+<!--        [attr.aria-expanded]="!isCollapsedTot" aria-controls="collapseExample" id="btonExpand">-->
+<!--        <fa-icon [icon]="faCaretLeft"></fa-icon>-->
+<!--      </button> &ndash;&gt;-->
+<!--    </div>-->
+<!--    <div class="col-sm-8" id="tables-contenu">-->
+<!--      <router-outlet></router-outlet>-->
+<!--    </div>-->
+<!--  </div>-->
 </div>
-<fa-icon [icon]="faCaretRight" *ngIf="isCollapsed"></fa-icon> -->
+

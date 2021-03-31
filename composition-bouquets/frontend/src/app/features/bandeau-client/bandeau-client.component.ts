@@ -16,6 +16,7 @@ export class BandeauClientComponent implements OnInit, OnChanges {
   derniereCommandeEnCours = true;
   derniereCommandeAcquittee: Evenement;
   montantDerniereCommandeAcquittee = 0;
+  montantDerniereCommandeEnCours = 0;
 
   constructor(private evtService: EvenementService) { }
 
@@ -30,8 +31,8 @@ export class BandeauClientComponent implements OnInit, OnChanges {
     // }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if(changes['clientSelected']){
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['clientSelected']){
       console.log('CHANGES', this.clientSelected);
       this.init();
     }
@@ -40,11 +41,20 @@ export class BandeauClientComponent implements OnInit, OnChanges {
   private init(): void {
     console.log('INIT', this.clientSelected);
     this.derniereCommandeAcquittee = new Evenement();
-    if(this.clientSelected.evenementsRest.length > 0){
+    this.totTtesCommandes = 0;
+    this.montantDerniereCommandeAcquittee = 0;
+    this.montantDerniereCommandeEnCours = 0;
+    if (this.clientSelected?.evenementsRest.length > 0){
       this.calculMontantToutesCommandes(this.clientSelected.evenementsRest);
       this.derniereCommandeEnCours = this.isDerniereCommandeEnCours(this.clientSelected.evenementsRest[0]);
+      if (this.derniereCommandeEnCours){
+        this.calculMontantDerniereCommandeEnCours(this.clientSelected.evenementsRest[0]);
+      }
       const derniereCommandeAcquitteeVide = this.clientSelected.evenementsRest.filter(e => this.isCommandeAcquittee(e))[0];
-      this.calculMontantDerniereCommandeAcquittee(derniereCommandeAcquitteeVide);
+      console.log(derniereCommandeAcquitteeVide);
+      if (derniereCommandeAcquitteeVide){
+        this.calculMontantDerniereCommandeAcquittee(derniereCommandeAcquitteeVide);
+      }
     }
   }
 
@@ -52,29 +62,42 @@ export class BandeauClientComponent implements OnInit, OnChanges {
     evts.forEach(e => {
       this.evtService.getById(e.id).subscribe(resp => {
         resp.compositions.forEach(c => {
-          const montantCompoHt = c.composition.prixUnitaire * (c.composition.tva / 100) + c.composition.prixUnitaire;
-          const montantCompoTxHoraire = montantCompoHt + montantCompoHt * c.composition.tauxHoraire;
-          const montantCompoMarge = montantCompoTxHoraire + montantCompoTxHoraire * (c.composition.tauxHoraire / 100);
-          const montantCompo = c.quantite * montantCompoMarge;
-          this.totTtesCommandes = this.totTtesCommandes + montantCompo + resp.forfaitDplct + resp.forfaitMo;
+          // const montantCompoHt = c.composition.prixUnitaire * (c.composition.tva / 100) + c.composition.prixUnitaire;
+          // const montantCompoTxHoraire = montantCompoHt + c.composition.tauxHoraire * c.composition.dureeCreation;
+          // const montantCompoMarge = montantCompoTxHoraire + montantCompoTxHoraire * (c.composition.marge / 100);
+          const montantCompo = c.quantite * c.composition.prixUnitaire;//montantCompoMarge;
+          this.totTtesCommandes = this.totTtesCommandes + montantCompo;
         });
+        this.totTtesCommandes = this.totTtesCommandes  + resp.forfaitDplct + resp.forfaitMo;
       });
     });
   }
 
   private calculMontantDerniereCommandeAcquittee(commande: Evenement): void{
-    console.log(commande);
     this.evtService.getById(commande.id).subscribe(resp => {
-      console.log('Commande by id',resp);
       this.derniereCommandeAcquittee = resp;
       resp.compositions.forEach(c => {
-        const montantCompoHt = c.composition.prixUnitaire * (c.composition.tva / 100) + c.composition.prixUnitaire;
-        const montantCompoTxHoraire = montantCompoHt + montantCompoHt * c.composition.tauxHoraire;
-        const montantCompoMarge = montantCompoTxHoraire + montantCompoTxHoraire * (c.composition.tauxHoraire / 100);
-        const montantCompo = c.quantite * montantCompoMarge;
-        this.montantDerniereCommandeAcquittee = this.montantDerniereCommandeAcquittee + montantCompo + resp.forfaitDplct + resp.forfaitMo;
-        console.log(resp, this.montantDerniereCommandeAcquittee);
+        // const montantCompoHt = c.composition.prixUnitaire * (c.composition.tva / 100) + c.composition.prixUnitaire;
+        // const montantCompoTxHoraire = montantCompoHt + c.composition.tauxHoraire * c.composition.dureeCreation;
+        // const montantCompoMarge = montantCompoTxHoraire + montantCompoTxHoraire * (c.composition.marge / 100);
+        const montantCompo = c.quantite * c.composition.prixUnitaire;//montantCompoMarge;
+        this.montantDerniereCommandeAcquittee = this.montantDerniereCommandeAcquittee + montantCompo;
       });
+      this.montantDerniereCommandeAcquittee = this.montantDerniereCommandeAcquittee + resp.forfaitDplct + resp.forfaitMo;
+    });
+  }
+
+  private calculMontantDerniereCommandeEnCours(commande: Evenement): void{
+    this.evtService.getById(commande.id).subscribe(resp => {
+      this.derniereCommandeAcquittee = resp;
+      resp.compositions.forEach(c => {
+        // const montantCompoHt = c.composition.prixUnitaire * (c.composition.tva / 100) + c.composition.prixUnitaire;
+        // const montantCompoTxHoraire = montantCompoHt + c.composition.tauxHoraire * c.composition.dureeCreation;
+        // const montantCompoMarge = montantCompoTxHoraire + montantCompoTxHoraire * (c.composition.marge / 100);
+        const montantCompo = c.quantite * c.composition.prixUnitaire; //montantCompoMarge;
+        this.montantDerniereCommandeEnCours = this.montantDerniereCommandeEnCours + montantCompo;
+      });
+      this.montantDerniereCommandeEnCours = this.montantDerniereCommandeEnCours + resp.forfaitDplct + resp.forfaitMo;
     });
   }
 
@@ -83,6 +106,7 @@ export class BandeauClientComponent implements OnInit, OnChanges {
   }
 
   private isCommandeAcquittee(commande: Evenement): boolean{
+    console.log(new Date(commande.datePrevue) < new Date());
     return new Date(commande.datePrevue) < new Date();
   }
 

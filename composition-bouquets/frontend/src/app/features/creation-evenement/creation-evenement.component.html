@@ -1,0 +1,22 @@
+<div *ngIf="clientDetail" class="col-sm-12">
+  <app-bandeau-client
+    [clientSelected]="clientDetail">
+  </app-bandeau-client>
+</div>
+
+<div class="d-flex">
+  <div class="col-sm-4" id="app-bandeau-bouquet" >
+    <app-bandeau-evenement
+      [evtDetail]="evtDetail"
+      [clients]="clients"
+      [titre]="titre"
+      (evtSave)="saveEvt($event)"
+      (evtUpdate)="update($event)"
+      (evtReset)="resetEvt()"
+      (clientSelected)="selectClient($event)">
+    </app-bandeau-evenement>
+  </div>
+  <div class="col-sm-8" id="tables-contenu">
+    <app-compositions-display (compositionAjoutee)="ajouterComposition($event)"></app-compositions-display>
+  </div>
+</div>

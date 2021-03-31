@@ -1,13 +1,14 @@
-import { PageEvent } from '@angular/material/paginator';
-import { CompositionService } from './../../services/composition.service';
-import { ElementComposition } from './../../model/ElementComposition';
-import { NgForm } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
-import { Materiau } from '../../model/Materiau';
-import { DataTablesResponse } from '../../model/DataTablesResponse';
-import { MateriauService } from '../../services/materiau.service';
-import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
+import {PageEvent} from '@angular/material/paginator';
+import {CompositionService} from '../../services/composition.service';
+import {ElementComposition} from '../../model/ElementComposition';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Materiau} from '../../model/Materiau';
+import {MateriauService} from '../../services/materiau.service';
+import {faEdit, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {NgbPaginationConfig} from '@ng-bootstrap/ng-bootstrap';
+import {Composition} from '../../model/Composition';
+import {CompositionSelectedService} from '../../services/composition-selected.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -17,36 +18,46 @@ import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
   providers: [NgbPaginationConfig]
 })
 export class MateriauxDisplayComponent implements OnInit {
+  composition: Composition;
+
   faPlus = faPlus;
   faEdit = faEdit;
 
   tsMateriaux: Materiau[];
   materiaux: Materiau[];
-  dtOptions: DataTables.Settings = {};
-  dataTablesData: DataTablesResponse;
-  materiauComposition: ElementComposition[] = [];
-  eltSelected: ElementComposition;
   quantiteElt: number[] = [];
 
-  pageIndex:number = 0;
-page: PageEvent;// = 1;
-pageSize = 10;
-pageSizeOptions = [10, 25, 50];
-length: number;
-lowValue:number = 0;
-highValue:number = 10;
+  pageIndex = 0;
+  page: PageEvent;
+  pageSize = 10;
+  pageSizeOptions = [10, 25, 50];
+  length: number;
+  lowValue = 0;
+  highValue = 10;
 
-editing: boolean[] = [];
+  editing: boolean[] = [];
+
+  disableAjout: boolean;
+
+
+  @Output() materiauAjoute = new EventEmitter<ElementComposition>();
 
   constructor(private materiauService: MateriauService,
-    private compositionservice: CompositionService,
-    private config: NgbPaginationConfig) {
+              private compositionservice: CompositionService,
+              private config: NgbPaginationConfig,
+              private compoSelectedService: CompositionSelectedService,
+              private router: Router) {
     // config.size = 'sm';
     config.boundaryLinks = true;
    }
 
   ngOnInit(): void {
-    this.materiauService.getAll()
+    if (this.router.url === '/atelier-chant-de-fleur/materiaux'){
+      this.disableAjout = true;
+    }else{
+      this.disableAjout = false;
+    }
+    this.materiauService.getAll();
     this.materiauService.currentAllMateriaux.subscribe(resp => {
       this.materiaux = resp;
       this.tsMateriaux = resp;
@@ -55,10 +66,6 @@ editing: boolean[] = [];
         this.editing[x] = false;
         this.quantiteElt[x] = 1;
       }
-    });
-    this.compositionservice.currentElements.subscribe(resp => {
-      this.eltSelected = new ElementComposition();
-      this.eltSelected = resp;
     });
   }
 
@@ -69,12 +76,9 @@ editing: boolean[] = [];
     elt.type = 'MATERIAU';
     elt.prixUnitaire = materiau.prixUnitaire;
     elt.quantite = this.quantiteElt[index];
-    console.log(elt);
-    this.materiauComposition.push(elt);
-    this.compositionservice.recuperationElements(elt);
+    this.materiauAjoute.emit(elt);
     for ( let x = 0, ln = this.length ; x < ln; x++){
       this.editing[x] = false;
-      // this.quantiteElt[x] = 1;
     }
   }
 
@@ -94,11 +98,10 @@ editing: boolean[] = [];
     return event;
 }
 
-onClickDisabledOthers(index: number): void{
-  for(let x = 0, ln = this.length ; x < ln; x++){
-    this.editing[x] = true;
+  onClickDisabledOthers(index: number): void{
+    for (let x = 0, ln = this.length ; x < ln; x++){
+      this.editing[x] = true;
+    }
+    this.editing[index] = false;
   }
-  this.editing[index] = false;
-
-}
 }

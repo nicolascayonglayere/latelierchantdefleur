@@ -6,6 +6,7 @@ import { faInfoCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { SnackbarSuccessComponent } from 'src/app/layout/snackbar/snackbar-success/snackbar-success.component';
 import { Router } from '@angular/router';
+import {Client} from "../../model/Client";
 
 @Component({
   selector: 'app-evenements-display',
@@ -36,6 +37,8 @@ export class EvenementsDisplayComponent implements OnInit {
   length: number;
   lowValue = 0;
   highValue = 10;
+
+  clientSelected: Client;
 
   constructor(private evtService: EvenementService, private snackBar: MatSnackBar, private router: Router) { }
 
@@ -82,5 +85,7 @@ onClikDeleteEvt(id: number): void {
     });
   });
 }
-
+  selectClient(event: Client): void{
+    this.clientSelected = event;
+  }
 }

@@ -1,0 +1,9 @@
+#forfaits{
+  display: grid;
+}
+
+.mat-form-field{
+  padding-bottom: 0.5rem;
+  display: block;
+}
+

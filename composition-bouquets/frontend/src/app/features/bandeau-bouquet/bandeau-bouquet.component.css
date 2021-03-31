@@ -10,8 +10,16 @@
   width: 30%;
 }
 
-#select-mat-form-field-client {
-  width: 50%;
+.mat-form-field{
+  padding-bottom: 0.5rem;
+}
+
+::ng-deep .mat-form-field-wrapper{
+  padding-bottom: 0rem;
+}
+
+::ng-deep .mat-form-field-underline{
+  position: initial !important;
 }
 
 #btonExpand{
@@ -20,5 +28,9 @@
 }
 
 #forfaits{
+  display: grid;
+}
+
+.card-footer {
   display: grid;
 }

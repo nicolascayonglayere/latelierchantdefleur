@@ -1,12 +1,13 @@
-import { NgForm } from '@angular/forms';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { TigeService } from '../../services/tige.service';
-import { Tige } from '../../model/Tige';
-import { CompositionService} from '../../services/composition.service';
-import { ElementComposition } from 'src/app/model/ElementComposition';
-import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
-import { PageEvent } from '@angular/material/paginator';
+import {ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {TigeService} from '../../services/tige.service';
+import {Tige} from '../../model/Tige';
+import {CompositionService} from '../../services/composition.service';
+import {ElementComposition} from 'src/app/model/ElementComposition';
+import {faEdit, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {NgbPaginationConfig} from '@ng-bootstrap/ng-bootstrap';
+import {PageEvent} from '@angular/material/paginator';
+import {Client} from '../../model/Client';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-tiges-display',
@@ -15,34 +16,46 @@ import { PageEvent } from '@angular/material/paginator';
   providers: [NgbPaginationConfig]
 })
 export class TigesDisplayComponent implements OnInit {
+
+
   faPlus = faPlus;
   faEdit = faEdit;
 
 tiges: Tige[];
-tigeComposition: ElementComposition[] = [];
-eltSelected: ElementComposition;
+
 quantiteElt: number[] = [];
 
-pageIndex:number = 0;
-page: PageEvent;// = 1;
+page: PageEvent;
 pageSize = 10;
 pageSizeOptions = [10, 25, 50];
 length: number;
-lowValue:number = 0;
-highValue:number = 10;
+lowValue = 0;
+highValue = 10;
 
 tigesTotal: Tige[];
 
 editing: boolean[] = [];
 
+  clientSelected: Client;
+
+  disableAjout: boolean;
+
+  @Output() tigesAjoutees = new EventEmitter<ElementComposition>();
+
   constructor(private tigeService: TigeService,
               private compositionservice: CompositionService,
-              private config: NgbPaginationConfig) {
+              private config: NgbPaginationConfig,
+              private router: Router) {
                 // config.size = 'sm';
                 config.boundaryLinks = true;
                }
 
   ngOnInit(): void {
+    if (this.router.url === '/atelier-chant-de-fleur/tiges'){
+      this.disableAjout = true;
+    }else{
+      this.disableAjout = false;
+    }
     this.tigeService.getAll();
     this.tigeService.currentAllTiges.subscribe(tiges => {
       this.tiges = tiges;
@@ -53,11 +66,6 @@ editing: boolean[] = [];
         this.quantiteElt[x] = 1;
       }
     });
-    this.compositionservice.currentElements.subscribe(resp => {
-      this.eltSelected = new ElementComposition();
-      this.eltSelected = resp;
-    });
-
   }
 
   onClickAjoutComposition(tige: Tige, index: number): void {
@@ -67,12 +75,10 @@ editing: boolean[] = [];
     elt.type = 'TIGE';
     elt.prixUnitaire = tige.prixUnitaire;
     elt.quantite = this.quantiteElt[index];
-    this.tigeComposition.push(elt);
-    this.compositionservice.recuperationElements(elt);
     for ( let x = 0, ln = this.length ; x < ln; x++){
       this.editing[x] = false;
-      // this.quantiteElt[x] = 1;
     }
+    this.tigesAjoutees.emit(elt);
   }
 
   onChangeResearch(e: any): void{
@@ -91,10 +97,14 @@ editing: boolean[] = [];
 }
 
   onClickDisabledOthers(index: number): void{
-    for(let x = 0, ln = this.length ; x < ln; x++){
+    for (let x = 0, ln = this.length ; x < ln; x++){
       this.editing[x] = true;
     }
     this.editing[index] = false;
 
+  }
+
+  selectClient(event: Client): void{
+    this.clientSelected = event;
   }
 }

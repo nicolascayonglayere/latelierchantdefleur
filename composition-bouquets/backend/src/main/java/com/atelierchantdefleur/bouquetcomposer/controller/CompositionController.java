@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequestMapping(CompositionController.rootUrl)
@@ -58,6 +59,22 @@ public class CompositionController {
                 .collect(Collectors.toList());
         CompositionDTO compositionDTOTosave = this.compositionMapper.fromRestToDomain(compositionRest, elementDTOS, new ArrayList<>());
         CompositionDTO compositionDTO = this.compositionService.saveInEvt(compositionDTOTosave, idEvt);
+        List<ElementRest> elementRests = new ArrayList<>(compositionDTO.getElementsComposition().stream()
+                .map(this.elementMapper::fromDomainToRest)
+                .collect(Collectors.toSet()));
+        elementRests.stream()
+                .sorted(Comparator.comparing(ElementRest::getNom))
+                .collect(Collectors.toList());
+        return this.compositionMapper.fromDomainToRest(compositionDTO, elementRests, new ArrayList<>());
+    }
+
+    @PutMapping("/"+HttpUrlConstantes.ID_PV+"/"+HttpUrlConstantes.EDIT)
+    public CompositionRest update(@RequestBody CompositionRest compositionRest){
+        List<ElementDTO> elementDTOS = compositionRest.getElements().stream()
+                .map(this.elementMapper::fromRestToDomain)
+                .collect(Collectors.toList());
+        CompositionDTO compositionDTOTosave = this.compositionMapper.fromRestToDomain(compositionRest, elementDTOS, new ArrayList<>());
+        CompositionDTO compositionDTO = this.compositionService.update(compositionDTOTosave);
         List<ElementRest> elementRests = new ArrayList<>(compositionDTO.getElementsComposition().stream()
                 .map(this.elementMapper::fromDomainToRest)
                 .collect(Collectors.toSet()));

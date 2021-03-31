@@ -1,43 +1,35 @@
-<h1 mat-dialog-title>Confirmer la sauvegarde de l'évènement</h1>
-<div mat-dialog-content>
-  <div class="d-flex justify-content-between">
-    <mat-checkbox [(ngModel)]="nouveau" [disabled]="nouveau" (change)="!nouveau = nouveau" (click)="onClickNvelEvt()">Nouvel évènement</mat-checkbox>
-    <mat-checkbox [(ngModel)]="!nouveau" [disabled]="!nouveau" (change)="nouveau = !nouveau">Evenement existant</mat-checkbox>
-  </div>
-  <mat-form-field appearance="fill" id="nom-compo">
-    <mat-label>Sélectionnez un évènement existant</mat-label>
-    <mat-select id="fournisseurId" name="fournisseurCtrl" [(ngModel)]="evtExist.id" [disabled]="nouveau === true" (selectionChange)="onChangeEvtExistant($event.value)">
-      <mat-option *ngFor="let evt of evenements" value="{{evt.id}}" ngDefaultControl>
-        {{evt.nom}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+<h3 mat-dialog-title>{{data.titre}}</h3>
+<mat-dialog-content>
   Evenement du {{ data.dateCreation | date: 'dd/MM/yyyy' }}
   <mat-form-field appearance="fill" id="nom-compo">
-    <input matInput type="text" name="nom" placeholder="nom de l'évènement" [(ngModel)]="data.nom" [disabled]="nouveau === false"/>
+    <mat-label>Nom de l'évènement</mat-label>
+    <input matInput type="text" name="nom" placeholder="nom de l'évènement" [(ngModel)]="data.evenement.nom"/>
   </mat-form-field>
   <mat-form-field appearance="fill" id="nom-compo">
-    <input matInput [matDatepicker]="picker" placeholder="date prévue de l'évènement" [(ngModel)]="data.datePrevue" [disabled]="nouveau === false">
+    <mat-label>Date prévue pour l'évènement</mat-label>
+    <input matInput [matDatepicker]="picker" placeholder="date prévue de l'évènement" [(ngModel)]="data.evenement.datePrevue"/>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <mat-form-field appearance="fill" id="nom-compo">
-    <input matInput type="number" name="budget" placeholder="budget prévu pour l'évènement" [(ngModel)]="data.budget" [disabled]="nouveau === false"/>
+    <mat-label>Budget prévu par le client pour l'évènement</mat-label>
+    <input matInput type="number" name="budget" placeholder="budget prévu pour l'évènement" [(ngModel)]="data.evenement.budget"/>
   </mat-form-field>
   <div >
-    <ul *ngFor="let element of data.compositions">
+    <ul *ngFor="let element of data.evenement.compositions">
       <li class="">
-        {{element.composition.nom}} -- {{element.composition.prixUnitaire | number}} €
+        {{element.quantite}} {{element.composition?.nom}} -- {{element.composition?.prixUnitaire | number}} €
       </li>
     </ul>
   </div>
-</div>
+</mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button
     mat-stroked-button
     color="primary"
     class="ripple"
-    [mat-dialog-close]="data"
+    [mat-dialog-close]="data.evenement"
     [aria-label]="'Ajouter'"
     cdkFocusInitial>
     Ajouter

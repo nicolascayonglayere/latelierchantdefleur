@@ -1,61 +1,66 @@
-<div class="row justify-content-between" id="researchBarComposition">
-  <input type="text" class="form-control form-control-sm" name="searchBar" placeholder="Rechercher"
-    (change)="onChangeResearch($event)" />
-    <mat-paginator [length]="length"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="pageSizeOptions"
-    (page)="page = getPaginatorData($event)">
-  </mat-paginator>
-</div>
-<div *ngIf="ttesComposition.length >0">
-  <ul class="list-group"
-    *ngFor="let composition of compositionResearch | slice: lowValue : highValue; let i = index">
-    <h4 class="list-group-item-heading d-flex">
-      <div id="compo-descr">{{composition.nom}} -- composition du {{ composition.dateCreation | date: 'dd/MM/yyyy' }}</div>
-      <div class="ml-auto">
-        <a routerLink="/atelier-chant-de-fleur/compositions/{{composition.id}}" class="ml-auto" mat-icon-button color="primary" matTooltip="Détail de la composition">
-          <fa-icon [icon]="faInfoCircle" id="iconPlus" ></fa-icon>
-        </a>
-        <button mat-icon-button color="primary" (click)="onClickAjoutComposition(composition)" matTooltip="Ajouter à l'évènement">
-          <fa-icon [icon]="faPlus" id="iconPlus" ></fa-icon>
-        </button>
-        <button mat-icon-button color="primary" type="submit" (click)="onClickAddImageDialog(composition)" matTooltip="Ajouter/Supprimer une image">
-          <fa-icon [icon]="faUpload"></fa-icon>
-        </button>
-        <button mat-icon-button color="primary" matTooltip="Supprimer la composition">
-          <fa-icon [icon]="faTrash" (click)="onClikDeleteCompo(i)"></fa-icon>
-        </button>
-      </div>
+    <div class="row justify-content-between" id="researchBarComposition">
+      <input type="text" class="form-control form-control-sm" name="searchBar" placeholder="Rechercher"
+        (change)="onChangeResearch($event)" />
+        <mat-paginator [length]="length"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="page = getPaginatorData($event)">
+      </mat-paginator>
+    </div>
+    <div *ngIf="ttesComposition.length >0">
+      <ul class="list-group"
+        *ngFor="let composition of compositionResearch | slice: lowValue : highValue; let i = index">
+        <h4 class="list-group-item-heading d-flex">
+          <div id="compo-descr">
+            {{composition.nom}} -- composition du {{ composition.dateCreation | date: 'dd/MM/yyyy' }}
+          </div>
+          <div class="ml-auto">
+            <a routerLink="/atelier-chant-de-fleur/compositions/{{composition.id}}" class="ml-auto" mat-icon-button color="primary" matTooltip="Détail de la composition">
+              <fa-icon [icon]="faInfoCircle"></fa-icon>
+            </a>
+            <button mat-icon-button color="primary" (click)="onClickSelectComposition(composition.id)" matTooltip="Modifier de la composition">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+            <button mat-icon-button color="primary" [hidden]="disableAjout" (click)="onClickAjoutComposition(composition)" matTooltip="Ajouter à l'évènement">
+              <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+            <button mat-icon-button color="primary" type="submit" (click)="onClickAddImageDialog(composition)" matTooltip="Ajouter/Supprimer une image">
+              <fa-icon [icon]="faUpload"></fa-icon>
+            </button>
+            <button mat-icon-button color="primary" matTooltip="Supprimer la composition">
+              <fa-icon [icon]="faTrash" (click)="onClikDeleteCompo(i)"></fa-icon>
+            </button>
+          </div>
 
-    </h4>
-    <li class="list-group-item">
-      Durée de composition :
-      {{composition.dureeCreation * 60 * 60 * 1000 | date:'HH:mm':'UTC' }} --
-      Prix de vente : {{composition.prixUnitaire}} € --
-      TVA : {{composition.tva}} % --
-      Marge : {{composition.marge}} % --
-      Taux horaire : {{composition.tauxHoraire}} €/heure --
-      {{composition.qteImage}} photo
-      <div class="row justify-content-between">
-        <div>Tiges :
-          <ul *ngFor="let element of composition.tiges">
-            <li class="">
-              {{element.quantite}} -- {{element.type}} -- {{element.nom}}
-            </li>
-          </ul>
-        </div>
-        <div *ngIf="composition.materiaux.length > 0">Materiaux :
-          <ul *ngFor="let element of composition.materiaux">
+        </h4>
+        <li class="list-group-item">
+          Durée de composition :
+          {{composition.dureeCreation * 60 * 60 * 1000 | date:'HH:mm':'UTC' }} --
+          Prix de vente : {{composition.prixUnitaire | number}} € --
+          TVA : {{composition.tva}} % --
+          Marge : {{composition.marge}} % --
+          Taux horaire : {{composition.tauxHoraire}} €/heure --
+          {{composition.qteImage}} photo
+          <div class="row justify-content-between">
+            <div>Tiges :
+              <ul *ngFor="let element of composition.tiges">
+                <li class="">
+                  {{element.quantite}} -- {{element.type}} -- {{element.nom}}
+                </li>
+              </ul>
+            </div>
+            <div *ngIf="composition.materiaux.length > 0">Materiaux :
+              <ul *ngFor="let element of composition.materiaux">
 
-            <li class="">
-              {{element.quantite}} -- {{element.type}} -- {{element.nom}}
-            </li>
-          </ul>
-        </div>
-      </div>
-      <!-- <button class="btn-primary btn-sm" routerLink="/atelier-chant-de-fleur/composition/edit/{{composition.id}}"><fa-icon [icon]="faEdit"></fa-icon></button> -->
-    </li>
-  </ul>
-</div>
+                <li class="">
+                  {{element.quantite}} -- {{element.type}} -- {{element.nom}}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
 
-<div *ngIf="ttesComposition.length === 0" class="alert alert-danger">Aucune composition enregistrée en base.</div>
+    <div *ngIf="ttesComposition.length === 0" class="alert alert-danger">Aucune composition enregistrée en base.</div>
+

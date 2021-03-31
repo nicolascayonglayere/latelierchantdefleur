@@ -4,4 +4,6 @@ import com.atelierchantdefleur.bouquetcomposer.model.entity.ImageComposition;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ImageCompositionRepository extends JpaRepository<ImageComposition, Long> {
+
+    void deleteAllByCompositionId(Long id);
 }

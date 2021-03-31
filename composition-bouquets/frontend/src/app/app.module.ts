@@ -47,6 +47,11 @@ import { RxStompService  } from '@stomp/ng2-stompjs';
 import { ClientEditComponent } from './features/client-edit/client-edit.component';
 import { ClientsDisplayComponent } from './features/clients-display/clients-display.component';
 import { BandeauClientComponent } from './features/bandeau-client/bandeau-client.component';
+import { CreationCompositionComponent } from './features/creation-composition/creation-composition.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { BandeauEvenementComponent } from './features/bandeau-evenement/bandeau-evenement.component';
+import { CreationEvenementComponent } from './features/creation-evenement/creation-evenement.component';
+import { CompositionQuantiteAddDialogComponent } from './features/compositions-display/composition-quantite-add-dialog/composition-quantite-add-dialog.component';
 
 
 const appRoutes: Routes = [
@@ -64,6 +69,8 @@ const appRoutes: Routes = [
   { path: 'atelier-chant-de-fleur/evenements/:id/edit', component: EvenementEditComponent },
   { path: 'atelier-chant-de-fleur/clients', component: ClientsDisplayComponent },
   { path: 'atelier-chant-de-fleur/clients/:id/edit', component: ClientEditComponent },
+  { path: 'atelier-chant-de-fleur/creation-composition', component: CreationCompositionComponent },
+  { path: 'atelier-chant-de-fleur/creation-evenement', component: CreationEvenementComponent },
   // { path: '', redirectTo: 'atelier-chant-de-fleur/tiges', pathMatch: 'full' },
 ];
 
@@ -90,7 +97,11 @@ const appRoutes: Routes = [
     EvenementEditComponent,
     ClientEditComponent,
     ClientsDisplayComponent,
-    BandeauClientComponent
+    BandeauClientComponent,
+    CreationCompositionComponent,
+    BandeauEvenementComponent,
+    CreationEvenementComponent,
+    CompositionQuantiteAddDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -119,7 +130,8 @@ const appRoutes: Routes = [
     NgxMaterialTimepickerModule.setLocale('fr-FR'),
     CarouselModule,
     WavesModule,
-    UiSwitchModule
+    UiSwitchModule,
+    MatTabsModule
   ],
   providers: [
     RxStompService
