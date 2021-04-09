@@ -5,7 +5,7 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" *ngIf="!evtDetail.idClientRest">
     <div class="card-header">CLIENT</div>
     <div class="card-body">
       <mat-form-field appearance="fill" id="select-mat-form-field-client">
@@ -84,13 +84,13 @@
 
   <div class="d-flex">
           <button mat-raised-button color="primary" type="button" (click)="onClickSaveEvenement()"
-                  [disabled]="elementCompo?.length === 0 || !clientEvt">
+                  [disabled]="elementCompo?.length === 0 || !clientEvt.id">
             Enregistrer l'évènement
           </button>
 
         <div *ngIf="evtDetail?.id" class="ml-auto">
           <button mat-raised-button color="primary" type="button" (click)="onClickUpdateEvenement()"
-                  [disabled]="elementCompo?.length === 0 || !clientEvt || evtDetail.id === 0">
+                  [disabled]="elementCompo?.length === 0 || !clientEvt.id || evtDetail.id === 0">
             Modifier l'évènement
           </button>
         </div>

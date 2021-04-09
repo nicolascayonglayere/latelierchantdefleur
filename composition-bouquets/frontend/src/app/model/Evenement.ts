@@ -9,6 +9,6 @@ export class Evenement {
   compositions: CompositionCommande[];
   forfaitMo: number;
   forfaitDplct: number;
-  clientRest: Client;
+  idClientRest: number;
   budget: number;
 }

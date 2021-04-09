@@ -12,6 +12,8 @@ import {Evenement} from 'src/app/model/Evenement';
 import {SnackbarSuccessComponent} from 'src/app/layout/snackbar/snackbar-success/snackbar-success.component';
 import {Client} from '../../model/Client';
 import {EvenementSelectedService} from '../../services/evenement-selected.service';
+import {ClientService} from '../../services/client.service';
+import {ClientSelectedService} from '../../services/client-selected.service';
 
 @Component({
   selector: 'app-evenement-detail-display',
@@ -52,18 +54,20 @@ export class EvenementDetailDisplayComponent implements OnInit {
   mainOeuvre = 0;
 
   clientSelected: Client;
-
+  idClientSelected: number;
 
   constructor(private evtService: EvenementService,
               private route: ActivatedRoute, private tigeService: TigeService, private matService: MateriauService,
-              private snackBar: MatSnackBar, private router: Router, private evtSelectedService: EvenementSelectedService) { }
+              private snackBar: MatSnackBar, private router: Router, private evtSelectedService: EvenementSelectedService,
+              private clientService: ClientService, private clientSelectedService: ClientSelectedService) { }
 
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(resp => {
       this.evtService.getById(+resp.get('id')).subscribe(data => {
         this.evenement = data;
-        this.clientSelected = data.clientRest;
+        this.idClientSelected = data.idClientRest;
+        this.selectClient(data.idClientRest);
         this.forfait = this.evenement.forfaitDplct;
         this.mainOeuvre = this.evenement.forfaitMo;
         const tigesEvt: ElementComposition[] = [];
@@ -197,8 +201,11 @@ export class EvenementDetailDisplayComponent implements OnInit {
     });
   }
 
-  selectClient(event: Client): void{
-    this.clientSelected = event;
+  selectClient(id: number): void{
+    this.clientService.getById(id).subscribe(data => {
+      console.log('selection client dans evt detail display', data);
+      this.clientSelectedService.recuperationClientSelected(data);
+    });
   }
 
   selectEvenement(evenement: Evenement): void {

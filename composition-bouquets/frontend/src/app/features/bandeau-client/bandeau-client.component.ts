@@ -1,61 +1,83 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import { Client } from 'src/app/model/Client';
+import {AfterViewChecked, AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Client} from 'src/app/model/Client';
 import {Evenement} from '../../model/Evenement';
 import {EvenementService} from '../../services/evenement.service';
+import {ClientService} from '../../services/client.service';
+import {ClientSelectedService} from '../../services/client-selected.service';
 
 @Component({
   selector: 'app-bandeau-client',
   templateUrl: './bandeau-client.component.html',
   styleUrls: ['./bandeau-client.component.css']
 })
-export class BandeauClientComponent implements OnInit, OnChanges {
+export class BandeauClientComponent implements OnInit, OnChanges{//}, AfterViewChecked {
 
-  @Input() clientSelected: Client;
+  @Input() idClientSelected: number;
 
+  clientSelected: Client;
   totTtesCommandes = 0;
   derniereCommandeEnCours = true;
   derniereCommandeAcquittee: Evenement;
   montantDerniereCommandeAcquittee = 0;
   montantDerniereCommandeEnCours = 0;
 
-  constructor(private evtService: EvenementService) { }
+  constructor(private evtService: EvenementService, private clientService: ClientService, private clientSelectedService: ClientSelectedService) { }
 
   ngOnInit(): void {
-    // console.log('INIT', this.clientSelected);
-    // this.derniereCommandeAcquittee = new Evenement();
-    // if(this.clientSelected.evenementsRest.length > 0){
-    //   this.calculMontantToutesCommandes(this.clientSelected.evenementsRest);
-    //   this.derniereCommandeEnCours = this.isDerniereCommandeEnCours(this.clientSelected.evenementsRest[0]);
-    //   const derniereCommandeAcquitteeVide = this.clientSelected.evenementsRest.filter(e => this.isCommandeAcquittee(e))[0];
-    //   this.calculMontantDerniereCommandeAcquittee(derniereCommandeAcquitteeVide);
+    console.log('INIT bandeau CLIENT');
+    this.clientSelectedService.currentClientSelected.subscribe(data => {
+      console.log('INIT bandeau CLIENT', data);
+      if(data.id){
+        this.clientSelected = data;
+        this.idClientSelected = data.id;
+        this.init();
+      }
+    });
+    // console.log('INIT bandeau CLIENT', this.idClientSelected);
+    // if (this.idClientSelected){
+    //   console.log('INIT bandeau CLIENT', this.idClientSelected);
+    //   this.init();
     // }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['clientSelected']){
-      console.log('CHANGES', this.clientSelected);
+    console.log('CHANGE bandeua-client', changes);
+    if (changes.idClientSelected && this.idClientSelected){
+      console.log('CHANGES', changes.idClientSelected, this.idClientSelected);
       this.init();
     }
   }
+  //
+  // ngAfterViewChecked(): void {
+  //   if (this.idClientSelected){
+  //     console.log('INIT CLIENT AFTER VIEW', this.idClientSelected);
+  //     this.init();
+  //   }
+  // }
 
   private init(): void {
-    console.log('INIT', this.clientSelected);
+    // console.log('INIT', this.idClientSelected);
     this.derniereCommandeAcquittee = new Evenement();
     this.totTtesCommandes = 0;
     this.montantDerniereCommandeAcquittee = 0;
     this.montantDerniereCommandeEnCours = 0;
-    if (this.clientSelected?.evenementsRest.length > 0){
-      this.calculMontantToutesCommandes(this.clientSelected.evenementsRest);
-      this.derniereCommandeEnCours = this.isDerniereCommandeEnCours(this.clientSelected.evenementsRest[0]);
-      if (this.derniereCommandeEnCours){
-        this.calculMontantDerniereCommandeEnCours(this.clientSelected.evenementsRest[0]);
+
+    this.clientService.getById(this.idClientSelected).subscribe(data => {
+      console.log('INIT', data);
+      this.clientSelected = data;
+      if (this.clientSelected?.evenementsRest.length > 0){
+        this.calculMontantToutesCommandes(this.clientSelected.evenementsRest);
+        this.derniereCommandeEnCours = this.isDerniereCommandeEnCours(this.clientSelected.evenementsRest[0]);
+        if (this.derniereCommandeEnCours){
+          this.calculMontantDerniereCommandeEnCours(this.clientSelected.evenementsRest[0]);
+        }
+        const derniereCommandeAcquitteeVide = this.clientSelected.evenementsRest.filter(e => this.isCommandeAcquittee(e))[0];
+        console.log('Last commande', derniereCommandeAcquitteeVide);
+        if (derniereCommandeAcquitteeVide){
+          this.calculMontantDerniereCommandeAcquittee(derniereCommandeAcquitteeVide);
+        }
       }
-      const derniereCommandeAcquitteeVide = this.clientSelected.evenementsRest.filter(e => this.isCommandeAcquittee(e))[0];
-      console.log(derniereCommandeAcquitteeVide);
-      if (derniereCommandeAcquitteeVide){
-        this.calculMontantDerniereCommandeAcquittee(derniereCommandeAcquitteeVide);
-      }
-    }
+    });
   }
 
   private calculMontantToutesCommandes(evts: Evenement[]): void{
@@ -106,7 +128,7 @@ export class BandeauClientComponent implements OnInit, OnChanges {
   }
 
   private isCommandeAcquittee(commande: Evenement): boolean{
-    console.log(new Date(commande.datePrevue) < new Date());
+    console.log('idCommandeAcquittee', new Date(commande.datePrevue) < new Date());
     return new Date(commande.datePrevue) < new Date();
   }
 

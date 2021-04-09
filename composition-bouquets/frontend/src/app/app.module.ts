@@ -52,7 +52,13 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { BandeauEvenementComponent } from './features/bandeau-evenement/bandeau-evenement.component';
 import { CreationEvenementComponent } from './features/creation-evenement/creation-evenement.component';
 import { CompositionQuantiteAddDialogComponent } from './features/compositions-display/composition-quantite-add-dialog/composition-quantite-add-dialog.component';
+import { TableauDeBordComponent } from './features/tableau-de-bord/tableau-de-bord.component';
+import {CalendarModule, DateAdapter} from 'angular-calendar';
+import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
+registerLocaleData(localeFr);
 
 const appRoutes: Routes = [
   { path: 'atelier-chant-de-fleur/materiaux', component: MateriauxDisplayComponent },
@@ -71,7 +77,8 @@ const appRoutes: Routes = [
   { path: 'atelier-chant-de-fleur/clients/:id/edit', component: ClientEditComponent },
   { path: 'atelier-chant-de-fleur/creation-composition', component: CreationCompositionComponent },
   { path: 'atelier-chant-de-fleur/creation-evenement', component: CreationEvenementComponent },
-  // { path: '', redirectTo: 'atelier-chant-de-fleur/tiges', pathMatch: 'full' },
+  { path: 'atelier-chant-de-fleur/home', component: TableauDeBordComponent },
+  { path: '', redirectTo: 'atelier-chant-de-fleur/home', pathMatch: 'full' },
 ];
 
 @NgModule({
@@ -101,7 +108,8 @@ const appRoutes: Routes = [
     CreationCompositionComponent,
     BandeauEvenementComponent,
     CreationEvenementComponent,
-    CompositionQuantiteAddDialogComponent
+    CompositionQuantiteAddDialogComponent,
+    TableauDeBordComponent
   ],
   imports: [
     BrowserModule,
@@ -131,7 +139,11 @@ const appRoutes: Routes = [
     CarouselModule,
     WavesModule,
     UiSwitchModule,
-    MatTabsModule
+    MatTabsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    })
   ],
   providers: [
     RxStompService

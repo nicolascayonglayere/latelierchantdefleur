@@ -50,7 +50,7 @@ public class CommandeController {
         List<CompositionCommandeDTO> compositionDTOS = commandeRest.getCompositions().stream()
                 .map(c -> this.commandeCompositionMapper.fromRestToDomain(c, this.compositionMapper.fromRestToDomain(c.getComposition(), new ArrayList<>(), new ArrayList<>())))
                 .collect(Collectors.toList());
-        ClientDTO clientDTO = this.clientMapper.fromRestToDomain(commandeRest.getClientRest(), new ArrayList<>());
+        ClientDTO clientDTO = new ClientDTO(commandeRest.getIdClientRest());//this.clientMapper.fromRestToDomain(commandeRest.getClientRest(), new ArrayList<>());
         CommandeDTO commandeDTO = this.commandeMapper.fromRestToDomain(commandeRest, compositionDTOS, clientDTO);
         CommandeDTO evtSave = this.commandeService.save(commandeDTO);
         ClientRest clientSave = this.clientMapper.fromDomainToRest(evtSave.getClientDTO(), new ArrayList<>());
@@ -63,7 +63,7 @@ public class CommandeController {
                 .map(c -> this.commandeCompositionMapper.fromRestToDomain(c,
                         this.compositionMapper.fromRestToDomain(c.getComposition(), new ArrayList<>(), new ArrayList<>())))
                 .collect(Collectors.toList());
-        ClientDTO clientDTO = this.clientMapper.fromRestToDomain(commandeRest.getClientRest(), new ArrayList<>());
+        ClientDTO clientDTO = new ClientDTO(commandeRest.getIdClientRest());//this.clientMapper.fromRestToDomain(commandeRest.getClientRest(), new ArrayList<>());
         CommandeDTO commandeDTO = this.commandeMapper.fromRestToDomain(commandeRest, compositionDTOS, clientDTO);
         CommandeDTO evtSave = this.commandeService.save(commandeDTO);
         ClientRest clientSave = this.clientMapper.fromDomainToRest(evtSave.getClientDTO(), new ArrayList<>());

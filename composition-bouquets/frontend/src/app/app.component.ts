@@ -1,7 +1,5 @@
-import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
-import { Component } from '@angular/core';
-import { Tige } from './model/Tige';
-import { Client } from './model/Client';
+import {faCaretLeft, faCaretRight} from '@fortawesome/free-solid-svg-icons';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -14,11 +12,11 @@ export class AppComponent {
   faCaretLeft = faCaretLeft;
   isCollapsedTot = false;
 
-  clientSelected: Client;
-
-  selectClient(event: Client){
-    this.clientSelected = event;
-  }
+  // clientSelected: Client;
+  //
+  // selectClient(event: Client){
+  //   this.clientSelected = event;
+  // }
 
 
 }

@@ -51,7 +51,7 @@ export class BandeauEvenementComponent implements OnInit, AfterViewChecked {
   @Output() evtReset = new EventEmitter<Evenement>();
   @Output() evtSave = new EventEmitter<Evenement>();
   @Output() evtUpdate = new EventEmitter<Evenement>();
-  @Output() clientSelected = new EventEmitter<Client>();
+  @Output() clientSelected = new EventEmitter<number>();
 
   constructor(private dialog: MatDialog,
               private router: Router,
@@ -66,7 +66,11 @@ export class BandeauEvenementComponent implements OnInit, AfterViewChecked {
       console.log('EVENEMENT ', this.evtDetail);
       this.forfaitDplct = this.evtDetail.forfaitDplct;
       this.forfaitMo = this.evtDetail.forfaitMo;
-      this.clientEvt = this.evtDetail.clientRest;
+      if(!this.clientEvt){
+        this.clientEvt = new Client();
+      }
+      this.clientEvt.id = this.evtDetail.idClientRest;
+      // this.clientSelected.emit(this.evtDetail.idClientRest);
     }
   }
 
@@ -131,7 +135,7 @@ export class BandeauEvenementComponent implements OnInit, AfterViewChecked {
     const evenementToSave = new Evenement();
     evenementToSave.dateCreation = new Date();
     evenementToSave.compositions = this.evtDetail.compositions;
-    evenementToSave.clientRest = this.clientEvt;
+    evenementToSave.idClientRest = this.clientEvt.id;
     // evenementToSave.forfaitMo = this.forfaitMo;
     // evenementToSave.forfaitDplct = this.forfaitDplct;
     if (this.evtDetail?.id){
@@ -173,16 +177,17 @@ export class BandeauEvenementComponent implements OnInit, AfterViewChecked {
     });
   }
   onChangeSelectClient(client: any): void{
+    console.log('select client dans bandeau evt', client);
     const clientSelected = this.clients.find(c => c.id === +client.value);
     this.clientEvt = clientSelected;
-    this.clientSelected.emit(clientSelected);
+    this.clientSelected.emit(+client.value);
   }
 
   onClickUpdateEvenement(): void {
     const evenementToSave = new Evenement();
     evenementToSave.dateCreation = new Date();
     evenementToSave.compositions = this.evtDetail.compositions;
-    evenementToSave.clientRest = this.clientEvt;
+    evenementToSave.idClientRest = this.clientEvt.id;
     evenementToSave.id = this.evtDetail.id;
     evenementToSave.datePrevue = this.evtDetail.datePrevue;
     evenementToSave.nom = this.evtDetail.nom;

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Evenement} from '../../model/Evenement';
 import {CompositionCommande} from '../../model/CompositionCommande';
 import {SnackbarSuccessComponent} from '../../layout/snackbar/snackbar-success/snackbar-success.component';
@@ -8,13 +8,14 @@ import {Router} from '@angular/router';
 import {EvenementSelectedService} from '../../services/evenement-selected.service';
 import { Client } from 'src/app/model/Client';
 import {ClientService} from '../../services/client.service';
+import {ClientSelectedService} from '../../services/client-selected.service';
 
 @Component({
   selector: 'app-creation-evenement',
   templateUrl: './creation-evenement.component.html',
   styleUrls: ['./creation-evenement.component.css']
 })
-export class CreationEvenementComponent implements OnInit {
+export class CreationEvenementComponent implements OnInit, OnChanges {
   configSuccess: MatSnackBarConfig = {
     panelClass: 'snack-bar-success',
     duration: 1000,
@@ -30,19 +31,22 @@ export class CreationEvenementComponent implements OnInit {
   clientDetail: Client;
   clients: Client[];
   titre: string;
+  idClientDetail: any;
 
   constructor(private evtService: EvenementService,
               private snackBar: MatSnackBar,
               private router: Router,
               private evtSelectedService: EvenementSelectedService,
-              private clientService: ClientService) { }
+              private clientService: ClientService,
+              private clientSelectedService: ClientSelectedService) { }
 
   ngOnInit(): void {
     this.evtSelectedService.currentEvtSelected.subscribe(e => {
       if (e.id){
         this.evtDetail = e;
-        // this.clientDetail = e.clientRest;
+        this.idClientDetail = e.idClientRest;
         this.titre = 'Modification de l\'évènement ' + e.nom;
+        console.log('Init crea evt', this.idClientDetail);
       }else{
         this.resetEvt();
       }
@@ -51,6 +55,10 @@ export class CreationEvenementComponent implements OnInit {
     this.clientService.currentClients.subscribe(resp => {
       this.clients = resp;
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('CHANGES creation evt', changes);
   }
 
   ajouterComposition(event: CompositionCommande): void {
@@ -95,8 +103,15 @@ export class CreationEvenementComponent implements OnInit {
       });
   }
 
-  selectClient(event: Client): void {
-    this.clientDetail = event;
+  selectClient(event: number): void {
+    // this.clientDetail = event;
+    console.log('select client dans comp parent', event);
+    this.idClientDetail = event;
+    // this.clientService.getById(event).subscribe(data => {
+    //   // this.clientSelectedService.recuperationClientSelected(data);
+    //   this.clientDetail = data;
+    //   this.idClientDetail = data.id;
+    // });
   }
 
   private resetEvenement(): void{

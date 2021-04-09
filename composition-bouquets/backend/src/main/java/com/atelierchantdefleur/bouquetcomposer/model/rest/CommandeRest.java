@@ -14,6 +14,6 @@ public class CommandeRest {
     private List<CompositionCommandeRest> compositions;
     private Integer forfaitMo;
     private Integer forfaitDplct;
-    private ClientRest clientRest;
+    private Long idClientRest;
     private Double budget;
 }

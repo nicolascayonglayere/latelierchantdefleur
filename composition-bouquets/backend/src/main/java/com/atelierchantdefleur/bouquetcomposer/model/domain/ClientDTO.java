@@ -1,12 +1,16 @@
 package com.atelierchantdefleur.bouquetcomposer.model.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClientDTO {
     private Long id;
     private String nom1;
@@ -20,6 +24,10 @@ public class ClientDTO {
     private String email;
     private String telephone;
     private List<CommandeDTO> evenementsDTO;
+
+    public ClientDTO(Long id) {
+        this.id = id;
+    }
 
     public void addEvenement(CommandeDTO commandeDTO){
         if(Objects.isNull(this.evenementsDTO)){

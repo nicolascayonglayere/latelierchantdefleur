@@ -68,7 +68,7 @@ public class CommandeMapper {
         commandeRest.setCompositions(compositionsRest);
         commandeRest.setForfaitDplct(commandeDTO.getForfaitDplct());
         commandeRest.setForfaitMo(commandeDTO.getForfaitMo());
-        commandeRest.setClientRest(Objects.isNull(clientRest) ? null : clientRest);
+        commandeRest.setIdClientRest(Objects.isNull(clientRest) ? null : clientRest.getId());
         commandeRest.setBudget(commandeDTO.getBudget());
         return commandeRest;
     }
