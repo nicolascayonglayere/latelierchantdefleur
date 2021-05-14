@@ -9,7 +9,7 @@
 // @Injectable()
 // // export class WebsocketService {
 
-// //   private serverUrl = `http://localhost:8181/atelier-chant-de-fleur/devis-response`;
+// //   private serverUrl = `http://127.0.0.1:8181/atelier-chant-de-fleur/devis-response`;
 // //   private stompClient;
 // //   public mapEndpointSubscription: Map<string, any> = new Map();
 

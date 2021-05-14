@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Fournisseur } from '../model/Fournisseur';
 
-const rootUrl = 'http://localhost:8181/atelier-chant-de-fleur/fournisseurs';
+const rootUrl = 'http://127.0.0.1:8181/atelier-chant-de-fleur/fournisseurs';
 
 @Injectable({
   providedIn: 'root'

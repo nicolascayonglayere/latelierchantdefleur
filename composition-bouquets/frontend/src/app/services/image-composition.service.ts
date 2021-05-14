@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpEvent, HttpRequest, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const rootUrl = 'http://localhost:8181/atelier-chant-de-fleur/compositions/';
+const rootUrl = 'http://127.0.0.1:8181/atelier-chant-de-fleur/compositions/';
 
 @Injectable({
   providedIn: 'root'

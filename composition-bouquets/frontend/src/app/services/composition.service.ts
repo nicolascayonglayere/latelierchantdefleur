@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ElementComposition } from '../model/ElementComposition';
 
-const rootUrl = 'http://localhost:8181/atelier-chant-de-fleur/compositions';
+const rootUrl = 'http://127.0.0.1:8181/atelier-chant-de-fleur/compositions';
 @Injectable({
   providedIn: 'root'
 })

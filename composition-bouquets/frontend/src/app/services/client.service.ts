@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Client } from '../model/Client';
 
-const rootUrl = 'http://localhost:8181/atelier-chant-de-fleur/clients';
+const rootUrl = 'http://127.0.0.1:8181/atelier-chant-de-fleur/clients';
 
 @Injectable({
   providedIn: 'root'

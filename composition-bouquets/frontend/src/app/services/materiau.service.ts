@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { DataTablesResponse } from '../model/DataTablesResponse';
 import { Materiau } from '../model/Materiau';
 
-const rootUrl = 'http://localhost:8181/atelier-chant-de-fleur/materiaux';
+const rootUrl = 'http://127.0.0.1:8181/atelier-chant-de-fleur/materiaux';
 
 @Injectable({
   providedIn: 'root'

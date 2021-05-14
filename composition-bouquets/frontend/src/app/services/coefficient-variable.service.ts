@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CoefficientVariable } from '../model/CoefficientVariable';
 
-const rootUrl = 'http://localhost:8181/atelier-chant-de-fleur/coefficients';
+const rootUrl = 'http://127.0.0.1:8181/atelier-chant-de-fleur/coefficients';
 
 @Injectable({
   providedIn: 'root'

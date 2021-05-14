@@ -1,9 +1,9 @@
 import { Observable, BehaviorSubject } from 'rxjs';
-import { Evenement } from './../model/Evenement';
+import { Evenement } from '../model/Evenement';
 import { HttpClient, HttpParams, HttpResponse, } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const rootUrl = 'http://localhost:8181/atelier-chant-de-fleur/evenements';
+const rootUrl = 'http://127.0.0.1:8181/atelier-chant-de-fleur/evenements';
 
 @Injectable({
   providedIn: 'root'

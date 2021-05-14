@@ -2,7 +2,7 @@ package com.atelierchantdefleur.bouquetcomposer.model.constante;
 
 public class HttpUrlConstantes {
 
-    public static final String CROSS_ORIGIN = "http://localhost:4200";
+    public static final String CROSS_ORIGIN = "http://127.0.0.1:4200";
 
     public static final String ROOT_URL = "/atelier-chant-de-fleur";
     public static final String EVENEMENT_URL = "evenements";
@@ -21,6 +21,8 @@ public class HttpUrlConstantes {
 
     public static final String ID_COMPO_PARAM="id-compo";
     public static final String ID_EVT_PARAM="id-evenement";
+
+    public static final String KEYCLOAK_API="keycloak/config";
 
 
 
