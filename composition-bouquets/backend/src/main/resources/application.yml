@@ -3,7 +3,7 @@ spring:
     url: jdbc:h2:file:~/chantdefleur;IFEXISTS=true
     driverClassName: org.h2.Driver
     username: sa
-    password: none
+    password:
     database-platform: org.hibernate.dialect.H2Dialect
   jpa:
     hibernate:
@@ -38,25 +38,25 @@ logging:
 modele:
   pdfTemplate: D:\Users\nicolas.cayonglayere\Documents\projets_OC\bouquet-composer\modele_devis1.pdf
 
-keycloakRequiredUserRole: default-roles-bouquet-composer
-keycloak:
-  auth-server-url: http://localhost:8080/auth
-  realm: bouquet-composer
-  resource: bouquet-composer
-  security-constraints :
-    - authRoles:
-        - ${keycloakRequiredUserRole}
-      securityCollections:
-        - name: protected resource
-          patterns:
-            - /atelier-chant-de-fleur/*
-    - securityCollections:
-        - name: public resource
-          patterns:
-            - /atelier-chant-de-fleur/keycloak/config
-  enabled: true
-  credentials:
-    secret:
-  realm-key:
+#keycloakRequiredUserRole: default-roles-bouquet-composer
+#keycloak:
+#  auth-server-url: http://localhost:8080/auth
+#  realm: bouquet-composer
+#  resource: bouquet-composer
+#  security-constraints :
+#    - authRoles:
+#        - ${keycloakRequiredUserRole}
+#      securityCollections:
+#        - name: protected resource
+#          patterns:
+#            - /atelier-chant-de-fleur/*
+#    - securityCollections:
+#        - name: public resource
+#          patterns:
+#            - /atelier-chant-de-fleur/keycloak/config
+#  enabled: true
+#  credentials:
+#    secret:
+#  realm-key:
 
 

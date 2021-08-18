@@ -59,53 +59,54 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 // import {KeycloakConfigService} from './services/keycloak-config.service';
-// import {filter, flatMap} from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import {filter, flatMap} from 'rxjs/operators';
 // import {AppAuthGuard} from './app-auth-guard';
 
 registerLocaleData(localeFr);
 
 const appRoutes: Routes = [
-  { path: 'atelier-chant-de-fleur/materiaux', component: MateriauxDisplayComponent},
-  { path: 'atelier-chant-de-fleur/tiges', component: TigesDisplayComponent},
-  { path: 'atelier-chant-de-fleur/tiges/edit/:id', component: TigeEditComponent},
-  { path: 'atelier-chant-de-fleur/materiaux/edit/:id', component: MateriauEditComponent},
-  { path: 'atelier-chant-de-fleur/fournisseurs', component: FournisseursDisplayComponent},
-  { path: 'atelier-chant-de-fleur/fournisseurs/edit/:id', component: FournisseurEditComponent},
-  { path: 'atelier-chant-de-fleur/compositions', component: CompositionsDisplayComponent},
-  { path: 'atelier-chant-de-fleur/compositions/images/:id', component: CompositionAddImageComponent},
-  { path: 'atelier-chant-de-fleur/compositions/:id', component: CompositionDetailDisplayComponent},
-  { path: 'atelier-chant-de-fleur/evenements/:id', component: EvenementDetailDisplayComponent},
-  { path: 'atelier-chant-de-fleur/evenements', component: EvenementsDisplayComponent},
-  { path: 'atelier-chant-de-fleur/evenements/:id/edit', component: EvenementEditComponent},
-  { path: 'atelier-chant-de-fleur/clients', component: ClientsDisplayComponent},
-  { path: 'atelier-chant-de-fleur/clients/:id/edit', component: ClientEditComponent},
-  { path: 'atelier-chant-de-fleur/creation-composition', component: CreationCompositionComponent},
-  { path: 'atelier-chant-de-fleur/creation-evenement', component: CreationEvenementComponent},
-  { path: 'atelier-chant-de-fleur/home', component: TableauDeBordComponent},
+  { path: 'atelier-chant-de-fleur/materiaux', component: MateriauxDisplayComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/tiges', component: TigesDisplayComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/tiges/edit/:id', component: TigeEditComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/materiaux/edit/:id', component: MateriauEditComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/fournisseurs', component: FournisseursDisplayComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/fournisseurs/edit/:id', component: FournisseurEditComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/compositions', component: CompositionsDisplayComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/compositions/images/:id', component: CompositionAddImageComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/compositions/:id', component: CompositionDetailDisplayComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/evenements/:id', component: EvenementDetailDisplayComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/evenements', component: EvenementsDisplayComponent},//, canActivate: [AppAuthGuard]},
+  { path: 'atelier-chant-de-fleur/evenements/:id/edit', component: EvenementEditComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/clients', component: ClientsDisplayComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/clients/:id/edit', component: ClientEditComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/creation-composition', component: CreationCompositionComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/creation-evenement', component: CreationEvenementComponent},//, canActivate: [AppAuthGuard] },
+  { path: 'atelier-chant-de-fleur/home', component: TableauDeBordComponent},//, canActivate: [AppAuthGuard] },
   { path: '', redirectTo: 'atelier-chant-de-fleur/home', pathMatch: 'full' },
 ];
 
-export function kcInitializer(keycloak: KeycloakService): () => Promise<any> {
-  return (): Promise<any> => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        await keycloak.init({
-          config: environment.keycloak,
-          initOptions: {
-            onLoad: 'login-required',
-            checkLoginIframe: false
-          },
-          enableBearerInterceptor: true
-        });
-        resolve();
-      } catch (error) {
-        console.log("Error thrown in init "+error);
-        reject(error);
-      }
-    });
-  };           
-}
+// export function initializer(keycloakService: KeycloakService,
+//                             keycloakConfigService: KeycloakConfigService): () => Promise<boolean> {
+//   return (): Promise<boolean> => keycloakConfigService.getConfig()
+//     .pipe(
+//       filter(config => config.enabled),
+//       flatMap(config => {
+//         return keycloakService.init({
+//           config: {
+//             url: config.authServerUrl,
+//             realm: config.realm,
+//             clientId: config.resource
+//             // credentials: {
+//             //   secret: config.credentials.secret
+//             // }
+//           },
+//           initOptions: {
+//             onLoad: 'check-sso',
+//             checkLoginIframe: false
+//           }
+//         });
+//       })).toPromise();
+// }
 
 @NgModule({
   declarations: [
@@ -174,12 +175,12 @@ export function kcInitializer(keycloak: KeycloakService): () => Promise<any> {
   ],
   providers: [
     RxStompService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: kcInitializer,
-      multi: true,
-      deps: [KeycloakService]
-    }
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: initializer,
+    //   multi: true,
+    //   deps: [KeycloakService, KeycloakConfigService]
+    // }
   ],
   bootstrap: [AppComponent]
 })

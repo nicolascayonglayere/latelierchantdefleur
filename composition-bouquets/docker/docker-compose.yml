@@ -1,0 +1,60 @@
+version: "3.3"
+
+services:
+     
+    # backend:
+    #   build: ./backend
+    #   container_name: backend
+    #   ports:
+    #     - 8181:8181
+    #   environment: 
+    #     - APP_NAME=bouquet-composer
+    #     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/chantdefleur
+    #     - SPRING_DATASOURCE_USERNAME=chantdefleur
+    #     - SPRING_DATASOURCE_PASSWORD=postgres        
+    #     - KEYCLOAK_URL=http://keycloak:8080
+    #     - KEYCLOAK_REALM=bouquet-composer
+    #   depends_on:
+    #     - keycloak
+  
+    keycloak:
+      image: quay.io/keycloak/keycloak:13.0.0
+      container_name: keycloak
+      ports:
+        - 8081:8080
+      environment:
+        - KEYCLOAK_USER=admin
+        - KEYCLOAK_PASSWORD=admin
+        - DB_VENDOR=postgres
+        - DB_ADDR=postgres
+        - DB_DATABASE=keycloak
+        - DB_USER=keycloak
+        - DB_PASSWORD=keycloak
+        - KEYCLOAK_IMPORT=/tmp/realm-export.json
+      volumes:
+        - ./realm-export.json:/tmp/realm-export.json
+      command: ["-Dkeycloak.profile.feature.upload_scripts=enabled"]
+      depends_on:
+        - postgres
+  
+    postgres:
+      build: ./postgres
+      container_name: postgres
+      ports:
+        - 5432:5432
+      healthcheck:
+        test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres" ]
+        timeout: 45s
+        interval: 10s
+        retries: 10
+      restart: always        
+      environment:
+        - POSTGRES_DB=chantdefleur
+        - POSTGRES_USER=chantdefleur
+        - POSTGRES_PASSWORD=postgres      
+      volumes:
+        - postgres:/var/lib/postgresql/data
+        # - ./postgres:/docker-entrypoint-initdb.d
+
+volumes:
+    postgres:

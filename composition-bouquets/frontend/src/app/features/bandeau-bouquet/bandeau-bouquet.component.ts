@@ -125,7 +125,7 @@ export class BandeauBouquetComponent implements OnInit, AfterViewChecked {
 
   onSubmitTempsTravailHeure(event: any): void {
     if ( this.compositionDetail.elements.length > 0){
-      this.tempsTravail += +event;
+      this.tempsTravail += +event.target.value;
       this.compositionDetail.dureeCreation = this.tempsTravail;
       this.onChangeCalcul();
     }
@@ -133,7 +133,8 @@ export class BandeauBouquetComponent implements OnInit, AfterViewChecked {
 
   onSubmitTempsTravailMinute(event: any): void {
     if ( this.compositionDetail.elements.length > 0){
-      this.tempsTravail += +event / 60;
+      console.log('Minutes travaillees ', event.target.value);
+      this.tempsTravail += +event.target.value / 60;
       this.compositionDetail.dureeCreation = this.tempsTravail;
       this.onChangeCalcul();
     }

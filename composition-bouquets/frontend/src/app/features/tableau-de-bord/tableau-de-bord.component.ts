@@ -11,9 +11,11 @@ import {
   isSameMonth,
   addHours, parseISO
 } from 'date-fns';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {EvenementService} from "../../services/evenement.service";
 import {Evenement} from "../../model/Evenement";
+import { SnackbarSuccessComponent } from 'src/app/layout/snackbar/snackbar-success/snackbar-success.component';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 const colors: any = {
   red: {
@@ -40,88 +42,32 @@ export class TableauDeBordComponent implements OnInit{
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
-
   CalendarView = CalendarView;
-
   viewDate: Date = new Date();
-
   locale = 'fr';
-
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
-
-  // actions: CalendarEventAction[] = [
-  //   {
-  //     label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-  //     a11yLabel: 'Edit',
-  //     onClick: ({ event }: { event: CalendarEvent }): void => {
-  //       this.handleEvent('Edited', event);
-  //     },
-  //   },
-  //   {
-  //     label: '<i class="fas fa-fw fa-trash-alt"></i>',
-  //     a11yLabel: 'Delete',
-  //     onClick: ({ event }: { event: CalendarEvent }): void => {
-  //       this.events = this.events.filter((iEvent) => iEvent !== event);
-  //       this.handleEvent('Deleted', event);
-  //     },
-  //   },
-  // ];
-
   refresh: Subject<any> = new Subject();
-
   events: CalendarEvent[] = [];
-    // = [
-  //   {
-  //     start: subDays(startOfDay(new Date()), 1),
-  //     end: addDays(new Date(), 1),
-  //     title: 'A 3 day event',
-  //     color: colors.red,
-  //     actions: this.actions,
-  //     allDay: true,
-  //     resizable: {
-  //       beforeStart: true,
-  //       afterEnd: true,
-  //     },
-  //     draggable: true,
-  //   },
-  //   {
-  //     start: startOfDay(new Date()),
-  //     title: 'An event with no end date',
-  //     color: colors.yellow,
-  //     actions: this.actions,
-  //   },
-  //   {
-  //     start: subDays(endOfMonth(new Date()), 3),
-  //     end: addDays(endOfMonth(new Date()), 3),
-  //     title: 'A long event that spans 2 months',
-  //     color: colors.blue,
-  //     allDay: true,
-  //   },
-  //   {
-  //     start: addHours(startOfDay(new Date()), 2),
-  //     end: addHours(new Date(), 2),
-  //     title: 'A draggable and resizable event',
-  //     color: colors.yellow,
-  //     actions: this.actions,
-  //     resizable: {
-  //       beforeStart: true,
-  //       afterEnd: true,
-  //     },
-  //     draggable: true,
-  //   },
-  // ];
-
+  evenements: Evenement[] = [];
+  
   activeDayIsOpen = true;
 
-  constructor(private modal: NgbModal, private evtService: EvenementService) {}
+  configSuccess: MatSnackBarConfig = {
+    panelClass: 'snack-bar-success',
+    duration: 1000,
+  };
+
+  configFailed: MatSnackBarConfig = {
+    panelClass: 'snack-bar-failed',
+    duration: 1000,
+  };
+
+  constructor(private evtService: EvenementService, private snackBar: MatSnackBar, private router: Router) {}
 
   ngOnInit(): void {
     this.evtService.getAll();
     this.evtService.currentAllEvenement.subscribe(data => {
       data.forEach(e => {
+        this.evenements.push(e);
         this.constructionEvent(e);
       });
     });
@@ -156,33 +102,28 @@ export class TableauDeBordComponent implements OnInit{
       }
       return iEvent;
     });
-    this.handleEvent('Dropped or resized', event);
+    this.handleEvent(event);
   }
 
-  handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+  handleEvent(event: CalendarEvent): void {
+    let evtToUpdate = this.evenements.filter(e => event.id === e.id)[0];
+    evtToUpdate.datePrevue = event.start;
+    this.evtService.update(evtToUpdate).subscribe(data =>{
+      this.snackBar.openFromComponent(SnackbarSuccessComponent, {
+        ...this.configSuccess,
+        data: 'Enregistrement effectué !'
+      }),
+        error => {
+          this.snackBar.openFromComponent(SnackbarSuccessComponent, {
+            ...this.configFailed,
+            data: 'Erreur lors de la sauvegarde !'
+          });
+      };
+    });
   }
 
-  addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-      },
-    ];
-  }
-
-  deleteEvent(eventToDelete: CalendarEvent): void {
-    this.events = this.events.filter((event) => event !== eventToDelete);
+  goTo(event: CalendarEvent): void{
+    this.router.navigate(['/atelier-chant-de-fleur', 'evenements', event.id]);
   }
 
   setView(view: CalendarView): void {
@@ -194,10 +135,10 @@ export class TableauDeBordComponent implements OnInit{
   }
 
   private constructionEvent(evt: Evenement): void{
-
     this.events = [
       ...this.events,
       {
+        id: evt.id,
         title: evt.nom,
         start: parseISO(evt.datePrevue.toLocaleString()),
         end: parseISO(evt.datePrevue.toLocaleString()),

@@ -1,19 +1,9 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-import { KeycloakConfig } from 'keycloak-angular';
-
-
-let keycloakConfig: KeycloakConfig = {
-  url: 'http://127.0.0.1:8081/auth',
-  realm: 'bouquet-composer',
-  clientId: 'bouquet-composer'
-};
-
 
 export const environment = {
-  production: false,
-  keycloak: keycloakConfig
+  production: false
 };
 
 /*
