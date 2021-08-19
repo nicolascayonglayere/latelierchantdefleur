@@ -18,8 +18,12 @@
               <input matInput type="number" name="quantite" [(ngModel)]="quantiteElt[i]" (click)="onClickDisabledOthers(i)" [disabled]="editing[i]" min="0"/>
             </mat-form-field>
           </div>
-          <button mat-icon-button color="primary" (click)="onClickAjoutComposition(materiau, i)" [hidden]="disableAjout" [disabled]="editing[i]" matTooltip="Ajouter à la composition"><fa-icon [icon]="faPlus" id="iconPlus"></fa-icon></button>
-          <button mat-icon-button color="primary" routerLink="/atelier-chant-de-fleur/materiaux/edit/{{materiau.id}}" [disabled]="editing[i]" matTooltip="Modifier le matériau"><fa-icon [icon]="faEdit"></fa-icon></button>
+          <button mat-icon-button color="primary" (click)="onClickAjoutComposition(materiau, i)" [hidden]="disableAjout" [disabled]="editing[i]" matTooltip="Ajouter à la composition">
+            <fa-icon [icon]="faPlus" id="iconPlus"></fa-icon>
+          </button>
+          <button mat-icon-button color="primary" routerLink="/atelier-chant-de-fleur/materiaux/edit/{{materiau.id}}" [disabled]="editing[i]" matTooltip="Modifier le matériau">
+            <fa-icon [icon]="faEdit"></fa-icon>
+          </button>
         </li>
       </ul>
     </div>

@@ -5,8 +5,15 @@
             <li routerLinkActive="active" class="nav-item nav-link"><a routerLink="atelier-chant-de-fleur/home">Tableau de bord</a></li>
             <li routerLinkActive="active" class="nav-item nav-link"><a routerLink="atelier-chant-de-fleur/creation-composition">Creation de composition</a></li>
             <li routerLinkActive="active" class="nav-item nav-link"><a routerLink="atelier-chant-de-fleur/creation-evenement">Creation d'evenement</a></li>
-            <li routerLinkActive="active" class="nav-item nav-link"><a routerLink="atelier-chant-de-fleur/tiges">Tiges</a></li>
-            <li routerLinkActive="active" class="nav-item nav-link"><a routerLink="atelier-chant-de-fleur/materiaux">Materiaux</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="listing" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Listing des éléments
+              </a>
+              <div class="dropdown-menu" aria-labelledby="listing">
+                <a class="dropdown-item" routerLink="atelier-chant-de-fleur/tiges">Tiges</a>
+                <a class="dropdown-item" routerLink="atelier-chant-de-fleur/materiaux">Materiaux</a>
+              </div>              
+            </li>
             <li routerLinkActive="active" class="nav-item nav-link"><a routerLink="atelier-chant-de-fleur/fournisseurs">Fournisseurs</a></li>
             <li routerLinkActive="active" class="nav-item nav-link"><a routerLink="atelier-chant-de-fleur/compositions">Compositions</a></li>
             <li routerLinkActive="active" class="nav-item nav-link"><a routerLink="atelier-chant-de-fleur/evenements">Evenements</a></li>
