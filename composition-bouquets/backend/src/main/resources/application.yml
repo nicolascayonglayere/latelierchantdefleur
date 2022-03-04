@@ -56,7 +56,7 @@ keycloak:
             - /atelier-chant-de-fleur/keycloak/config
   enabled: true
   credentials:
-    secret:
-  realm-key:
+    secret: 8p8tyfd4
+  realm-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAid05/MtrUIGmqcAWkyA2D8QcJ9+P34DCKcHIhj1uAIL/jzCjyvVHqv1dPj9aKhy7nQZdw80vGny3Li6BajciViBTziD5kEVXWSlIdTZm6MtnZMw1qcCunNzRC2KVsycFVo3VQu25gTZh7cM3kfHs45cAGdn3V48DH7hsvlcBJit/fEZEilwR5YkCnruRSOKwpfhOH0UlRupZfe9Nq2JVj7lrk28CX7myvdJ3wIXZZERkkL/om0FuN5aSy33xVRy+VGwoB0iCKoYV3vVFiGl2rBzWM6suRZXogRVGuTii8y5zKMUw7X6w+bHZ0LQrFyLu4CZ2ShL7L2MiD9sp6TwhJQIDAQAB
 
 
